@@ -38,10 +38,12 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.SessionSecretSalt)]
         [Required]
+        [MaxLength(LengthConstraints.SessionSecretSaltLength)]
         public byte[] SessionSecretSalt { get; set; }
 
         [Column(ColumnNames.SessionSecretHash)]
         [Required]
+        [MaxLength(LengthConstraints.SessionSecretHashLength)]
         public byte[] SessionSecretHash { get; set; }
 
         [Column(ColumnNames.IsLoggedOut)]

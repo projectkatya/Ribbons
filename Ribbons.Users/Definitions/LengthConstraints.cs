@@ -10,6 +10,8 @@
         public const int PasswordHashLength = 128;
         public const int PhoneNumberLength = 50;
         public const int UserSessionIdLength = 128;
+        public const int SessionSecretSaltLength = 128;
+        public const int SessionSecretHashLength = 128;
         public const int UserTokenIdLength = 128;
         public const int TokenSecretSaltLength = 128;
         public const int TokenSecretHashLength = 128;

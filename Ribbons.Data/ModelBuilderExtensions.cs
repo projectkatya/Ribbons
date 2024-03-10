@@ -44,5 +44,14 @@ namespace Ribbons.Data
 
             return modelBuilder;
         }
+
+        public static ModelBuilder HasData<TEntity>(this ModelBuilder modelBuilder, TEntity data) where TEntity : class
+        {
+            modelBuilder
+                .Entity<TEntity>()
+                .HasData(data);
+
+            return modelBuilder;
+        }
     }
 }

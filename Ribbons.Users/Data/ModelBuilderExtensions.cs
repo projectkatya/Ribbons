@@ -5,7 +5,7 @@ namespace Ribbons.Users.Data
 {
     public static class ModelBuilderExtensions
     {
-        public static ModelBuilder SetupModel(this ModelBuilder modelBuilder)
+        public static ModelBuilder SetupUserModel(this ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasOneToOne<User, UserEmail>(x => x.UserEmail, x => x.User, x => x.UserId)
