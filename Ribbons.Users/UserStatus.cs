@@ -3,6 +3,7 @@
     public enum UserStatus
     {
         Active,
+        SetupRequired,
         Inactive,
         DeactivationRequested,
         Deleted

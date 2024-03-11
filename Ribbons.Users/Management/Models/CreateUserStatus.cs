@@ -2,5 +2,12 @@
 {
     public enum CreateUserStatus
     {
+        Ok,
+        RequestInvalid,
+        DomainInvalid,
+        UserNameTaken,
+        EmailAddressTaken,
+        PhoneNumberTaken,
+        Error
     }
 }
