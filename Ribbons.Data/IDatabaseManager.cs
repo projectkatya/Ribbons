@@ -2,11 +2,16 @@
 
 namespace Ribbons.Data
 {
-    public interface IDatabaseManager<TDatabase> where TDatabase : Database
+    public interface IDatabaseManager
     {
-        TDatabase GetDatabase(string identifier = null);
-        Task<TDatabase> GetDatabaseAsync(string identifier = null);
+        Database GetDatabase(string identifier = null);
+        Task<Database> GetDatabaseAsync(string identifier = null);
         void Migrate(string identifier = null);
         Task MigrateAsync(string identifier = null);
+    }
+
+    public interface IDatabaseManager<TDatabase> : IDatabaseManager where TDatabase : Database
+    {
+        
     }
 }

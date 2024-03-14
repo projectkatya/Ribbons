@@ -7,6 +7,7 @@
         CredentialsInvalid,
         UserNotFound,
         DomainInvalid,
-        Error
+        Error,
+        UserTypeInvalid
     }
 }

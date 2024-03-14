@@ -1,10 +1,11 @@
 ﻿using Ribbons.Users.Management.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace Ribbons.Users.Management
 {
-    public interface IUserManager
+    public interface IUserManager<TUserType> where TUserType : Enum
     {
-        Task<CreateUserResponse> CreateUserAsync(CreateUserRequest request);
+        Task<CreateUserResponse> CreateUserAsync(TUserType userType, CreateUserRequest request);
     }
 }

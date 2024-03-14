@@ -7,7 +7,7 @@ namespace Ribbons.Users.Authentication
     {
         public UserAuthenticatorAction Action { get; }
         public TStatus Status { get; internal set; }
-        public Dictionary<string, string> ValidationErrors { get; set; }
+        public Dictionary<string, string> ValidationErrors { get; internal set; }
 
         protected UserAuthenticatorResponse(UserAuthenticatorAction action)
         {

@@ -31,5 +31,10 @@ namespace Ribbons
             byte[] computeddHash = Rfc2898DeriveBytes.Pbkdf2(str, salt, iterations, HashAlgorithmName.SHA1, hashSize);
             return targetHash.SequenceEqual(computeddHash);
         }
+
+        public static byte[] ComputeSHA512(this string str)
+        {
+            return SHA512.HashData(str.UTF8Bytes());
+        }
     }
 }

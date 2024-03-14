@@ -8,6 +8,7 @@
         UserNameTaken,
         EmailAddressTaken,
         PhoneNumberTaken,
-        Error
+        Error,
+        UserTypeInvalid
     }
 }
