@@ -13,6 +13,7 @@ namespace Ribbons.Users.Authentication
     {
         protected ILogger Logger { get; }
         protected Dictionary<TUserType, IDatabaseManager> UserSources { get; }
+        protected Dictionary<TUserType, CookieSettings> UserCookieSettings { get; }
         protected string CharacterSet { get; }
         protected TimeSpan SessionValidity { get; set; }
 
@@ -20,6 +21,7 @@ namespace Ribbons.Users.Authentication
         {
             Logger = logger;
             UserSources = [];
+            UserCookieSettings = [];
             CharacterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             SessionValidity = TimeSpan.FromDays(90);
         }
@@ -61,7 +63,7 @@ namespace Ribbons.Users.Authentication
                     return LoginResponse.CredentialsInvalid();
                 }
 
-                SessionCredentials sessionCredentials = CreateSessionCredentials();
+                SessionCredentials sessionCredentials = CreateSessionCredentials(loginRequest.Domain);
 
                 UserSession userSession = CreateSession(userType, user.UserId, sessionCredentials);
 
@@ -69,7 +71,7 @@ namespace Ribbons.Users.Authentication
 
                 await database.SaveChangesAsync();
 
-                SetSessionCookies(httpResponse, sessionCredentials, userSession);
+                SetSessionCookies(userType, httpResponse, sessionCredentials, userSession);
 
                 return LoginResponse.Ok();
             }
@@ -81,9 +83,54 @@ namespace Ribbons.Users.Authentication
             }
         }
 
-        public Task LogoutAsync(TUserType userType)
+        public async Task LogoutAsync(TUserType userType, HttpRequest httpRequest, HttpResponse httpResponse)
         {
-            throw new NotImplementedException();
+            try
+            {
+                SessionCredentials sessionCredentials = GetSessionCredentials(userType, httpRequest);
+
+                if (!sessionCredentials.TryValidateObject(out _))
+                {
+                    return;
+                }
+
+                if (!UserSources.TryGetValue(userType, out IDatabaseManager databaseManager))
+                {
+                    return;
+                }
+
+                Database database = await databaseManager.GetDatabaseAsync(sessionCredentials.Domain);
+
+                if (database == null)
+                {
+                    return;
+                }
+
+                byte[] sessionId = sessionCredentials.SessionId.ComputeSHA512();
+
+                UserSession userSession = await database.FindAsync<UserSession>(sessionId);
+
+                if (userSession.IsExpired)
+                {
+                    return;
+                }
+
+                if (userSession.IsLoggedOut)
+                {
+                    return;
+                }
+
+                userSession.IsLoggedOut = true;
+                userSession.LogoutDate = DateTime.Now;
+
+                await database.SaveChangesAsync();
+
+                ClearSessionCookies(userType, sessionCredentials.Domain, httpResponse);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("{methodName} failed with exception {ex}", nameof(LogoutAsync), ex);
+            }
         }
 
         public Task RecoverPasswordAsync(TUserType userType)
@@ -96,10 +143,11 @@ namespace Ribbons.Users.Authentication
             throw new NotImplementedException();
         }
 
-        private SessionCredentials CreateSessionCredentials()
+        private SessionCredentials CreateSessionCredentials(string domain)
         {
             return new SessionCredentials
             {
+                Domain = domain,
                 SessionId = RandomNumberGenerator.GetString(CharacterSet, 128),
                 SessionSecret = RandomNumberGenerator.GetString(CharacterSet, 128)
             };
@@ -123,17 +171,49 @@ namespace Ribbons.Users.Authentication
             };
         }
 
-        private void SetSessionCookies(HttpResponse httpResponse, SessionCredentials sessionCredentials, UserSession userSession)
+        private void SetSessionCookies(TUserType userType, HttpResponse httpResponse, SessionCredentials sessionCredentials, UserSession userSession)
         {
+            CookieSettings sessionCookie = UserCookieSettings[userType];
 
+            CookieOptions options = new()
+            {
+                HttpOnly = true,
+                Secure = true,
+                Expires = userSession.ExpiryDate
+            };
+
+            string domainCookieName = sessionCookie.DomainCookieName;
+            string sessionIdCookieName = sessionCookie.SessionIdCookieName(sessionCredentials.Domain);
+            string sessionSecretCookieName = sessionCookie.SessionSecretCookieName(sessionCredentials.Domain);
+
+            httpResponse.Cookies.Append(domainCookieName, sessionCredentials.Domain, options);
+            httpResponse.Cookies.Append(sessionIdCookieName, sessionCredentials.SessionId, options);
+            httpResponse.Cookies.Append(sessionSecretCookieName, sessionCredentials.SessionSecret, options);
         }
 
-        private SessionCredentials GetSessionCredentials(HttpRequest httpRequest)
+        private SessionCredentials GetSessionCredentials(TUserType userType, HttpRequest httpRequest)
         {
+            CookieSettings sessionCookie = UserCookieSettings[userType];
+
+            string domain = httpRequest.Cookies[sessionCookie.DomainCookieName];
+            string sessionId = httpRequest.Cookies[sessionCookie.SessionIdCookieName(domain)];
+            string sessionSecret = httpRequest.Cookies[sessionCookie.SessionSecretCookieName(domain)];
+
             return new SessionCredentials
             {
-
+                Domain = domain,
+                SessionId = sessionId,
+                SessionSecret = sessionSecret
             };
+        }
+
+        private void ClearSessionCookies(TUserType userType, string domain, HttpResponse httpResponse)
+        {
+            CookieSettings sessionCookie = UserCookieSettings[userType];
+
+            httpResponse.Cookies.Delete(sessionCookie.DomainCookieName);
+            httpResponse.Cookies.Delete(sessionCookie.SessionIdCookieName(domain));
+            httpResponse.Cookies.Delete(sessionCookie.SessionSecretCookieName(domain));
         }
     }
 }

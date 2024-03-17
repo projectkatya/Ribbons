@@ -53,5 +53,31 @@ namespace Ribbons.Data
 
             return modelBuilder;
         }
+
+        public static ModelBuilder ValueGeneratedNever<TEntity, TProperty>(
+            this ModelBuilder modelBuilder, 
+            Expression<Func<TEntity, TProperty>> property) 
+            where TEntity : class
+        {
+            modelBuilder
+                .Entity<TEntity>()
+                .Property(property)
+                .ValueGeneratedNever();
+
+            return modelBuilder;
+        }
+
+        public static ModelBuilder ValueGeneratedOnAdd<TEntity, TProperty>(
+            this ModelBuilder modelBuilder, 
+            Expression<Func<TEntity, TProperty>> property) 
+            where TEntity : class
+        {
+            modelBuilder
+                .Entity<TEntity>()
+                .Property(property)
+                .ValueGeneratedOnAdd();
+
+            return modelBuilder;
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Ribbons.Users.Authentication
     public interface IUserAuthenticator<TUserType> where TUserType : Enum
     {
         Task<LoginResponse> LoginAsync(TUserType userType, LoginRequest loginRequest, HttpResponse httpResponse);
-        Task LogoutAsync(TUserType userType);
+        Task LogoutAsync(TUserType userType, HttpRequest httpRequest, HttpResponse httpResponse);
         Task RecoverPasswordAsync(TUserType userType);
         Task ResetPasswordAsync(TUserType userType);
     }
