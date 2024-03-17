@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography;
+using System.Text;
 
 namespace Ribbons
 {
@@ -17,6 +18,11 @@ namespace Ribbons
         public static byte[] UTF8Bytes(this string str)
         {
             return Encoding.UTF8.GetBytes(str);
+        }
+
+        public static string GetRandomString(this string str, int length)
+        {
+            return RandomNumberGenerator.GetString(str, length);
         }
     }
 }
