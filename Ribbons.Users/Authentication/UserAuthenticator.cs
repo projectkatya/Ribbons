@@ -30,6 +30,11 @@ namespace Ribbons.Users.Authentication
         {
             try
             {
+                if (!loginRequest.TryValidateObject(out Dictionary<string, string> validationErrors))
+                {
+                    return LoginResponse.RequestInvalid(validationErrors);
+                }
+
                 if (!UserSources.TryGetValue(userType, out IDatabaseManager databaseManager))
                 {
                     return LoginResponse.UserTypeInvalid();

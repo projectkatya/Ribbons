@@ -28,43 +28,71 @@ namespace Ribbons.Data
             return CreateInstance(configuration);
         }
 
-        public void Migrate(string identifier = null)
+        public MigrationStatus Migrate(string identifier = null)
         {
             try
             {
+                DatabaseConfig configuration = GetConfiguration(identifier);
+
+                if (configuration == null)
+                {
+                    Logger.LogError("Failed to migrate database. Configuration is null for database {identifier}", identifier);
+
+                    return MigrationStatus.ConfigurationInvalid;
+                }
+
                 Database instance = GetDatabase(identifier);
 
                 if (instance == null)
                 {
                     Logger.LogError("Failed to migrate database. Instance was not initiated correctly.");
-                    return;
+                    
+                    return MigrationStatus.Incomplete;
                 }
 
                 instance.Database.Migrate();
+
+                return MigrationStatus.Complete;
             }
             catch (Exception ex)
             {
                 Logger.LogError("Failed to migrate database. An exception occured. {ex}", ex);
+
+                return MigrationStatus.Error;
             }
         }
 
-        public async Task MigrateAsync(string identifier = null)
+        public async Task<MigrationStatus> MigrateAsync(string identifier = null)
         {
             try
             {
-                Database instance = await GetDatabaseAsync(identifier);
+                DatabaseConfig configuration = await GetConfigurationAsync(identifier);
+
+                if (configuration == null)
+                {
+                    Logger.LogError("Failed to migrate database. Configuration is null for database {identifier}", identifier);
+
+                    return MigrationStatus.ConfigurationInvalid;
+                }
+
+                Database instance = CreateInstance(configuration);
 
                 if (instance == null)
                 {
                     Logger.LogError("Failed to migrate database. Instance was not initiated correctly.");
-                    return;
+                    
+                    return MigrationStatus.Incomplete;
                 }
 
                 await instance.Database.MigrateAsync();
+
+                return MigrationStatus.Complete;
             }
             catch (Exception ex)
             {
                 Logger.LogError("Failed to migrate database. An exception occured. {ex}", ex);
+
+                return MigrationStatus.Error;
             }
         }
 
@@ -73,71 +101,8 @@ namespace Ribbons.Data
         protected abstract Database CreateInstance(DatabaseConfig configuration);
     }
 
-    public abstract class DatabaseManager<TDatabase> : IDatabaseManager<TDatabase> where TDatabase : Database
+    public abstract class DatabaseManager<TDatabase> : DatabaseManager, IDatabaseManager<TDatabase> where TDatabase : Database
     {
-        protected ILogger Logger { get; }
-
-        protected DatabaseManager(ILogger logger)
-        {
-            Logger = logger;
-        }
-
-        public Database GetDatabase(string identifier = null)
-        {
-            DatabaseConfig configuration = GetConfiguration(identifier);
-
-            return CreateInstance(configuration);
-        }
-
-        public async Task<Database> GetDatabaseAsync(string identifier = null)
-        {
-            DatabaseConfig configuration = await GetConfigurationAsync(identifier);
-
-            return CreateInstance(configuration);
-        }
-
-        public void Migrate(string identifier = null)
-        {
-            try
-            {
-                Database instance = GetDatabase(identifier);
-
-                if (instance == null)
-                {
-                    Logger.LogTrace("Failed to migrate database. Could not create instance of {type}", typeof(TDatabase).FullName);
-                    return;
-                }
-
-                instance.Database.Migrate();
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError("Failed to migrate database of type {type}. An exception occured. {ex}", typeof(TDatabase).FullName, ex);
-            }
-        }
-
-        public async Task MigrateAsync(string identifier = null)
-        {
-            try
-            {
-                Database instance = await GetDatabaseAsync(identifier);
-
-                if (instance == null)
-                {
-                    Logger.LogTrace("Failed to migrate database. Could not create instance of {type}", instance.GetType().FullName);
-                    return;
-                }
-
-                await instance.Database.MigrateAsync();
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError("Failed to migrate database of type {type}. An exception occured. {ex}", typeof(TDatabase).FullName, ex);
-            }
-        }
-
-        protected abstract DatabaseConfig GetConfiguration(string identifier);
-        protected abstract Task<DatabaseConfig> GetConfigurationAsync(string identifier);
-        protected abstract Database CreateInstance(DatabaseConfig configuration);
+        protected DatabaseManager(ILogger logger) : base(logger) { }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ribbons.Data;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Ribbons.Users
@@ -11,13 +12,14 @@ namespace Ribbons.Users
             return await database
                 .Set<User>()
                 .Include(x => x.UserPassword)
-                .FirstOrDefaultAsync(x =>
+                .Where(x =>
                     x.UserTypeId == userTypeId &&
                     (
                         x.UserName == userIdentifier ||
-                        x.UserEmail.EmailAddress == userIdentifier ||
-                        x.UserPhone.PhoneNumber == userIdentifier
-                    ));
+                        (x.UserEmail != null && x.UserEmail.EmailAddress == userIdentifier) ||
+                        (x.UserPhone != null && x.UserPhone.PhoneNumber == userIdentifier)
+                    ))
+                .FirstOrDefaultAsync();
         }
 
         public static async Task<bool> HasUsersWithUserName(this Database database, int userTypeId, string userName)
@@ -33,7 +35,7 @@ namespace Ribbons.Users
             return await database
                 .Set<UserEmail>()
                 .AsNoTracking()
-                .AnyAsync(x => x.UserTypeId == userTypeId && x.EmailAddress == emailAddress);
+                .AnyAsync(x => x.UserTypeId == userTypeId && x.EmailAddress != null && x.EmailAddress == emailAddress);
         }
 
         public static async Task<bool> HasUsersWithPhoneNumber(this Database database, int userTypeId, string phoneNumber)
@@ -41,7 +43,7 @@ namespace Ribbons.Users
             return await database
                 .Set<UserPhone>()
                 .AsNoTracking()
-                .AnyAsync(x => x.UserTypeId == userTypeId && x.PhoneNumber == phoneNumber);
+                .AnyAsync(x => x.UserTypeId == userTypeId && x.PhoneNumber != null && x.PhoneNumber == phoneNumber);
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Ribbons.Users
         public bool IsExpired { get; set; }
 
         [Column(ColumnNames.ExpiryDate)]
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
 
         public virtual User User { get; set; }
     }

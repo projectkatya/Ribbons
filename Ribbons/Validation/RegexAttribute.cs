@@ -24,6 +24,11 @@ namespace Ribbons.Validation
         {
             string str = (string)value;
 
+            if (str == null)
+            {
+                return false;
+            }
+
             return Regex.IsMatch(str, Pattern);
         }
     }

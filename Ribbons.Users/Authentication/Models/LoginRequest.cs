@@ -6,8 +6,8 @@ namespace Ribbons.Users.Authentication.Models
 {
     public sealed class LoginRequest : UserAuthenticatorRequest
     {
-        [Required]
-        [Regex(RegexPatternType.AlphaNumericDotUnderscore)]
+        [Required(ErrorMessage = ValidationErrorMessages.Required)]
+        [Regex(RegexPatternType.AlphaNumericDotUnderscore, ErrorMessage = ValidationErrorMessages.PatternInvalid)]
         public string UserIdentifier { get; set; }
 
         [Required]

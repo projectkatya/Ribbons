@@ -6,8 +6,8 @@ namespace Ribbons.Data
     {
         Database GetDatabase(string identifier = null);
         Task<Database> GetDatabaseAsync(string identifier = null);
-        void Migrate(string identifier = null);
-        Task MigrateAsync(string identifier = null);
+        MigrationStatus Migrate(string identifier = null);
+        Task<MigrationStatus> MigrateAsync(string identifier = null);
     }
 
     public interface IDatabaseManager<TDatabase> : IDatabaseManager where TDatabase : Database
