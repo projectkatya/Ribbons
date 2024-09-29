@@ -1,23 +1,38 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Threading.Tasks;
 
 namespace Ribbons.Data
 {
     public abstract class DatabaseManager : IDatabaseManager
     {
-        protected DatabaseConfig Configuration { get; set; }
+        public DatabaseManager() { }
 
-        public DatabaseManager(IOptions<DatabaseConfig> options)
+        public Database GetDatabase(string identifier = null)
         {
-            Configuration = options.Value;
+            return CreateInstance(GetConfiguration(identifier));
         }
 
-        public abstract Database GetDatabase();
+        public async Task<Database> GetDatabaseAsync(string identifier = null)
+        {
+            return CreateInstance(await GetConfigurationAsync(identifier));
+        }
+
+        protected abstract Database CreateInstance(DatabaseConfig configuration);
+        protected abstract DatabaseConfig GetConfiguration(string identifier);
+        protected abstract Task<DatabaseConfig> GetConfigurationAsync(string identifier);
     }
 
     public abstract class DatabaseManager<TDatabase> : DatabaseManager, IDatabaseManager<TDatabase> where TDatabase : Database
     {
-        protected DatabaseManager(IOptions<DatabaseConfig> options) : base(options) { }
+        new public TDatabase GetDatabase(string identifier = null)
+        {
+            return CreateInstance(GetConfiguration(identifier));
+        }
 
-        public override abstract TDatabase GetDatabase();
+        new public async Task<TDatabase> GetDatabaseAsync(string identifier = null)
+        {
+            return CreateInstance(await GetConfigurationAsync(identifier));
+        }
+
+        protected abstract override TDatabase CreateInstance(DatabaseConfig configuration);
     }
 }
