@@ -6,19 +6,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ribbons.Users
 {
-    [Table(TableNames.UserGroup)]
+    [Table(TableNames.UserDomain)]
     [Index(nameof(CreatedDate))]
     [Index(nameof(ModifiedDate))]
-    [Index(nameof(UserDomainId))]
-    [Index(nameof(UserTypeId))]
-    [Index(nameof(Code))]
-    [Index(nameof(UserDomainId), nameof(UserTypeId), nameof(Code), IsUnique = true)]
-    public class UserGroup
+    [Index(nameof(Code), IsUnique = true)]
+    public class UserDomain
     {
-        [Column(ColumnNames.UserGroupId)]
+        [Column(ColumnNames.UserDomainId)]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long UserGroupId { get; set; }
+        public long UserDomainId { get; set; }
 
         [Column(ColumnNames.CreatedDate)]
         [Required]
@@ -28,23 +25,18 @@ namespace Ribbons.Users
         [Required]
         public DateTime ModifiedDate { get; set; }
 
-        [Column(ColumnNames.UserDomainId)]
-        [Required]
-        public long UserDomainId { get; set; }
-
-        [Column(ColumnNames.UserTypeId)]
-        [Required]
-        public long UserTypeId { get; set; }
-
         [Column(ColumnNames.Name)]
+        [StringLength(ColumnConstraints.NameMaxLength)]
         [Required]
         public string Name { get; set; }
 
         [Column(ColumnNames.Code)]
+        [StringLength(ColumnConstraints.CodeMaxLength)]
         [Required]
         public string Code { get; set; }
 
         [Column(ColumnNames.Description)]
+        [StringLength(ColumnConstraints.DescriptionMaxLength)]
         public string Description { get; set; }
     }
 }

@@ -4,5 +4,14 @@
     {
         public const int UserNameMaxLength = 320;
         public const int EmailAddressMaxLength = 320;
+        public const int CodeMaxLength = 128;
+        public const int NameMaxLength = 255;
+        public const int DescriptionMaxLength = 500;
+        public const int PasswordSaltMaxLength = 128;
+        public const int PasswordHashMaxLength = 128;
+        public const int PhoneNumberMaxLength = 50;
+        public const int UserSessionIdMaxLength = 128;
+        public const int SessionTokenSaltMaxLength = 128;
+        public const int SessionTokenHashMaxLength = 128;
     }
 }

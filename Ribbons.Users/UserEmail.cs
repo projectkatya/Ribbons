@@ -9,9 +9,10 @@ namespace Ribbons.Users
     [Table(TableNames.UserEmail)]
     [Index(nameof(CreatedDate))]
     [Index(nameof(ModifiedDate))]
+    [Index(nameof(UserDomainId))]
     [Index(nameof(UserTypeId))]
     [Index(nameof(EmailAddress))]
-    [Index(nameof(UserTypeId), nameof(EmailAddress), IsUnique = true)]
+    [Index(nameof(UserDomainId), nameof(UserTypeId), nameof(EmailAddress), IsUnique = true)]
     [Index(nameof(IsVerified))]
     [Index(nameof(VerifiedDate))]
     public class UserEmail
@@ -29,11 +30,16 @@ namespace Ribbons.Users
         [Required]
         public DateTime ModifiedDate { get; set; }
 
+        [Column(ColumnNames.UserDomainId)]
+        [Required]
+        public long UserDomainId { get; set; }
+
         [Column(ColumnNames.UserTypeId)]
         [Required]
         public long UserTypeId { get; set; }
 
         [Column(ColumnNames.EmailAddress)]
+        [StringLength(ColumnConstraints.EmailAddressMaxLength)]
         [Required]
         public string EmailAddress { get; set; }
 

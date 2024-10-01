@@ -14,5 +14,16 @@
         public const string Name = "name";
         public const string Code = "code";
         public const string Description = "description";
+        public const string UserDomainId = "user_domain_id";
+        public const string ExpiryDate = "expiry_date";
+        public const string PasswordSalt = "password_salt";
+        public const string PasswordHash = "password_hash";
+        public const string PhoneNumber = "phone_number";
+        public const string UserSessionId = "user_session_id";
+        public const string SessionTokenSalt = "session_token_salt";
+        public const string SessionTokenHash = "session_token_hash";
+        public const string IsLoggedOut = "is_logged_out";
+        public const string LogoutDate = "logout_date";
+        public const string IsExpired = "is_expired";
     }
 }

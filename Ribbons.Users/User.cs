@@ -9,9 +9,10 @@ namespace Ribbons.Users
     [Table(TableNames.User)]
     [Index(nameof(CreatedDate))]
     [Index(nameof(ModifiedDate))]
+    [Index(nameof(UserDomainId))]
     [Index(nameof(UserTypeId))]
     [Index(nameof(UserName))]
-    [Index(nameof(UserTypeId), nameof(UserName), IsUnique = true)]
+    [Index(nameof(UserDomainId), nameof(UserTypeId), nameof(UserName), IsUnique = true)]
     public class User
     {
         [Column(ColumnNames.UserId)]
@@ -27,11 +28,16 @@ namespace Ribbons.Users
         [Required]
         public DateTime ModifiedDate { get; set; }
 
+        [Column(ColumnNames.UserDomainId)]
+        [Required]
+        public long UserDomainId { get; set; }
+
         [Column(ColumnNames.UserTypeId)]
         [Required]
         public long UserTypeId { get; set; }
 
         [Column(ColumnNames.UserName)]
+        [StringLength(ColumnConstraints.UserNameMaxLength)]
         [Required]
         public string UserName { get; set; }
     }

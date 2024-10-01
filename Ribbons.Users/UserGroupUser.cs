@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using Ribbons.Users.Definitions;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ribbons.Users
 {
-    internal class UserGroupUser
+    [Table(TableNames.UserGroupUser)]
+    [PrimaryKey(nameof(UserGroupId), nameof(UserId))]
+    [Index(nameof(UserGroupId))]
+    [Index(nameof(UserId))]
+    public class UserGroupUser
     {
+        [Column(ColumnNames.UserGroupId)]
+        public long UserGroupId { get; set; }
+
+        [Column(ColumnNames.UserId)]
+        public long UserId { get; set; }
     }
 }
