@@ -13,5 +13,8 @@
         public const int UserSessionIdMaxLength = 128;
         public const int SessionTokenSaltMaxLength = 128;
         public const int SessionTokenHashMaxLength = 128;
+        public const int UserTokenIdMaxLength = 128;
+        public const int TokenSecretSaltMaxLength = 128;
+        public const int TokenSecretHashMaxLength = 128;
     }
 }

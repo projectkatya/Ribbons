@@ -26,6 +26,7 @@
         public const string LogoutDate = "logout_date";
         public const string IsExpired = "is_expired";
         public const string UserTokenId = "user_token_id";
+        public const string UserTokenTypeId = "user_token_type_id";
         public const string TokenSecretSalt = "token_secret_salt";
         public const string TokenSecretHash = "token_secret_hash";
         public const string IsConsumed = "is_consumed";
