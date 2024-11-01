@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ribbons", "Ribbons\Ribbons.csproj", "{57E7142B-FAB7-4CA3-A833-7D28C52309A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ribbons.Serialization", "Ribbons.Serialization\Ribbons.Serialization.csproj", "{168ED47D-928B-43C4-A8C3-5533E18FCF40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{57E7142B-FAB7-4CA3-A833-7D28C52309A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57E7142B-FAB7-4CA3-A833-7D28C52309A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57E7142B-FAB7-4CA3-A833-7D28C52309A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{168ED47D-928B-43C4-A8C3-5533E18FCF40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{168ED47D-928B-43C4-A8C3-5533E18FCF40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{168ED47D-928B-43C4-A8C3-5533E18FCF40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{168ED47D-928B-43C4-A8C3-5533E18FCF40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
