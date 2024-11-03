@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,41 +6,59 @@ namespace Ribbons.Data
 {
     public class RelationalDbManager : IRelationalDbManager
     {
-        protected RelationalDbConfig Configuration { get; }
+        protected IRelationalDbConfigProvider ConfigurationProvider { get; set; }
         protected Dictionary<RelationalDbProvider, Func<RelationalDb>> Factories { get; }
 
-        public RelationalDbManager(IOptions<RelationalDbConfig> options)
+        public RelationalDbManager()
         {
-            Configuration = options.Value;
             Factories = [];
         }
 
-        public RelationalDb GetDatabase()
+        public RelationalDb GetDatabase(string configurationName = null)
         {
-            return CreateInstance();
+            return CreateInstance(ConfigurationProvider?.GetConfiguration(configurationName));
         }
 
-        public async Task<RelationalDb> GetDatabaseAsync()
+        public async Task<RelationalDb> GetDatabaseAsync(string configurationName = null)
         {
-            return await Task.FromResult(CreateInstance());
+            return CreateInstance(await ConfigurationProvider?.GetConfigurationAsync(configurationName));
         }
 
-        public RelationalDbManager RegisterFactory(RelationalDbProvider provider, Func<RelationalDb> factory)
+        public IRelationalDbManager AddProvider<T>() where T : RelationalDb, new()
         {
-            Factories[provider] = factory;
+            T instance = new();
+            
+            if (instance.Provider == RelationalDbProvider.Undefined)
+            {
+                throw new InvalidOperationException($"{RelationalDbProvider.Undefined} is not supported");
+            }
+
+            Factories[instance.Provider] = () => new T();
+            
             return this;
         }
 
-        protected virtual RelationalDb CreateInstance()
+        public IRelationalDbManager AddConfigurationProvider(IRelationalDbConfigProvider configurationProvider)
         {
-            if (!Factories.TryGetValue(Configuration.Provider, out Func<RelationalDb> factory))
+            ConfigurationProvider = configurationProvider;
+            return this;
+        }
+
+        protected virtual RelationalDb CreateInstance(RelationalDbConfig configuration)
+        {
+            if (configuration == null)
             {
-                throw new NotSupportedException($"Provider {Configuration.Provider} is not supported");
+                throw new InvalidOperationException($"Unable to create instance. Configuration is not specified");
+            }
+
+            if (!Factories.TryGetValue(configuration.Provider, out Func<RelationalDb> factory))
+            {
+                throw new NotSupportedException($"Provider {configuration.Provider} is not supported");
             }
 
             RelationalDb instance = factory();
             
-            instance.SetConnectionString(Configuration.ConnectionString);
+            instance.SetConnectionString(configuration.ConnectionString);
 
             return instance;
         }
@@ -51,37 +68,45 @@ namespace Ribbons.Data
     {
         new protected Dictionary<RelationalDbProvider, Func<TRelationalDb>> Factories { get; }
 
-        public RelationalDbManager(IOptions<RelationalDbConfig> options) : base(options)
+        public RelationalDbManager()
         {
             Factories = [];
         }
 
-        new public TRelationalDb GetDatabase()
+        new public TRelationalDb GetDatabase(string configurationName = null)
         {
-            return CreateInstance();
+            return CreateInstance(ConfigurationProvider?.GetConfiguration(configurationName));
         }
 
-        new public async Task<TRelationalDb> GetDatabaseAsync()
+        new public async Task<TRelationalDb> GetDatabaseAsync(string configurationName = null)
         {
-            return await Task.FromResult(CreateInstance());
+            return CreateInstance(await ConfigurationProvider?.GetConfigurationAsync(configurationName));
         }
 
-        public RelationalDbManager<TRelationalDb> RegisterFactory(RelationalDbProvider provider, Func<TRelationalDb> factory)
+        new public IRelationalDbManager<TRelationalDb> AddProvider<T>() where T : TRelationalDb, new()
         {
-            Factories[provider] = factory;
+            T instance = new();
+
+            if (instance.Provider == RelationalDbProvider.Undefined)
+            {
+                throw new InvalidOperationException($"{RelationalDbProvider.Undefined} is not supported");
+            }
+
+            Factories[instance.Provider] = () => new T();
+            
             return this;
         }
 
-        protected override TRelationalDb CreateInstance()
+        protected override TRelationalDb CreateInstance(RelationalDbConfig configuration)
         {
-            if (!Factories.TryGetValue(Configuration.Provider, out Func<TRelationalDb> factory))
+            if (!Factories.TryGetValue(configuration.Provider, out Func<TRelationalDb> factory))
             {
-                throw new NotSupportedException($"Provider {Configuration.Provider} not supported for {typeof(TRelationalDb).FullName}");
+                throw new NotSupportedException($"Provider {configuration.Provider} not supported for {typeof(TRelationalDb).FullName}");
             }
 
             TRelationalDb instance = factory();
 
-            instance.SetConnectionString(Configuration.ConnectionString);
+            instance.SetConnectionString(configuration.ConnectionString);
 
             return instance;
         }

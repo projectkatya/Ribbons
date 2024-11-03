@@ -5,7 +5,7 @@ namespace Ribbons.Data
 {
     public abstract class RelationalDb : DbContext
     {
-        protected RelationalDbProvider Provider { get; }
+        internal RelationalDbProvider Provider { get; }
 
         protected RelationalDb(RelationalDbProvider provider)
         {

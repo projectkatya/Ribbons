@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ribbons", "Ribbons\Ribbons.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ribbons.Serialization", "Ribbons.Serialization\Ribbons.Serialization.csproj", "{168ED47D-928B-43C4-A8C3-5533E18FCF40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ribbons.Data", "Ribbons.Data\Ribbons.Data.csproj", "{B047E9FB-0939-4F7F-9DBF-4B1F4F7B00FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ribbons.Data", "Ribbons.Data\Ribbons.Data.csproj", "{B047E9FB-0939-4F7F-9DBF-4B1F4F7B00FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
