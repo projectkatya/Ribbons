@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ribbons.Serialization", "Ri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ribbons.Data", "Ribbons.Data\Ribbons.Data.csproj", "{B047E9FB-0939-4F7F-9DBF-4B1F4F7B00FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ribbons.Users", "Ribbons.Users\Ribbons.Users.csproj", "{952C9110-7A8B-444B-BD41-A3E5B7FB45A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B047E9FB-0939-4F7F-9DBF-4B1F4F7B00FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B047E9FB-0939-4F7F-9DBF-4B1F4F7B00FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B047E9FB-0939-4F7F-9DBF-4B1F4F7B00FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{952C9110-7A8B-444B-BD41-A3E5B7FB45A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{952C9110-7A8B-444B-BD41-A3E5B7FB45A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{952C9110-7A8B-444B-BD41-A3E5B7FB45A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{952C9110-7A8B-444B-BD41-A3E5B7FB45A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
