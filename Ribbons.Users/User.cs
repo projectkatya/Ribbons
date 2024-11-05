@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ribbons.Users.Definitions;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -39,5 +40,11 @@ namespace Ribbons.Users
         [Column(ColumnNames.UserStatusId)]
         [Required]
         public long UserStatusId { get; set; }
+
+        public virtual UserEmail UserEmail { get; set; }
+        public virtual UserPassword UserPassword { get; set; }
+        public virtual UserPhone UserPhone { get; set; }
+        public virtual ICollection<UserSession> UserSessions { get; set; }
+        public virtual ICollection<UserToken> UserTokens { get; set; }
     }
 }

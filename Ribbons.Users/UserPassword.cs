@@ -1,12 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using Ribbons.Users.Definitions;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ribbons.Users
 {
-    internal class UserPassword
+    [Table(TableNames.UserPassword)]
+    [Index(nameof(CreatedDate))]
+    [Index(nameof(ModifiedDate))]
+    [Index(nameof(IsExpired))]
+    [Index(nameof(ExpiryDate))]
+    public class UserPassword
     {
+        [Column(ColumnNames.UserId)]
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public long UserId { get; set; }
+
+        [Column(ColumnNames.PasswordSalt)]
+        [Required]
+        public byte[] PasswordSalt { get; set; }
+
+        [Column(ColumnNames.PasswordHash)]
+        [Required]
+        public byte[] PasswordHash { get; set; }
+
+        [Column(ColumnNames.CreatedDate)]
+        [Required]
+        public DateTime CreatedDate { get; set; }
+
+        [Column(ColumnNames.ModifiedDate)]
+        [Required]
+        public DateTime ModifiedDate { get; set; }
+
+        [Column(ColumnNames.IsExpired)]
+        [Required]
+        public bool IsExpired { get; set; }
+
+        [Column(ColumnNames.ExpiryDate)]
+        public DateTime? ExpiryDate { get; set; }
+
+        public virtual User User { get; set; }
     }
 }

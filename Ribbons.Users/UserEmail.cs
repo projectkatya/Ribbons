@@ -1,10 +1,19 @@
-﻿using Ribbons.Users.Definitions;
+﻿using Microsoft.EntityFrameworkCore;
+using Ribbons.Users.Definitions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ribbons.Users
 {
+    [Table(TableNames.UserEmail)]
+    [Index(nameof(UserTypeId))]
+    [Index(nameof(EmailAddress))]
+    [Index(nameof(UserTypeId), nameof(EmailAddress), IsUnique = true)]
+    [Index(nameof(CreatedDate))]
+    [Index(nameof(ModifiedDate))]
+    [Index(nameof(IsVerified))]
+    [Index(nameof(VerifiedDate))]
     public class UserEmail
     {
         [Column(ColumnNames.UserId)]
@@ -34,5 +43,7 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.VerifiedDate)]
         public DateTime? VerifiedDate { get; set; }
+
+        public virtual User User { get; set; }
     }
 }
