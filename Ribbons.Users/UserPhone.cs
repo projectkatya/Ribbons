@@ -19,6 +19,7 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.PhoneNumber)]
         [Required]
+        [StringLength(ColumnConstraints.PhoneNumberLength)]
         public string PhoneNumber { get; set; }
 
         [Column(ColumnNames.CreatedDate)]

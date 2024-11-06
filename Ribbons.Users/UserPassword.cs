@@ -20,10 +20,12 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.PasswordSalt)]
         [Required]
+        [MaxLength(ColumnConstraints.PasswordSaltLength)]
         public byte[] PasswordSalt { get; set; }
 
         [Column(ColumnNames.PasswordHash)]
         [Required]
+        [MaxLength(ColumnConstraints.PasswordHashLength)]
         public byte[] PasswordHash { get; set; }
 
         [Column(ColumnNames.CreatedDate)]

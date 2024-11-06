@@ -25,5 +25,8 @@
         public const string TokenSecretHash = "token_secret_hash";
         public const string IsConsumed = "is_consumed";
         public const string ConsumedDate = "consumed_date";
+        public const string Code = "code";
+        public const string Name = "name";
+        public const string Description = "description";
     }
 }
