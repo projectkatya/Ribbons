@@ -19,6 +19,7 @@ namespace Ribbons.Users
         [Column(ColumnNames.UserTokenId)]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [MaxLength(ColumnConstraints.UserTokenIdLength)]
         public virtual byte[] UserTokenId { get; set; }
 
         [Column(ColumnNames.UserId)]
@@ -31,10 +32,12 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.TokenSecretSalt)]
         [Required]
+        [MaxLength(ColumnConstraints.TokenSecretSaltLength)]
         public byte[] TokenSecretSalt { get; set; }
 
         [Column(ColumnNames.TokenSecretHash)]
         [Required]
+        [MaxLength(ColumnConstraints.TokenSecretHashLength)]
         public byte[] TokenSecretHash { get; set; }
 
         [Column(ColumnNames.CreatedDate)]
@@ -54,5 +57,8 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.ConsumedDate)]
         public DateTime? ConsumedDate { get; set; }
+
+        public virtual User User { get; set; }
+        public virtual UserTokenType UserTokenType { get; set; }
     }
 }

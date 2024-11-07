@@ -37,5 +37,7 @@ namespace Ribbons.Users
         [Column(ColumnNames.VerifiedDate)]
         [Required]
         public DateTime? VerifiedDate { get; set; }
+
+        public virtual User User { get; set; }
     }
 }

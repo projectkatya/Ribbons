@@ -16,6 +16,7 @@ namespace Ribbons.Users
         [Column(ColumnNames.UserSessionId)]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [MaxLength(ColumnConstraints.UserSessionIdLength)]
         public byte[] UserSessionId { get; set; }
 
         [Column(ColumnNames.UserId)]
@@ -24,10 +25,12 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.SessionSecretSalt)]
         [Required]
+        [MaxLength(ColumnConstraints.SessionSecretSaltLength)]
         public byte[] SessionSecretSalt { get; set; }
 
         [Column(ColumnNames.SessionSecretHash)]
         [Required]
+        [MaxLength(ColumnConstraints.SessionSecretHashLength)]
         public byte[] SessionSecretHash { get; set; }
 
         [Column(ColumnNames.CreatedDate)]
