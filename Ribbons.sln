@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ribbons.Serialization", "Ri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ribbons.Data", "Ribbons.Data\Ribbons.Data.csproj", "{B047E9FB-0939-4F7F-9DBF-4B1F4F7B00FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ribbons.Users", "Ribbons.Users\Ribbons.Users.csproj", "{952C9110-7A8B-444B-BD41-A3E5B7FB45A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ribbons.Users", "Ribbons.Users\Ribbons.Users.csproj", "{952C9110-7A8B-444B-BD41-A3E5B7FB45A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{667863FF-0FC4-4497-BC3C-1A6ED191EF9E}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\CreateUserDbMigration.ps1 = Scripts\CreateUserDbMigration.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
