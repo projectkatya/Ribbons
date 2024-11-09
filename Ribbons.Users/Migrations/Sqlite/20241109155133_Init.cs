@@ -52,6 +52,30 @@ namespace Ribbons.Users.Migrations.Sqlite
                 });
 
             migrationBuilder.CreateTable(
+                name: "t_user_group",
+                columns: table => new
+                {
+                    user_group_id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    code = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_user_group", x => x.user_group_id);
+                    table.ForeignKey(
+                        name: "FK_t_user_group_t_user_type_user_type_id",
+                        column: x => x.user_type_id,
+                        principalTable: "t_user_type",
+                        principalColumn: "user_type_id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "t_user_token_type",
                 columns: table => new
                 {
@@ -169,6 +193,30 @@ namespace Ribbons.Users.Migrations.Sqlite
                 });
 
             migrationBuilder.CreateTable(
+                name: "t_user_group_user",
+                columns: table => new
+                {
+                    user_group_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    user_id = table.Column<long>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_user_group_user", x => new { x.user_group_id, x.user_id });
+                    table.ForeignKey(
+                        name: "FK_t_user_group_user_t_user_group_user_group_id",
+                        column: x => x.user_group_id,
+                        principalTable: "t_user_group",
+                        principalColumn: "user_group_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_t_user_group_user_t_user_user_id",
+                        column: x => x.user_id,
+                        principalTable: "t_user",
+                        principalColumn: "user_id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "t_user_token",
                 columns: table => new
                 {
@@ -266,6 +314,37 @@ namespace Ribbons.Users.Migrations.Sqlite
                 name: "IX_t_user_email_verified_date",
                 table: "t_user_email",
                 column: "verified_date");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_group_code",
+                table: "t_user_group",
+                column: "code");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_group_created_date",
+                table: "t_user_group",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_group_modified_date",
+                table: "t_user_group",
+                column: "modified_date");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_group_user_type_id",
+                table: "t_user_group",
+                column: "user_type_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_group_user_type_id_code",
+                table: "t_user_group",
+                columns: new[] { "user_type_id", "code" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_group_user_user_id",
+                table: "t_user_group_user",
+                column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_t_user_password_created_date",
@@ -392,6 +471,9 @@ namespace Ribbons.Users.Migrations.Sqlite
                 name: "t_user_email");
 
             migrationBuilder.DropTable(
+                name: "t_user_group_user");
+
+            migrationBuilder.DropTable(
                 name: "t_user_password");
 
             migrationBuilder.DropTable(
@@ -402,6 +484,9 @@ namespace Ribbons.Users.Migrations.Sqlite
 
             migrationBuilder.DropTable(
                 name: "t_user_token");
+
+            migrationBuilder.DropTable(
+                name: "t_user_group");
 
             migrationBuilder.DropTable(
                 name: "t_user_token_type");

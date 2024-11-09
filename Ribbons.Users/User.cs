@@ -43,6 +43,7 @@ namespace Ribbons.Users
         public long UserStatusId { get; set; }
 
         public virtual UserEmail UserEmail { get; set; }
+        public virtual ICollection<UserGroupUser> UserGroupUsers { get; set; }
         public virtual UserPassword UserPassword { get; set; }
         public virtual UserPhone UserPhone { get; set; }
         public virtual ICollection<UserSession> UserSessions { get; set; }

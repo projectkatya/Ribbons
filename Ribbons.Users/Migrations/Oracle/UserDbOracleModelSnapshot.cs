@@ -127,6 +127,77 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.ToTable("t_user_email");
                 });
 
+            modelBuilder.Entity("Ribbons.Users.UserGroup", b =>
+                {
+                    b.Property<long>("UserGroupId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_group_id");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserGroupId"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("NVARCHAR2(128)")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnName("created_date");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("NVARCHAR2(500)")
+                        .HasColumnName("description");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnName("modified_date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("NVARCHAR2(255)")
+                        .HasColumnName("name");
+
+                    b.Property<long>("UserTypeId")
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_type_id");
+
+                    b.HasKey("UserGroupId");
+
+                    b.HasIndex("Code");
+
+                    b.HasIndex("CreatedDate");
+
+                    b.HasIndex("ModifiedDate");
+
+                    b.HasIndex("UserTypeId");
+
+                    b.HasIndex("UserTypeId", "Code")
+                        .IsUnique();
+
+                    b.ToTable("t_user_group");
+                });
+
+            modelBuilder.Entity("Ribbons.Users.UserGroupUser", b =>
+                {
+                    b.Property<long>("UserGroupId")
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_group_id");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("UserGroupId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("t_user_group_user");
+                });
+
             modelBuilder.Entity("Ribbons.Users.UserPassword", b =>
                 {
                     b.Property<long>("UserId")
@@ -448,6 +519,36 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Ribbons.Users.UserGroup", b =>
+                {
+                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                        .WithMany("UserGroups")
+                        .HasForeignKey("UserTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserType");
+                });
+
+            modelBuilder.Entity("Ribbons.Users.UserGroupUser", b =>
+                {
+                    b.HasOne("Ribbons.Users.UserGroup", "UserGroup")
+                        .WithMany("UserGroupUsers")
+                        .HasForeignKey("UserGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ribbons.Users.User", "User")
+                        .WithMany("UserGroupUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("UserGroup");
+                });
+
             modelBuilder.Entity("Ribbons.Users.UserPassword", b =>
                 {
                     b.HasOne("Ribbons.Users.User", "User")
@@ -515,6 +616,8 @@ namespace Ribbons.Users.Migrations.Oracle
                 {
                     b.Navigation("UserEmail");
 
+                    b.Navigation("UserGroupUsers");
+
                     b.Navigation("UserPassword");
 
                     b.Navigation("UserPhone");
@@ -524,6 +627,11 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.Navigation("UserTokens");
                 });
 
+            modelBuilder.Entity("Ribbons.Users.UserGroup", b =>
+                {
+                    b.Navigation("UserGroupUsers");
+                });
+
             modelBuilder.Entity("Ribbons.Users.UserTokenType", b =>
                 {
                     b.Navigation("UserTokens");
@@ -531,6 +639,8 @@ namespace Ribbons.Users.Migrations.Oracle
 
             modelBuilder.Entity("Ribbons.Users.UserType", b =>
                 {
+                    b.Navigation("UserGroups");
+
                     b.Navigation("Users");
                 });
 #pragma warning restore 612, 618

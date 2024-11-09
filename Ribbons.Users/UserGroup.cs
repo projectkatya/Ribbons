@@ -7,15 +7,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ribbons.Users
 {
-    [Table(TableNames.UserType)]
-    [Index(nameof(Code), IsUnique = true)]
+    [Table(TableNames.UserGroup)]
+    [Index(nameof(UserTypeId))]
+    [Index(nameof(Code))]
+    [Index(nameof(UserTypeId), nameof(Code), IsUnique = true)]
     [Index(nameof(CreatedDate))]
     [Index(nameof(ModifiedDate))]
-    public class UserType
+    public class UserGroup
     {
-        [Column(ColumnNames.UserTypeId)]
+        [Column(ColumnNames.UserGroupId)]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long UserGroupId { get; set; }
+
+        [Column(ColumnNames.UserTypeId)]
+        [Required]
         public long UserTypeId { get; set; }
 
         [Column(ColumnNames.Code)]
@@ -40,7 +46,7 @@ namespace Ribbons.Users
         [Required]
         public DateTime ModifiedDate { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
-        public virtual ICollection<UserGroup> UserGroups { get; set; }
+        public virtual UserType UserType { get; set; }
+        public virtual ICollection<UserGroupUser> UserGroupUsers { get; set; }
     }
 }

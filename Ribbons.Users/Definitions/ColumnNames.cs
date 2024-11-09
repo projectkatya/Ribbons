@@ -28,5 +28,6 @@
         public const string Code = "code";
         public const string Name = "name";
         public const string Description = "description";
+        public const string UserGroupId = "user_group_id";
     }
 }
