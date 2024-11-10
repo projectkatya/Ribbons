@@ -11,7 +11,8 @@ namespace Ribbons.Data.Extensions
             this ModelBuilder modelBuilder, 
             Expression<Func<TParent, TChild>> child, 
             Expression<Func<TChild, TParent>> parent, 
-            Expression<Func<TChild, object>> foreignKey) 
+            Expression<Func<TChild, object>> foreignKey,
+            DeleteBehavior deleteBehavior = DeleteBehavior.NoAction) 
             where TParent : class 
             where TChild : class
         {
@@ -19,7 +20,8 @@ namespace Ribbons.Data.Extensions
                 .Entity<TParent>()
                 .HasOne(child)
                 .WithOne(parent)
-                .HasForeignKey(foreignKey);
+                .HasForeignKey(foreignKey)
+                .OnDelete(deleteBehavior);
 
             return modelBuilder;
         }
@@ -28,7 +30,8 @@ namespace Ribbons.Data.Extensions
             this ModelBuilder modelBuilder,
             Expression<Func<TParent, IEnumerable<TChild>>> children,
             Expression<Func<TChild, TParent>> parent,
-            Expression<Func<TChild, object>> foreignKey)
+            Expression<Func<TChild, object>> foreignKey,
+            DeleteBehavior deleteBehavior = DeleteBehavior.NoAction)
             where TParent : class
             where TChild : class
         {
@@ -36,7 +39,8 @@ namespace Ribbons.Data.Extensions
                 .Entity<TParent>()
                 .HasMany(children)
                 .WithOne(parent)
-                .HasForeignKey(foreignKey);
+                .HasForeignKey(foreignKey)
+                .OnDelete(deleteBehavior);
 
             return modelBuilder;
         }

@@ -52,8 +52,7 @@ namespace Ribbons.Users.Migrations.MySql
                         name: "FK_t_user_t_user_type_user_type_id",
                         column: x => x.user_type_id,
                         principalTable: "t_user_type",
-                        principalColumn: "user_type_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_type_id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -77,8 +76,7 @@ namespace Ribbons.Users.Migrations.MySql
                         name: "FK_t_user_group_t_user_type_user_type_id",
                         column: x => x.user_type_id,
                         principalTable: "t_user_type",
-                        principalColumn: "user_type_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_type_id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -126,8 +124,7 @@ namespace Ribbons.Users.Migrations.MySql
                         name: "FK_t_user_email_t_user_user_id",
                         column: x => x.user_id,
                         principalTable: "t_user",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -174,8 +171,7 @@ namespace Ribbons.Users.Migrations.MySql
                         name: "FK_t_user_phone_t_user_user_id",
                         column: x => x.user_id,
                         principalTable: "t_user",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -198,8 +194,7 @@ namespace Ribbons.Users.Migrations.MySql
                         name: "FK_t_user_session_t_user_user_id",
                         column: x => x.user_id,
                         principalTable: "t_user",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -217,14 +212,12 @@ namespace Ribbons.Users.Migrations.MySql
                         name: "FK_t_user_group_user_t_user_group_user_group_id",
                         column: x => x.user_group_id,
                         principalTable: "t_user_group",
-                        principalColumn: "user_group_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_group_id");
                     table.ForeignKey(
                         name: "FK_t_user_group_user_t_user_user_id",
                         column: x => x.user_id,
                         principalTable: "t_user",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -250,14 +243,12 @@ namespace Ribbons.Users.Migrations.MySql
                         name: "FK_t_user_token_t_user_token_type_user_token_type_id",
                         column: x => x.user_token_type_id,
                         principalTable: "t_user_token_type",
-                        principalColumn: "user_token_type_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_token_type_id");
                     table.ForeignKey(
                         name: "FK_t_user_token_t_user_user_id",
                         column: x => x.user_id,
                         principalTable: "t_user",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 

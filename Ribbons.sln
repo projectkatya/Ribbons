@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{6678
 		Scripts\CreateUserDbMigration.ps1 = Scripts\CreateUserDbMigration.ps1
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8811F9C2-5908-4969-B876-ED66BF8D6AC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ribbons.TestConsole", "Tests\Ribbons.TestConsole\Ribbons.TestConsole.csproj", "{A6AA40AA-972C-41D2-BABD-48DB967BA97B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,9 +42,16 @@ Global
 		{952C9110-7A8B-444B-BD41-A3E5B7FB45A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{952C9110-7A8B-444B-BD41-A3E5B7FB45A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{952C9110-7A8B-444B-BD41-A3E5B7FB45A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6AA40AA-972C-41D2-BABD-48DB967BA97B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6AA40AA-972C-41D2-BABD-48DB967BA97B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6AA40AA-972C-41D2-BABD-48DB967BA97B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6AA40AA-972C-41D2-BABD-48DB967BA97B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A6AA40AA-972C-41D2-BABD-48DB967BA97B} = {8811F9C2-5908-4969-B876-ED66BF8D6AC8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E75E566-0CF3-4863-8BE3-63173E08FAC5}

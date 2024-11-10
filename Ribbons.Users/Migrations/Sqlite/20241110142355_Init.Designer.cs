@@ -8,10 +8,10 @@ using Ribbons.Users.Data;
 
 #nullable disable
 
-namespace Ribbons.Users.Migrations.MySql
+namespace Ribbons.Users.Migrations.Sqlite
 {
-    [DbContext(typeof(UserDbMySql))]
-    [Migration("20241109155122_Init")]
+    [DbContext(typeof(UserDbSqlite))]
+    [Migration("20241110142355_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -22,36 +22,35 @@ namespace Ribbons.Users.Migrations.MySql
                 .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true)
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Proxies:LazyLoading", true);
 
             modelBuilder.Entity("Ribbons.Users.User", b =>
                 {
                     b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(320)
-                        .HasColumnType("varchar(320)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("username");
 
                     b.Property<long>("UserStatusId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_status_id");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserId");
@@ -76,33 +75,33 @@ namespace Ribbons.Users.Migrations.MySql
                 {
                     b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("created_date");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasMaxLength(320)
-                        .HasColumnType("varchar(320)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("email_address");
 
                     b.Property<bool>("IsVerified")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("is_verified");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("modified_date");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_type_id");
 
                     b.Property<DateTime?>("VerifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("verified_date");
 
                     b.HasKey("UserId");
@@ -129,36 +128,36 @@ namespace Ribbons.Users.Migrations.MySql
                 {
                     b.Property<long>("UserGroupId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_group_id");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserGroupId");
@@ -180,11 +179,11 @@ namespace Ribbons.Users.Migrations.MySql
             modelBuilder.Entity("Ribbons.Users.UserGroupUser", b =>
                 {
                     b.Property<long>("UserGroupId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_group_id");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_id");
 
                     b.HasKey("UserGroupId", "UserId");
@@ -197,35 +196,35 @@ namespace Ribbons.Users.Migrations.MySql
             modelBuilder.Entity("Ribbons.Users.UserPassword", b =>
                 {
                     b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("is_expired");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("modified_date");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("BLOB")
                         .HasColumnName("password_hash");
 
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("BLOB")
                         .HasColumnName("password_salt");
 
                     b.HasKey("UserId");
@@ -244,34 +243,34 @@ namespace Ribbons.Users.Migrations.MySql
             modelBuilder.Entity("Ribbons.Users.UserPhone", b =>
                 {
                     b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("created_date");
 
                     b.Property<bool>("IsVerified")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("is_verified");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("phone_number");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_type_id");
 
                     b.Property<DateTime?>("VerifiedDate")
                         .IsRequired()
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("verified_date");
 
                     b.HasKey("UserId");
@@ -283,35 +282,35 @@ namespace Ribbons.Users.Migrations.MySql
                 {
                     b.Property<byte[]>("UserSessionId")
                         .HasMaxLength(64)
-                        .HasColumnType("varbinary(64)")
+                        .HasColumnType("BLOB")
                         .HasColumnName("user_session_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("is_expired");
 
                     b.Property<byte[]>("SessionSecretHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("BLOB")
                         .HasColumnName("session_secret_hash");
 
                     b.Property<byte[]>("SessionSecretSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("BLOB")
                         .HasColumnName("session_secret_salt");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_id");
 
                     b.HasKey("UserSessionId");
@@ -331,47 +330,47 @@ namespace Ribbons.Users.Migrations.MySql
                 {
                     b.Property<byte[]>("UserTokenId")
                         .HasMaxLength(64)
-                        .HasColumnType("varbinary(64)")
+                        .HasColumnType("BLOB")
                         .HasColumnName("user_token_id");
 
                     b.Property<DateTime?>("ConsumedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("consumed_date");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsConsumed")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("is_consumed");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("is_expired");
 
                     b.Property<byte[]>("TokenSecretHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("BLOB")
                         .HasColumnName("token_secret_hash");
 
                     b.Property<byte[]>("TokenSecretSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("BLOB")
                         .HasColumnName("token_secret_salt");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_id");
 
                     b.Property<long>("UserTokenTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_token_type_id");
 
                     b.HasKey("UserTokenId");
@@ -397,36 +396,36 @@ namespace Ribbons.Users.Migrations.MySql
                 {
                     b.Property<long>("UserTokenTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_token_type_id");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserTokenTypeId");
@@ -449,32 +448,32 @@ namespace Ribbons.Users.Migrations.MySql
                 {
                     b.Property<long>("UserTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("user_type_id");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("name");
 
                     b.HasKey("UserTypeId");
@@ -494,7 +493,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.HasOne("Ribbons.Users.UserType", "UserType")
                         .WithMany("Users")
                         .HasForeignKey("UserTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("UserType");
@@ -505,7 +504,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithOne("UserEmail")
                         .HasForeignKey("Ribbons.Users.UserEmail", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -516,7 +515,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.HasOne("Ribbons.Users.UserType", "UserType")
                         .WithMany("UserGroups")
                         .HasForeignKey("UserTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("UserType");
@@ -527,13 +526,13 @@ namespace Ribbons.Users.Migrations.MySql
                     b.HasOne("Ribbons.Users.UserGroup", "UserGroup")
                         .WithMany("UserGroupUsers")
                         .HasForeignKey("UserGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithMany("UserGroupUsers")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -557,7 +556,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithOne("UserPhone")
                         .HasForeignKey("Ribbons.Users.UserPhone", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -568,7 +567,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithMany("UserSessions")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -579,13 +578,13 @@ namespace Ribbons.Users.Migrations.MySql
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithMany("UserTokens")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Ribbons.Users.UserTokenType", "UserTokenType")
                         .WithMany("UserTokens")
                         .HasForeignKey("UserTokenTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");

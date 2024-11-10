@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Ribbons.Users.Migrations.Sqlite
+namespace Ribbons.Users.Migrations.Npgsql
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -15,13 +16,13 @@ namespace Ribbons.Users.Migrations.Sqlite
                 name: "t_user_type",
                 columns: table => new
                 {
-                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    code = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
-                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    code = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,13 +33,13 @@ namespace Ribbons.Users.Migrations.Sqlite
                 name: "t_user",
                 columns: table => new
                 {
-                    user_id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false),
-                    username = table.Column<string>(type: "TEXT", maxLength: 320, nullable: false),
-                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    user_status_id = table.Column<long>(type: "INTEGER", nullable: false)
+                    user_id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    username = table.Column<string>(type: "character varying(320)", maxLength: 320, nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    user_status_id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,22 +48,21 @@ namespace Ribbons.Users.Migrations.Sqlite
                         name: "FK_t_user_t_user_type_user_type_id",
                         column: x => x.user_type_id,
                         principalTable: "t_user_type",
-                        principalColumn: "user_type_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_type_id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "t_user_group",
                 columns: table => new
                 {
-                    user_group_id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false),
-                    code = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
-                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    user_group_id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    code = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -71,22 +71,21 @@ namespace Ribbons.Users.Migrations.Sqlite
                         name: "FK_t_user_group_t_user_type_user_type_id",
                         column: x => x.user_type_id,
                         principalTable: "t_user_type",
-                        principalColumn: "user_type_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_type_id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "t_user_token_type",
                 columns: table => new
                 {
-                    user_token_type_id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false),
-                    code = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
-                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    user_token_type_id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    code = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -103,14 +102,13 @@ namespace Ribbons.Users.Migrations.Sqlite
                 name: "t_user_email",
                 columns: table => new
                 {
-                    user_id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false),
-                    email_address = table.Column<string>(type: "TEXT", maxLength: 320, nullable: false),
-                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    is_verified = table.Column<bool>(type: "INTEGER", nullable: false),
-                    verified_date = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    email_address = table.Column<string>(type: "character varying(320)", maxLength: 320, nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_verified = table.Column<bool>(type: "boolean", nullable: false),
+                    verified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -119,21 +117,20 @@ namespace Ribbons.Users.Migrations.Sqlite
                         name: "FK_t_user_email_t_user_user_id",
                         column: x => x.user_id,
                         principalTable: "t_user",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "t_user_password",
                 columns: table => new
                 {
-                    user_id = table.Column<long>(type: "INTEGER", nullable: false),
-                    password_salt = table.Column<byte[]>(type: "BLOB", maxLength: 512, nullable: false),
-                    password_hash = table.Column<byte[]>(type: "BLOB", maxLength: 512, nullable: false),
-                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    is_expired = table.Column<bool>(type: "INTEGER", nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    password_salt = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
+                    password_hash = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_expired = table.Column<bool>(type: "boolean", nullable: false),
+                    expiry_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -150,13 +147,13 @@ namespace Ribbons.Users.Migrations.Sqlite
                 name: "t_user_phone",
                 columns: table => new
                 {
-                    user_id = table.Column<long>(type: "INTEGER", nullable: false),
-                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false),
-                    phone_number = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    is_verified = table.Column<bool>(type: "INTEGER", nullable: false),
-                    verified_date = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    phone_number = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_verified = table.Column<bool>(type: "boolean", nullable: false),
+                    verified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -165,21 +162,20 @@ namespace Ribbons.Users.Migrations.Sqlite
                         name: "FK_t_user_phone_t_user_user_id",
                         column: x => x.user_id,
                         principalTable: "t_user",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "t_user_session",
                 columns: table => new
                 {
-                    user_session_id = table.Column<byte[]>(type: "BLOB", maxLength: 64, nullable: false),
-                    user_id = table.Column<long>(type: "INTEGER", nullable: false),
-                    session_secret_salt = table.Column<byte[]>(type: "BLOB", maxLength: 512, nullable: false),
-                    session_secret_hash = table.Column<byte[]>(type: "BLOB", maxLength: 512, nullable: false),
-                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    is_expired = table.Column<bool>(type: "INTEGER", nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    user_session_id = table.Column<byte[]>(type: "bytea", maxLength: 64, nullable: false),
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    session_secret_salt = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
+                    session_secret_hash = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_expired = table.Column<bool>(type: "boolean", nullable: false),
+                    expiry_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -188,16 +184,15 @@ namespace Ribbons.Users.Migrations.Sqlite
                         name: "FK_t_user_session_t_user_user_id",
                         column: x => x.user_id,
                         principalTable: "t_user",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "t_user_group_user",
                 columns: table => new
                 {
-                    user_group_id = table.Column<long>(type: "INTEGER", nullable: false),
-                    user_id = table.Column<long>(type: "INTEGER", nullable: false)
+                    user_group_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -206,30 +201,28 @@ namespace Ribbons.Users.Migrations.Sqlite
                         name: "FK_t_user_group_user_t_user_group_user_group_id",
                         column: x => x.user_group_id,
                         principalTable: "t_user_group",
-                        principalColumn: "user_group_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_group_id");
                     table.ForeignKey(
                         name: "FK_t_user_group_user_t_user_user_id",
                         column: x => x.user_id,
                         principalTable: "t_user",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "t_user_token",
                 columns: table => new
                 {
-                    user_token_id = table.Column<byte[]>(type: "BLOB", maxLength: 64, nullable: false),
-                    user_id = table.Column<long>(type: "INTEGER", nullable: false),
-                    user_token_type_id = table.Column<long>(type: "INTEGER", nullable: false),
-                    token_secret_salt = table.Column<byte[]>(type: "BLOB", maxLength: 512, nullable: false),
-                    token_secret_hash = table.Column<byte[]>(type: "BLOB", maxLength: 512, nullable: false),
-                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    is_expired = table.Column<bool>(type: "INTEGER", nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    is_consumed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    consumed_date = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    user_token_id = table.Column<byte[]>(type: "bytea", maxLength: 64, nullable: false),
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_token_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    token_secret_salt = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
+                    token_secret_hash = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_expired = table.Column<bool>(type: "boolean", nullable: false),
+                    expiry_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_consumed = table.Column<bool>(type: "boolean", nullable: false),
+                    consumed_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -238,14 +231,12 @@ namespace Ribbons.Users.Migrations.Sqlite
                         name: "FK_t_user_token_t_user_token_type_user_token_type_id",
                         column: x => x.user_token_type_id,
                         principalTable: "t_user_token_type",
-                        principalColumn: "user_token_type_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_token_type_id");
                     table.ForeignKey(
                         name: "FK_t_user_token_t_user_user_id",
                         column: x => x.user_id,
                         principalTable: "t_user",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_id");
                 });
 
             migrationBuilder.CreateIndex(

@@ -490,7 +490,7 @@ namespace Ribbons.Users.Migrations.Sqlite
                     b.HasOne("Ribbons.Users.UserType", "UserType")
                         .WithMany("Users")
                         .HasForeignKey("UserTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("UserType");
@@ -501,7 +501,7 @@ namespace Ribbons.Users.Migrations.Sqlite
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithOne("UserEmail")
                         .HasForeignKey("Ribbons.Users.UserEmail", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -512,7 +512,7 @@ namespace Ribbons.Users.Migrations.Sqlite
                     b.HasOne("Ribbons.Users.UserType", "UserType")
                         .WithMany("UserGroups")
                         .HasForeignKey("UserTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("UserType");
@@ -523,13 +523,13 @@ namespace Ribbons.Users.Migrations.Sqlite
                     b.HasOne("Ribbons.Users.UserGroup", "UserGroup")
                         .WithMany("UserGroupUsers")
                         .HasForeignKey("UserGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithMany("UserGroupUsers")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -553,7 +553,7 @@ namespace Ribbons.Users.Migrations.Sqlite
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithOne("UserPhone")
                         .HasForeignKey("Ribbons.Users.UserPhone", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -564,7 +564,7 @@ namespace Ribbons.Users.Migrations.Sqlite
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithMany("UserSessions")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -575,13 +575,13 @@ namespace Ribbons.Users.Migrations.Sqlite
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithMany("UserTokens")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Ribbons.Users.UserTokenType", "UserTokenType")
                         .WithMany("UserTokens")
                         .HasForeignKey("UserTokenTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");

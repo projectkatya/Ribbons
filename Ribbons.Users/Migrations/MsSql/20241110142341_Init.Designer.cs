@@ -2,17 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Oracle.EntityFrameworkCore.Metadata;
 using Ribbons.Users.Data;
 
 #nullable disable
 
-namespace Ribbons.Users.Migrations.Oracle
+namespace Ribbons.Users.Migrations.MsSql
 {
-    [DbContext(typeof(UserDbOracle))]
-    [Migration("20241109155130_Init")]
+    [DbContext(typeof(UserDbMsSql))]
+    [Migration("20241110142341_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -26,37 +26,37 @@ namespace Ribbons.Users.Migrations.Oracle
                 .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            OracleModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Ribbons.Users.User", b =>
                 {
                     b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserId"));
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(320)
-                        .HasColumnType("NVARCHAR2(320)")
+                        .HasColumnType("nvarchar(320)")
                         .HasColumnName("username");
 
                     b.Property<long>("UserStatusId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_status_id");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserId");
@@ -81,33 +81,33 @@ namespace Ribbons.Users.Migrations.Oracle
                 {
                     b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasMaxLength(320)
-                        .HasColumnType("NVARCHAR2(320)")
+                        .HasColumnType("nvarchar(320)")
                         .HasColumnName("email_address");
 
                     b.Property<bool>("IsVerified")
-                        .HasColumnType("BOOLEAN")
+                        .HasColumnType("bit")
                         .HasColumnName("is_verified");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
                     b.Property<DateTime?>("VerifiedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("verified_date");
 
                     b.HasKey("UserId");
@@ -134,38 +134,38 @@ namespace Ribbons.Users.Migrations.Oracle
                 {
                     b.Property<long>("UserGroupId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_group_id");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserGroupId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserGroupId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("NVARCHAR2(128)")
+                        .HasColumnType("nvarchar(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("NVARCHAR2(500)")
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("NVARCHAR2(255)")
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserGroupId");
@@ -187,11 +187,11 @@ namespace Ribbons.Users.Migrations.Oracle
             modelBuilder.Entity("Ribbons.Users.UserGroupUser", b =>
                 {
                     b.Property<long>("UserGroupId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_group_id");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.HasKey("UserGroupId", "UserId");
@@ -204,35 +204,35 @@ namespace Ribbons.Users.Migrations.Oracle
             modelBuilder.Entity("Ribbons.Users.UserPassword", b =>
                 {
                     b.Property<long>("UserId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("BOOLEAN")
+                        .HasColumnType("bit")
                         .HasColumnName("is_expired");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("RAW(512)")
+                        .HasColumnType("varbinary(512)")
                         .HasColumnName("password_hash");
 
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("RAW(512)")
+                        .HasColumnType("varbinary(512)")
                         .HasColumnName("password_salt");
 
                     b.HasKey("UserId");
@@ -251,34 +251,34 @@ namespace Ribbons.Users.Migrations.Oracle
             modelBuilder.Entity("Ribbons.Users.UserPhone", b =>
                 {
                     b.Property<long>("UserId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<bool>("IsVerified")
-                        .HasColumnType("BOOLEAN")
+                        .HasColumnType("bit")
                         .HasColumnName("is_verified");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)")
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("phone_number");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
                     b.Property<DateTime?>("VerifiedDate")
                         .IsRequired()
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("verified_date");
 
                     b.HasKey("UserId");
@@ -290,35 +290,35 @@ namespace Ribbons.Users.Migrations.Oracle
                 {
                     b.Property<byte[]>("UserSessionId")
                         .HasMaxLength(64)
-                        .HasColumnType("RAW(64)")
+                        .HasColumnType("varbinary(64)")
                         .HasColumnName("user_session_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("BOOLEAN")
+                        .HasColumnType("bit")
                         .HasColumnName("is_expired");
 
                     b.Property<byte[]>("SessionSecretHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("RAW(512)")
+                        .HasColumnType("varbinary(512)")
                         .HasColumnName("session_secret_hash");
 
                     b.Property<byte[]>("SessionSecretSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("RAW(512)")
+                        .HasColumnType("varbinary(512)")
                         .HasColumnName("session_secret_salt");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.HasKey("UserSessionId");
@@ -338,47 +338,47 @@ namespace Ribbons.Users.Migrations.Oracle
                 {
                     b.Property<byte[]>("UserTokenId")
                         .HasMaxLength(64)
-                        .HasColumnType("RAW(64)")
+                        .HasColumnType("varbinary(64)")
                         .HasColumnName("user_token_id");
 
                     b.Property<DateTime?>("ConsumedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("consumed_date");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsConsumed")
-                        .HasColumnType("BOOLEAN")
+                        .HasColumnType("bit")
                         .HasColumnName("is_consumed");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("BOOLEAN")
+                        .HasColumnType("bit")
                         .HasColumnName("is_expired");
 
                     b.Property<byte[]>("TokenSecretHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("RAW(512)")
+                        .HasColumnType("varbinary(512)")
                         .HasColumnName("token_secret_hash");
 
                     b.Property<byte[]>("TokenSecretSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("RAW(512)")
+                        .HasColumnType("varbinary(512)")
                         .HasColumnName("token_secret_salt");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.Property<long>("UserTokenTypeId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_token_type_id");
 
                     b.HasKey("UserTokenId");
@@ -404,38 +404,38 @@ namespace Ribbons.Users.Migrations.Oracle
                 {
                     b.Property<long>("UserTokenTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_token_type_id");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserTokenTypeId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserTokenTypeId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("NVARCHAR2(128)")
+                        .HasColumnType("nvarchar(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("NVARCHAR2(500)")
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("NVARCHAR2(255)")
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserTokenTypeId");
@@ -458,34 +458,34 @@ namespace Ribbons.Users.Migrations.Oracle
                 {
                     b.Property<long>("UserTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserTypeId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserTypeId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("NVARCHAR2(128)")
+                        .HasColumnType("nvarchar(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("NVARCHAR2(500)")
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("NVARCHAR2(255)")
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
                     b.HasKey("UserTypeId");
@@ -505,7 +505,7 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.HasOne("Ribbons.Users.UserType", "UserType")
                         .WithMany("Users")
                         .HasForeignKey("UserTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("UserType");
@@ -516,7 +516,7 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithOne("UserEmail")
                         .HasForeignKey("Ribbons.Users.UserEmail", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -527,7 +527,7 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.HasOne("Ribbons.Users.UserType", "UserType")
                         .WithMany("UserGroups")
                         .HasForeignKey("UserTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("UserType");
@@ -538,13 +538,13 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.HasOne("Ribbons.Users.UserGroup", "UserGroup")
                         .WithMany("UserGroupUsers")
                         .HasForeignKey("UserGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithMany("UserGroupUsers")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -568,7 +568,7 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithOne("UserPhone")
                         .HasForeignKey("Ribbons.Users.UserPhone", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -579,7 +579,7 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithMany("UserSessions")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -590,13 +590,13 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.HasOne("Ribbons.Users.User", "User")
                         .WithMany("UserTokens")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Ribbons.Users.UserTokenType", "UserTokenType")
                         .WithMany("UserTokens")
                         .HasForeignKey("UserTokenTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");

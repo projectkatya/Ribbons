@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -42,6 +43,18 @@ namespace Ribbons.Data
         {
             ConfigurationProvider = configurationProvider;
             return this;
+        }
+
+        public void Migrate(string configurationName = null)
+        {
+            RelationalDb instance = GetDatabase(configurationName);
+            instance.Database.MigrateAsync();
+        }
+
+        public async Task MigrateAsync(string configurationName = null)
+        {
+            RelationalDb instance = await GetDatabaseAsync(configurationName);
+            await instance.Database.MigrateAsync();
         }
 
         protected virtual RelationalDb CreateInstance(RelationalDbConfig configuration)
@@ -94,6 +107,12 @@ namespace Ribbons.Data
 
             Factories[instance.Provider] = () => new T();
             
+            return this;
+        }
+
+        new public IRelationalDbManager<TRelationalDb> AddConfigurationProvider(IRelationalDbConfigProvider configurationProvider)
+        {
+            ConfigurationProvider = configurationProvider;
             return this;
         }
 
