@@ -14,7 +14,6 @@ namespace Ribbons.TestConsole
             });
 
             IRelationalDbManager<UserDb> userDbManager = new UserDbManager().AddConfigurationProvider(userDbConfigProvider);
-
             await userDbManager.MigrateAsync();
         }
     }

@@ -12,6 +12,7 @@ namespace Ribbons.Users.Data
         public DbSet<UserGroupUser> UserGroupUsers { get; set; }
         public DbSet<UserPhone> UserPhones { get; set; }
         public DbSet<UserSession> UserSessions { get; set; }
+        public DbSet<UserStatus> UserStatuses { get; set; }
         public DbSet<UserToken> UserTokens { get; set; }
         public DbSet<UserTokenType> UserTokenTypes { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
@@ -29,7 +30,9 @@ namespace Ribbons.Users.Data
                 .HasOneToMany<UserTokenType, UserToken>(x => x.UserTokens, x => x.UserTokenType, x => x.UserTokenTypeId)
                 .HasOneToMany<UserType, User>(x => x.Users, x => x.UserType, x => x.UserTypeId)
                 .HasOneToMany<UserType, UserGroup>(x => x.UserGroups, x => x.UserType, x => x.UserTypeId)
-                .HasOneToMany<UserGroup, UserGroupUser>(x => x.UserGroupUsers, x => x.UserGroup, x => x.UserGroupId);
+                .HasOneToMany<UserType, UserStatus>(x => x.UserStatuses, x => x.UserType, x => x.UserTypeId)
+                .HasOneToMany<UserGroup, UserGroupUser>(x => x.UserGroupUsers, x => x.UserGroup, x => x.UserGroupId)
+                .HasOneToMany<UserStatus, User>(x => x.Users, x => x.UserStatus, x => x.UserStatusId);
         }
     }
 }

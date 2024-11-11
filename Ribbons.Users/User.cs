@@ -47,6 +47,7 @@ namespace Ribbons.Users
         public virtual UserPassword UserPassword { get; set; }
         public virtual UserPhone UserPhone { get; set; }
         public virtual ICollection<UserSession> UserSessions { get; set; }
+        public virtual UserStatus UserStatus { get; set; }
         public virtual ICollection<UserToken> UserTokens { get; set; }
         public virtual UserType UserType { get; set; }
     }

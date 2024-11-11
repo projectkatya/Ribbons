@@ -7,29 +7,32 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ribbons.Users
 {
-    [Table(TableNames.UserType)]
-    [Index(nameof(Code), IsUnique = true)]
+    [Table(TableNames.UserStatus)]
+    [Index(nameof(UserTypeId))]
+    [Index(nameof(Code))]
+    [Index(nameof(UserTypeId), nameof(Code), IsUnique = true)]
     [Index(nameof(CreatedDate))]
     [Index(nameof(ModifiedDate))]
-    public class UserType
+    public class UserStatus
     {
-        [Column(ColumnNames.UserTypeId)]
+        [Column(ColumnNames.UserStatusId)]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long UserStatusId { get; set; }
+
+        [Column(ColumnNames.UserTypeId)]
+        [Required]
         public long UserTypeId { get; set; }
 
         [Column(ColumnNames.Code)]
         [Required]
-        [StringLength(ColumnConstraints.CodeLength)]
         public string Code { get; set; }
 
         [Column(ColumnNames.Name)]
         [Required]
-        [StringLength(ColumnConstraints.NameLength)]
         public string Name { get; set; }
 
         [Column(ColumnNames.Description)]
-        [StringLength(ColumnConstraints.DescriptionLength)]
         public string Description { get; set; }
 
         [Column(ColumnNames.CreatedDate)]
@@ -40,8 +43,7 @@ namespace Ribbons.Users
         [Required]
         public DateTime ModifiedDate { get; set; }
 
+        public virtual UserType UserType { get; set; }
         public virtual ICollection<User> Users { get; set; }
-        public virtual ICollection<UserGroup> UserGroups { get; set; }
-        public virtual ICollection<UserStatus> UserStatuses { get; set; } 
     }
 }
