@@ -2,5 +2,6 @@
 {
     public class CreateUserResponse
     {
+        public CreateUserResponseCode Status { get; set; }
     }
 }
