@@ -27,7 +27,7 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.UserName)]
         [Required]
-        [StringLength(ColumnConstraints.UserNameLength)]
+        [StringLength(DataConstraints.UserNameLength)]
         public string UserName { get; set; }
 
         [Column(ColumnNames.CreatedDate)]

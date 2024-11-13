@@ -27,7 +27,7 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.EmailAddress)]
         [Required]
-        [StringLength(ColumnConstraints.EmailAddressLength)]
+        [StringLength(DataConstraints.EmailAddressLength)]
         public string EmailAddress { get; set; }
 
         [Column(ColumnNames.CreatedDate)]

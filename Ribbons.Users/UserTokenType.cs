@@ -26,16 +26,16 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.Code)]
         [Required]
-        [StringLength(ColumnConstraints.CodeLength)]
+        [StringLength(DataConstraints.CodeLength)]
         public string Code { get; set; }
 
         [Column(ColumnNames.Name)]
         [Required]
-        [StringLength(ColumnConstraints.NameLength)]
+        [StringLength(DataConstraints.NameLength)]
         public string Name { get; set; }
 
         [Column(ColumnNames.Description)]
-        [StringLength(ColumnConstraints.DescriptionLength)]
+        [StringLength(DataConstraints.DescriptionLength)]
         public string Description { get; set; }
 
         [Column(ColumnNames.CreatedDate)]

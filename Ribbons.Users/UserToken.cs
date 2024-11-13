@@ -19,7 +19,7 @@ namespace Ribbons.Users
         [Column(ColumnNames.UserTokenId)]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [MaxLength(ColumnConstraints.UserTokenIdLength)]
+        [MaxLength(DataConstraints.UserTokenIdLength)]
         public virtual byte[] UserTokenId { get; set; }
 
         [Column(ColumnNames.UserId)]
@@ -32,12 +32,12 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.TokenSecretSalt)]
         [Required]
-        [MaxLength(ColumnConstraints.TokenSecretSaltLength)]
+        [MaxLength(DataConstraints.TokenSecretSaltLength)]
         public byte[] TokenSecretSalt { get; set; }
 
         [Column(ColumnNames.TokenSecretHash)]
         [Required]
-        [MaxLength(ColumnConstraints.TokenSecretHashLength)]
+        [MaxLength(DataConstraints.TokenSecretHashLength)]
         public byte[] TokenSecretHash { get; set; }
 
         [Column(ColumnNames.CreatedDate)]

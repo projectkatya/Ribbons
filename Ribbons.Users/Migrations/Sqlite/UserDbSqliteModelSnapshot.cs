@@ -323,6 +323,55 @@ namespace Ribbons.Users.Migrations.Sqlite
                     b.ToTable("t_user_session");
                 });
 
+            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+                {
+                    b.Property<long>("UserStatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("user_status_id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("created_date");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("description");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("modified_date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("name");
+
+                    b.Property<long>("UserTypeId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("user_type_id");
+
+                    b.HasKey("UserStatusId");
+
+                    b.HasIndex("Code");
+
+                    b.HasIndex("CreatedDate");
+
+                    b.HasIndex("ModifiedDate");
+
+                    b.HasIndex("UserTypeId");
+
+                    b.HasIndex("UserTypeId", "Code")
+                        .IsUnique();
+
+                    b.ToTable("t_user_status");
+                });
+
             modelBuilder.Entity("Ribbons.Users.UserToken", b =>
                 {
                     b.Property<byte[]>("UserTokenId")
@@ -487,11 +536,19 @@ namespace Ribbons.Users.Migrations.Sqlite
 
             modelBuilder.Entity("Ribbons.Users.User", b =>
                 {
+                    b.HasOne("Ribbons.Users.UserStatus", "UserStatus")
+                        .WithMany("Users")
+                        .HasForeignKey("UserStatusId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Ribbons.Users.UserType", "UserType")
                         .WithMany("Users")
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("UserStatus");
 
                     b.Navigation("UserType");
                 });
@@ -570,6 +627,17 @@ namespace Ribbons.Users.Migrations.Sqlite
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+                {
+                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                        .WithMany("UserStatuses")
+                        .HasForeignKey("UserTypeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("UserType");
+                });
+
             modelBuilder.Entity("Ribbons.Users.UserToken", b =>
                 {
                     b.HasOne("Ribbons.Users.User", "User")
@@ -620,6 +688,11 @@ namespace Ribbons.Users.Migrations.Sqlite
                     b.Navigation("UserGroupUsers");
                 });
 
+            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("Ribbons.Users.UserTokenType", b =>
                 {
                     b.Navigation("UserTokens");
@@ -628,6 +701,8 @@ namespace Ribbons.Users.Migrations.Sqlite
             modelBuilder.Entity("Ribbons.Users.UserType", b =>
                 {
                     b.Navigation("UserGroups");
+
+                    b.Navigation("UserStatuses");
 
                     b.Navigation("Users");
                 });

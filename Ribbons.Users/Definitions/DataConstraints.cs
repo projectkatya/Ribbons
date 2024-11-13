@@ -1,6 +1,6 @@
 ﻿namespace Ribbons.Users.Definitions
 {
-    public static class ColumnConstraints
+    public static class DataConstraints
     {
         public const int UserNameLength = 320;
         public const int EmailAddressLength = 320;

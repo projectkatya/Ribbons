@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Ribbons.Users.Migrations.Oracle
+namespace Ribbons.Users.Migrations.Npgsql
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -15,13 +16,13 @@ namespace Ribbons.Users.Migrations.Oracle
                 name: "t_user_type",
                 columns: table => new
                 {
-                    user_type_id = table.Column<long>(type: "NUMBER(19)", nullable: false)
-                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
-                    code = table.Column<string>(type: "NVARCHAR2(128)", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "NVARCHAR2(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "NVARCHAR2(500)", maxLength: 500, nullable: true),
-                    created_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false)
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    code = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,39 +30,17 @@ namespace Ribbons.Users.Migrations.Oracle
                 });
 
             migrationBuilder.CreateTable(
-                name: "t_user",
-                columns: table => new
-                {
-                    user_id = table.Column<long>(type: "NUMBER(19)", nullable: false)
-                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
-                    user_type_id = table.Column<long>(type: "NUMBER(19)", nullable: false),
-                    username = table.Column<string>(type: "NVARCHAR2(320)", maxLength: 320, nullable: false),
-                    created_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    user_status_id = table.Column<long>(type: "NUMBER(19)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_t_user", x => x.user_id);
-                    table.ForeignKey(
-                        name: "FK_t_user_t_user_type_user_type_id",
-                        column: x => x.user_type_id,
-                        principalTable: "t_user_type",
-                        principalColumn: "user_type_id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "t_user_group",
                 columns: table => new
                 {
-                    user_group_id = table.Column<long>(type: "NUMBER(19)", nullable: false)
-                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
-                    user_type_id = table.Column<long>(type: "NUMBER(19)", nullable: false),
-                    code = table.Column<string>(type: "NVARCHAR2(128)", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "NVARCHAR2(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "NVARCHAR2(500)", maxLength: 500, nullable: true),
-                    created_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false)
+                    user_group_id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    code = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,17 +53,40 @@ namespace Ribbons.Users.Migrations.Oracle
                 });
 
             migrationBuilder.CreateTable(
+                name: "t_user_status",
+                columns: table => new
+                {
+                    user_status_id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    code = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    description = table.Column<string>(type: "text", nullable: true),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_user_status", x => x.user_status_id);
+                    table.ForeignKey(
+                        name: "FK_t_user_status_t_user_type_user_type_id",
+                        column: x => x.user_type_id,
+                        principalTable: "t_user_type",
+                        principalColumn: "user_type_id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "t_user_token_type",
                 columns: table => new
                 {
-                    user_token_type_id = table.Column<long>(type: "NUMBER(19)", nullable: false)
-                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
-                    user_type_id = table.Column<long>(type: "NUMBER(19)", nullable: false),
-                    code = table.Column<string>(type: "NVARCHAR2(128)", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "NVARCHAR2(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "NVARCHAR2(500)", maxLength: 500, nullable: true),
-                    created_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false)
+                    user_token_type_id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    code = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -98,16 +100,43 @@ namespace Ribbons.Users.Migrations.Oracle
                 });
 
             migrationBuilder.CreateTable(
+                name: "t_user",
+                columns: table => new
+                {
+                    user_id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    username = table.Column<string>(type: "character varying(320)", maxLength: 320, nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    user_status_id = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_user", x => x.user_id);
+                    table.ForeignKey(
+                        name: "FK_t_user_t_user_status_user_status_id",
+                        column: x => x.user_status_id,
+                        principalTable: "t_user_status",
+                        principalColumn: "user_status_id");
+                    table.ForeignKey(
+                        name: "FK_t_user_t_user_type_user_type_id",
+                        column: x => x.user_type_id,
+                        principalTable: "t_user_type",
+                        principalColumn: "user_type_id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "t_user_email",
                 columns: table => new
                 {
-                    user_id = table.Column<long>(type: "NUMBER(19)", nullable: false),
-                    user_type_id = table.Column<long>(type: "NUMBER(19)", nullable: false),
-                    email_address = table.Column<string>(type: "NVARCHAR2(320)", maxLength: 320, nullable: false),
-                    created_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    is_verified = table.Column<bool>(type: "BOOLEAN", nullable: false),
-                    verified_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true)
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    email_address = table.Column<string>(type: "character varying(320)", maxLength: 320, nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_verified = table.Column<bool>(type: "boolean", nullable: false),
+                    verified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -120,78 +149,11 @@ namespace Ribbons.Users.Migrations.Oracle
                 });
 
             migrationBuilder.CreateTable(
-                name: "t_user_password",
-                columns: table => new
-                {
-                    user_id = table.Column<long>(type: "NUMBER(19)", nullable: false),
-                    password_salt = table.Column<byte[]>(type: "RAW(512)", maxLength: 512, nullable: false),
-                    password_hash = table.Column<byte[]>(type: "RAW(512)", maxLength: 512, nullable: false),
-                    created_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    is_expired = table.Column<bool>(type: "BOOLEAN", nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_t_user_password", x => x.user_id);
-                    table.ForeignKey(
-                        name: "FK_t_user_password_t_user_user_id",
-                        column: x => x.user_id,
-                        principalTable: "t_user",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "t_user_phone",
-                columns: table => new
-                {
-                    user_id = table.Column<long>(type: "NUMBER(19)", nullable: false),
-                    user_type_id = table.Column<long>(type: "NUMBER(19)", nullable: false),
-                    phone_number = table.Column<string>(type: "NVARCHAR2(50)", maxLength: 50, nullable: false),
-                    created_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    is_verified = table.Column<bool>(type: "BOOLEAN", nullable: false),
-                    verified_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_t_user_phone", x => x.user_id);
-                    table.ForeignKey(
-                        name: "FK_t_user_phone_t_user_user_id",
-                        column: x => x.user_id,
-                        principalTable: "t_user",
-                        principalColumn: "user_id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "t_user_session",
-                columns: table => new
-                {
-                    user_session_id = table.Column<byte[]>(type: "RAW(64)", maxLength: 64, nullable: false),
-                    user_id = table.Column<long>(type: "NUMBER(19)", nullable: false),
-                    session_secret_salt = table.Column<byte[]>(type: "RAW(512)", maxLength: 512, nullable: false),
-                    session_secret_hash = table.Column<byte[]>(type: "RAW(512)", maxLength: 512, nullable: false),
-                    created_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    is_expired = table.Column<bool>(type: "BOOLEAN", nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_t_user_session", x => x.user_session_id);
-                    table.ForeignKey(
-                        name: "FK_t_user_session_t_user_user_id",
-                        column: x => x.user_id,
-                        principalTable: "t_user",
-                        principalColumn: "user_id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "t_user_group_user",
                 columns: table => new
                 {
-                    user_group_id = table.Column<long>(type: "NUMBER(19)", nullable: false),
-                    user_id = table.Column<long>(type: "NUMBER(19)", nullable: false)
+                    user_group_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -209,19 +171,86 @@ namespace Ribbons.Users.Migrations.Oracle
                 });
 
             migrationBuilder.CreateTable(
+                name: "t_user_password",
+                columns: table => new
+                {
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    password_salt = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
+                    password_hash = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_expired = table.Column<bool>(type: "boolean", nullable: false),
+                    expiry_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_user_password", x => x.user_id);
+                    table.ForeignKey(
+                        name: "FK_t_user_password_t_user_user_id",
+                        column: x => x.user_id,
+                        principalTable: "t_user",
+                        principalColumn: "user_id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "t_user_phone",
+                columns: table => new
+                {
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    phone_number = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_verified = table.Column<bool>(type: "boolean", nullable: false),
+                    verified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_user_phone", x => x.user_id);
+                    table.ForeignKey(
+                        name: "FK_t_user_phone_t_user_user_id",
+                        column: x => x.user_id,
+                        principalTable: "t_user",
+                        principalColumn: "user_id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "t_user_session",
+                columns: table => new
+                {
+                    user_session_id = table.Column<byte[]>(type: "bytea", maxLength: 64, nullable: false),
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    session_secret_salt = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
+                    session_secret_hash = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_expired = table.Column<bool>(type: "boolean", nullable: false),
+                    expiry_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_user_session", x => x.user_session_id);
+                    table.ForeignKey(
+                        name: "FK_t_user_session_t_user_user_id",
+                        column: x => x.user_id,
+                        principalTable: "t_user",
+                        principalColumn: "user_id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "t_user_token",
                 columns: table => new
                 {
-                    user_token_id = table.Column<byte[]>(type: "RAW(64)", maxLength: 64, nullable: false),
-                    user_id = table.Column<long>(type: "NUMBER(19)", nullable: false),
-                    user_token_type_id = table.Column<long>(type: "NUMBER(19)", nullable: false),
-                    token_secret_salt = table.Column<byte[]>(type: "RAW(512)", maxLength: 512, nullable: false),
-                    token_secret_hash = table.Column<byte[]>(type: "RAW(512)", maxLength: 512, nullable: false),
-                    created_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    is_expired = table.Column<bool>(type: "BOOLEAN", nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
-                    is_consumed = table.Column<bool>(type: "BOOLEAN", nullable: false),
-                    consumed_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true)
+                    user_token_id = table.Column<byte[]>(type: "bytea", maxLength: 64, nullable: false),
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_token_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    token_secret_salt = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
+                    token_secret_hash = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_expired = table.Column<bool>(type: "boolean", nullable: false),
+                    expiry_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_consumed = table.Column<bool>(type: "boolean", nullable: false),
+                    consumed_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -377,6 +406,32 @@ namespace Ribbons.Users.Migrations.Oracle
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_t_user_status_code",
+                table: "t_user_status",
+                column: "code");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_status_created_date",
+                table: "t_user_status",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_status_modified_date",
+                table: "t_user_status",
+                column: "modified_date");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_status_user_type_id",
+                table: "t_user_status",
+                column: "user_type_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_status_user_type_id_code",
+                table: "t_user_status",
+                columns: new[] { "user_type_id", "code" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_t_user_token_consumed_date",
                 table: "t_user_token",
                 column: "consumed_date");
@@ -483,6 +538,9 @@ namespace Ribbons.Users.Migrations.Oracle
 
             migrationBuilder.DropTable(
                 name: "t_user");
+
+            migrationBuilder.DropTable(
+                name: "t_user_status");
 
             migrationBuilder.DropTable(
                 name: "t_user_type");

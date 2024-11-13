@@ -1,12 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace Ribbons.Serialization
 {
-    internal class JsonExtensions
+    public static class JsonExtensions
     {
+        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+                {
+                    ProcessDictionaryKeys = true
+                }
+            },
+            Converters = [ new StringEnumConverter() ]
+        };
+
+        public static string ToJson(this object obj, bool indented = false)
+        {
+            return JsonConvert.SerializeObject(obj, indented ? Formatting.Indented : Formatting.None, JsonSerializerSettings);
+        }
     }
 }

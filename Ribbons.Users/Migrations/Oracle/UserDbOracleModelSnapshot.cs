@@ -331,6 +331,57 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.ToTable("t_user_session");
                 });
 
+            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+                {
+                    b.Property<long>("UserStatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_status_id");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserStatusId"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR2(450)")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnName("created_date");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("NVARCHAR2(2000)")
+                        .HasColumnName("description");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnName("modified_date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR2(2000)")
+                        .HasColumnName("name");
+
+                    b.Property<long>("UserTypeId")
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_type_id");
+
+                    b.HasKey("UserStatusId");
+
+                    b.HasIndex("Code");
+
+                    b.HasIndex("CreatedDate");
+
+                    b.HasIndex("ModifiedDate");
+
+                    b.HasIndex("UserTypeId");
+
+                    b.HasIndex("UserTypeId", "Code")
+                        .IsUnique();
+
+                    b.ToTable("t_user_status");
+                });
+
             modelBuilder.Entity("Ribbons.Users.UserToken", b =>
                 {
                     b.Property<byte[]>("UserTokenId")
@@ -499,11 +550,19 @@ namespace Ribbons.Users.Migrations.Oracle
 
             modelBuilder.Entity("Ribbons.Users.User", b =>
                 {
+                    b.HasOne("Ribbons.Users.UserStatus", "UserStatus")
+                        .WithMany("Users")
+                        .HasForeignKey("UserStatusId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Ribbons.Users.UserType", "UserType")
                         .WithMany("Users")
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("UserStatus");
 
                     b.Navigation("UserType");
                 });
@@ -582,6 +641,17 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+                {
+                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                        .WithMany("UserStatuses")
+                        .HasForeignKey("UserTypeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("UserType");
+                });
+
             modelBuilder.Entity("Ribbons.Users.UserToken", b =>
                 {
                     b.HasOne("Ribbons.Users.User", "User")
@@ -632,6 +702,11 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.Navigation("UserGroupUsers");
                 });
 
+            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("Ribbons.Users.UserTokenType", b =>
                 {
                     b.Navigation("UserTokens");
@@ -640,6 +715,8 @@ namespace Ribbons.Users.Migrations.Oracle
             modelBuilder.Entity("Ribbons.Users.UserType", b =>
                 {
                     b.Navigation("UserGroups");
+
+                    b.Navigation("UserStatuses");
 
                     b.Navigation("Users");
                 });

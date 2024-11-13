@@ -2,17 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Ribbons.Users.Data;
 
 #nullable disable
 
-namespace Ribbons.Users.Migrations.MsSql
+namespace Ribbons.Users.Migrations.Npgsql
 {
-    [DbContext(typeof(UserDbMsSql))]
-    [Migration("20241110142341_Init")]
+    [DbContext(typeof(UserDbNpgsql))]
+    [Migration("20241113072154_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -24,9 +24,9 @@ namespace Ribbons.Users.Migrations.MsSql
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Ribbons.Users.User", b =>
                 {
@@ -35,20 +35,20 @@ namespace Ribbons.Users.Migrations.MsSql
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UserId"));
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(320)
-                        .HasColumnType("nvarchar(320)")
+                        .HasColumnType("character varying(320)")
                         .HasColumnName("username");
 
                     b.Property<long>("UserStatusId")
@@ -85,21 +85,21 @@ namespace Ribbons.Users.Migrations.MsSql
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasMaxLength(320)
-                        .HasColumnType("nvarchar(320)")
+                        .HasColumnType("character varying(320)")
                         .HasColumnName("email_address");
 
                     b.Property<bool>("IsVerified")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasColumnName("is_verified");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<long>("UserTypeId")
@@ -107,7 +107,7 @@ namespace Ribbons.Users.Migrations.MsSql
                         .HasColumnName("user_type_id");
 
                     b.Property<DateTime?>("VerifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("verified_date");
 
                     b.HasKey("UserId");
@@ -137,31 +137,31 @@ namespace Ribbons.Users.Migrations.MsSql
                         .HasColumnType("bigint")
                         .HasColumnName("user_group_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserGroupId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UserGroupId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
+                        .HasColumnType("character varying(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
+                        .HasColumnType("character varying(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
@@ -208,31 +208,31 @@ namespace Ribbons.Users.Migrations.MsSql
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasColumnName("is_expired");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("password_hash");
 
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("password_salt");
 
                     b.HasKey("UserId");
@@ -255,21 +255,21 @@ namespace Ribbons.Users.Migrations.MsSql
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<bool>("IsVerified")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasColumnName("is_verified");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("phone_number");
 
                     b.Property<long>("UserTypeId")
@@ -278,7 +278,7 @@ namespace Ribbons.Users.Migrations.MsSql
 
                     b.Property<DateTime?>("VerifiedDate")
                         .IsRequired()
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("verified_date");
 
                     b.HasKey("UserId");
@@ -290,31 +290,31 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<byte[]>("UserSessionId")
                         .HasMaxLength(64)
-                        .HasColumnType("varbinary(64)")
+                        .HasColumnType("bytea")
                         .HasColumnName("user_session_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasColumnName("is_expired");
 
                     b.Property<byte[]>("SessionSecretHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("session_secret_hash");
 
                     b.Property<byte[]>("SessionSecretSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("session_secret_salt");
 
                     b.Property<long>("UserId")
@@ -334,43 +334,94 @@ namespace Ribbons.Users.Migrations.MsSql
                     b.ToTable("t_user_session");
                 });
 
+            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+                {
+                    b.Property<long>("UserStatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_status_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UserStatusId"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modified_date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<long>("UserTypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_type_id");
+
+                    b.HasKey("UserStatusId");
+
+                    b.HasIndex("Code");
+
+                    b.HasIndex("CreatedDate");
+
+                    b.HasIndex("ModifiedDate");
+
+                    b.HasIndex("UserTypeId");
+
+                    b.HasIndex("UserTypeId", "Code")
+                        .IsUnique();
+
+                    b.ToTable("t_user_status");
+                });
+
             modelBuilder.Entity("Ribbons.Users.UserToken", b =>
                 {
                     b.Property<byte[]>("UserTokenId")
                         .HasMaxLength(64)
-                        .HasColumnType("varbinary(64)")
+                        .HasColumnType("bytea")
                         .HasColumnName("user_token_id");
 
                     b.Property<DateTime?>("ConsumedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("consumed_date");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsConsumed")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasColumnName("is_consumed");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasColumnName("is_expired");
 
                     b.Property<byte[]>("TokenSecretHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("token_secret_hash");
 
                     b.Property<byte[]>("TokenSecretSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("token_secret_salt");
 
                     b.Property<long>("UserId")
@@ -407,31 +458,31 @@ namespace Ribbons.Users.Migrations.MsSql
                         .HasColumnType("bigint")
                         .HasColumnName("user_token_type_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserTokenTypeId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UserTokenTypeId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
+                        .HasColumnType("character varying(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
+                        .HasColumnType("character varying(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
@@ -461,31 +512,31 @@ namespace Ribbons.Users.Migrations.MsSql
                         .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserTypeId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UserTypeId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
+                        .HasColumnType("character varying(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
+                        .HasColumnType("character varying(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("name");
 
                     b.HasKey("UserTypeId");
@@ -502,11 +553,19 @@ namespace Ribbons.Users.Migrations.MsSql
 
             modelBuilder.Entity("Ribbons.Users.User", b =>
                 {
+                    b.HasOne("Ribbons.Users.UserStatus", "UserStatus")
+                        .WithMany("Users")
+                        .HasForeignKey("UserStatusId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Ribbons.Users.UserType", "UserType")
                         .WithMany("Users")
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("UserStatus");
 
                     b.Navigation("UserType");
                 });
@@ -585,6 +644,17 @@ namespace Ribbons.Users.Migrations.MsSql
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+                {
+                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                        .WithMany("UserStatuses")
+                        .HasForeignKey("UserTypeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("UserType");
+                });
+
             modelBuilder.Entity("Ribbons.Users.UserToken", b =>
                 {
                     b.HasOne("Ribbons.Users.User", "User")
@@ -635,6 +705,11 @@ namespace Ribbons.Users.Migrations.MsSql
                     b.Navigation("UserGroupUsers");
                 });
 
+            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("Ribbons.Users.UserTokenType", b =>
                 {
                     b.Navigation("UserTokens");
@@ -643,6 +718,8 @@ namespace Ribbons.Users.Migrations.MsSql
             modelBuilder.Entity("Ribbons.Users.UserType", b =>
                 {
                     b.Navigation("UserGroups");
+
+                    b.Navigation("UserStatuses");
 
                     b.Navigation("Users");
                 });
