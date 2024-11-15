@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Ribbons.Users.Services.Models
+﻿namespace Ribbons.Users.Services.Models
 {
-    public class CreateUserStatusResponse
+    public sealed class CreateUserStatusResponse : UserManagerResponse<CreateUserStatusResponseCode>
     {
-        public CreateUserStatusResponseCode Status { get; internal set; }
-        public string Message { get; internal set; }
-        public List<string> ValidationErrors { get; internal set; }
+        public long? UserStatusId { get; internal set; }
     }
 }

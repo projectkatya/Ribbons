@@ -1,7 +1,7 @@
 ﻿namespace Ribbons.Users.Services.Models
 {
-    public class CreateUserResponse
+    public sealed class CreateUserResponse : UserManagerResponse<CreateUserResponseCode>
     {
-        public CreateUserResponseCode Status { get; set; }
+        public long? UserId { get; internal set; }
     }
 }

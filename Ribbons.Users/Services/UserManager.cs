@@ -162,6 +162,11 @@ namespace Ribbons.Users.Services
             }
         }
 
+        public Task<CreateUserTokenTypeResponse> CreateUserTokenTypeAsync(CreateUserTokenTypeRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<CreateUserResponse> CreateUserAsync(CreateUserRequest request)
         {
             UserDb db = await UserDbManager.GetDatabaseAsync();

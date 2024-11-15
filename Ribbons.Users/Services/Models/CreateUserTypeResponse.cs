@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Ribbons.Users.Services.Models
+﻿namespace Ribbons.Users.Services.Models
 {
-    public class CreateUserTypeResponse
+    public sealed class CreateUserTypeResponse : UserManagerResponse<CreateUserTypeResponseCode>
     {
-        public CreateUserTypeResponseCode Status { get; internal set; }
-        public string Message { get; internal set; }
-        public List<string> ValidationErrors { get; internal set; }
+        public long? UserTypeId { get; internal set; }
     }
 }
