@@ -162,9 +162,73 @@ namespace Ribbons.Users.Services
             }
         }
 
-        public Task<CreateUserTokenTypeResponse> CreateUserTokenTypeAsync(CreateUserTokenTypeRequest request)
+        public async Task<CreateUserTokenTypeResponse> CreateUserTokenTypeAsync(CreateUserTokenTypeRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                UserDb db = await UserDbManager.GetDatabaseAsync();
+
+                if (!request.TryValidateObject(out List<string> validationErrors))
+                {
+                    return new()
+                    {
+                        Status = CreateUserTokenTypeResponseCode.InvalidRequest,
+                        Message = $"Failed to create user token type. Request is invalid",
+                        ValidationErrors = validationErrors
+                    };
+                }
+
+                if (!await db.UserTokenTypes.AnyAsync(x => x.Code == request.Code))
+                {
+                    return new()
+                    {
+                        Status = CreateUserTokenTypeResponseCode.CodeInUse,
+                        Message = $"Failed to create user token type for user type {request.UserType}. Code {request.Code} is in use"
+                    };
+                }
+
+                if (!await db.UserTokenTypes.AnyAsync(x => x.Name == request.Name))
+                {
+                    return new()
+                    {
+                        Status = CreateUserTokenTypeResponseCode.NameInUse,
+                        Message = $"Failed to create user token type for user type {request.UserType}. Name {request.Name} is in use"
+                    };
+                }
+
+                UserType userType = await db.UserTypes.FirstOrDefaultAsync(x => x.Code == request.UserType);
+
+                if (userType == null)
+                {
+                    return new()
+                    {
+                        Status = CreateUserTokenTypeResponseCode.UserTypeNotFound,
+                        Message = $"Failed to create user token type for user type {request.UserType}. User type {request.UserType} does not exist"
+                    };
+                }
+
+                UserTokenType userTokenType = new()
+                {
+                    UserTypeId = userType.UserTypeId,
+                    Code = request.Code,
+                    Name = request.Name,
+                    Description = request.Description,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now
+                };
+
+                await db.AddAsync(userTokenType);
+                await db.SaveChangesAsync();
+
+                return new CreateUserTokenTypeResponse();
+            }
+            catch (Exception ex)
+            {
+                return new()
+                {
+                    Status = CreateUserTokenTypeResponseCode.Error
+                };
+            }
         }
 
         public async Task<CreateUserResponse> CreateUserAsync(CreateUserRequest request)
