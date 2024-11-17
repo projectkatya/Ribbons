@@ -8,6 +8,7 @@ namespace Ribbons.Users.Services
         Task<CreateUserTypeResponse> CreateUserTypeAsync(CreateUserTypeRequest request);
         Task<CreateUserStatusResponse> CreateUserStatusAsync(CreateUserStatusRequest request);
         Task<CreateUserTokenTypeResponse> CreateUserTokenTypeAsync(CreateUserTokenTypeRequest request);
+        Task<CreateUserGroupResponse> CreateUserGroupAsync(CreateUserGroupRequest request);
         Task<CreateUserResponse> CreateUserAsync(CreateUserRequest request);
     }
 }

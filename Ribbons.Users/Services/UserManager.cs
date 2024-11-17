@@ -69,8 +69,9 @@ namespace Ribbons.Users.Services
 
                 return new()
                 {
+                    UserTypeId = userType.UserTypeId,
                     Status = CreateUserTypeResponseCode.Ok,
-                    Message = $"User type {request.Name} with code {request.Code} created successfully"
+                    Message = $"User type {request.Name} with code {request.Code} created"
                 };
             }
             catch (Exception ex)
@@ -146,8 +147,9 @@ namespace Ribbons.Users.Services
 
                 return new()
                 {
+                    UserStatusId = userStatus.UserStatusId,
                     Status = CreateUserStatusResponseCode.Ok,
-                    Message = $"Created user status {request.Name} with code {request.Code}"
+                    Message = $"Created user status {request.Name} with code {request.Code} for user type {request.UserType}"
                 };
             }
             catch (Exception ex)
@@ -220,7 +222,12 @@ namespace Ribbons.Users.Services
                 await db.AddAsync(userTokenType);
                 await db.SaveChangesAsync();
 
-                return new CreateUserTokenTypeResponse();
+                return new()
+                {
+                    UserTokenTypeId = userTokenType.UserTokenTypeId,
+                    Status = CreateUserTokenTypeResponseCode.Ok,
+                    Message = $"Created user token type {request.Name} with code {request.Code} for user type {request.UserType}"
+                };
             }
             catch (Exception ex)
             {
@@ -229,6 +236,11 @@ namespace Ribbons.Users.Services
                     Status = CreateUserTokenTypeResponseCode.Error
                 };
             }
+        }
+
+        public Task<CreateUserGroupResponse> CreateUserGroupAsync(CreateUserGroupRequest request)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<CreateUserResponse> CreateUserAsync(CreateUserRequest request)
