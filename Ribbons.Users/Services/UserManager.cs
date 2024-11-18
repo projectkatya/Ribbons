@@ -168,8 +168,6 @@ namespace Ribbons.Users.Services
         {
             try
             {
-                UserDb db = await UserDbManager.GetDatabaseAsync();
-
                 if (!request.TryValidateObject(out List<string> validationErrors))
                 {
                     return new()
@@ -179,6 +177,8 @@ namespace Ribbons.Users.Services
                         ValidationErrors = validationErrors
                     };
                 }
+
+                UserDb db = await UserDbManager.GetDatabaseAsync();
 
                 if (!await db.UserTokenTypes.AnyAsync(x => x.Code == request.Code))
                 {
@@ -242,13 +242,65 @@ namespace Ribbons.Users.Services
         {
             try
             {
+                if (!request.TryValidateObject(out List<string> validationErrors))
+                {
+                    return new()
+                    {
+                        Status = CreateUserGroupResponseCode.InvalidRequest,
+                        ValidationErrors = validationErrors
+                    };
+                } 
+
                 UserDb db = await UserDbManager.GetDatabaseAsync();
+
+                if (await db.UserGroups.AnyAsync(x => x.Code == request.Code))
+                {
+                    return new()
+                    {
+                        Status = CreateUserGroupResponseCode.CodeInUse
+                    };
+                }
+
+                if (await db.UserGroups.AnyAsync(x => x.Name == request.Name))
+                {
+                    return new()
+                    {
+                        Status = CreateUserGroupResponseCode.NameInUse
+                    };
+                }
+
+                UserType userType = await db.UserTypes.FirstOrDefaultAsync(x => x.Code == request.UserType);
+
+                if (userType == null)
+                {
+                    return new()
+                    {
+                        Status = CreateUserGroupResponseCode.UserTypeNotFound
+                    };
+                }
+
+                UserGroup userGroup = new()
+                {
+                    UserTypeId = userType.UserTypeId,
+                    Code = request.Code,
+                    Name = request.Name,
+                    Description = request.Description,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now
+                };
+
+                await db.AddAsync(userGroup);
+                
+                await db.SaveChangesAsync();
 
                 return new();
             }
             catch (Exception ex)
             {
-                return new();
+                return new()
+                {
+                    Status = CreateUserGroupResponseCode.Error
+                };
             }
         }
 
