@@ -238,9 +238,18 @@ namespace Ribbons.Users.Services
             }
         }
 
-        public Task<CreateUserGroupResponse> CreateUserGroupAsync(CreateUserGroupRequest request)
+        public async Task<CreateUserGroupResponse> CreateUserGroupAsync(CreateUserGroupRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                UserDb db = await UserDbManager.GetDatabaseAsync();
+
+                return new();
+            }
+            catch (Exception ex)
+            {
+                return new();
+            }
         }
 
         public async Task<CreateUserResponse> CreateUserAsync(CreateUserRequest request)
