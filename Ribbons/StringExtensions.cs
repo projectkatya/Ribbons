@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Web;
 
@@ -49,6 +50,11 @@ namespace Ribbons
         public static string UrlDecode(this string str)
         {
             return HttpUtility.UrlDecode(str);
+        }
+
+        public static string ToHexString(this byte[] bytes)
+        {
+            return string.Join("", bytes.Select(x => x.ToString("X2")));
         }
     }
 }

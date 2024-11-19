@@ -23,5 +23,19 @@ namespace Ribbons
         {
             return SHA512.HashData(str.UTF8Bytes());
         }
+
+        public static Pbkdf2Credentials Pbkdf2Hash(this string str, Pbkdf2Options options = null)
+        {
+            options ??= new Pbkdf2Options();
+
+            byte[] saltBytes = RandomNumberGenerator.GetBytes(options.SaltSize);
+            byte[] hashBytes = Rfc2898DeriveBytes.Pbkdf2(str, saltBytes, options.Iterations, options.HashAlgorithmName, options.HashSize);
+
+            return new()
+            {
+                Salt = saltBytes,
+                Hash = hashBytes
+            };
+        }
     }
 }

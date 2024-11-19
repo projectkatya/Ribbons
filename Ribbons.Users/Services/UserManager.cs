@@ -180,7 +180,7 @@ namespace Ribbons.Users.Services
 
                 UserDb db = await UserDbManager.GetDatabaseAsync();
 
-                if (!await db.UserTokenTypes.AnyAsync(x => x.Code == request.Code))
+                if (await db.UserTokenTypes.AnyAsync(x => x.Code == request.Code))
                 {
                     return new()
                     {
@@ -189,7 +189,7 @@ namespace Ribbons.Users.Services
                     };
                 }
 
-                if (!await db.UserTokenTypes.AnyAsync(x => x.Name == request.Name))
+                if (await db.UserTokenTypes.AnyAsync(x => x.Name == request.Name))
                 {
                     return new()
                     {
@@ -231,9 +231,12 @@ namespace Ribbons.Users.Services
             }
             catch (Exception ex)
             {
+                Logger?.LogError("Failed to create user token type {name} with code {code} for user type {userType}. Exception {ex}", request.Name, request.Code, request.UserType, ex);
+
                 return new()
                 {
-                    Status = CreateUserTokenTypeResponseCode.Error
+                    Status = CreateUserTokenTypeResponseCode.Error,
+                    Message = $"Failed to create user token type {request.Name} with code {request.Code} for user type {request.UserType}"
                 };
             }
         }
@@ -247,6 +250,7 @@ namespace Ribbons.Users.Services
                     return new()
                     {
                         Status = CreateUserGroupResponseCode.InvalidRequest,
+                        Message = $"Failed to create user group. Request invalid",
                         ValidationErrors = validationErrors
                     };
                 } 
@@ -257,7 +261,8 @@ namespace Ribbons.Users.Services
                 {
                     return new()
                     {
-                        Status = CreateUserGroupResponseCode.CodeInUse
+                        Status = CreateUserGroupResponseCode.CodeInUse,
+                        Message = $"Failed to create user group for user type {request.UserType}. Code {request.Code} is in use"
                     };
                 }
 
@@ -265,7 +270,8 @@ namespace Ribbons.Users.Services
                 {
                     return new()
                     {
-                        Status = CreateUserGroupResponseCode.NameInUse
+                        Status = CreateUserGroupResponseCode.NameInUse,
+                        Message = $"Failed to create user group for user type {request.UserType}. Name is in use"
                     };
                 }
 
@@ -275,7 +281,8 @@ namespace Ribbons.Users.Services
                 {
                     return new()
                     {
-                        Status = CreateUserGroupResponseCode.UserTypeNotFound
+                        Status = CreateUserGroupResponseCode.UserTypeNotFound,
+                        Message = $"Failed to create user group for user type {request.UserType}. User type does not exist"
                     };
                 }
 
@@ -293,10 +300,16 @@ namespace Ribbons.Users.Services
                 
                 await db.SaveChangesAsync();
 
-                return new();
+                return new()
+                {
+                    Status = CreateUserGroupResponseCode.Ok,
+                    Message = $"Created user group {request.Name} with code {request.Code} for user type {request.UserType}"
+                };
             }
             catch (Exception ex)
             {
+                Logger?.LogError("Failed to create user group {name} with code {code} for user type {userType}. Exception {ex}", request.Name, request.Code, request.UserType, ex);
+
                 return new()
                 {
                     Status = CreateUserGroupResponseCode.Error
