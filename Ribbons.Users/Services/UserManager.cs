@@ -328,5 +328,19 @@ namespace Ribbons.Users.Services
 
             return new CreateUserResponse();
         }
+
+        public async Task<SessionCredentials> CreateUserSessionAsync(long userId)
+        {
+            try
+            {
+                
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return null;
+        }
     }
 }

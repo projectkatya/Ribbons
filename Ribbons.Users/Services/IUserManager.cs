@@ -10,5 +10,6 @@ namespace Ribbons.Users.Services
         Task<CreateUserTokenTypeResponse> CreateUserTokenTypeAsync(CreateUserTokenTypeRequest request);
         Task<CreateUserGroupResponse> CreateUserGroupAsync(CreateUserGroupRequest request);
         Task<CreateUserResponse> CreateUserAsync(CreateUserRequest request);
+        Task<SessionCredentials> CreateUserSessionAsync(long userId);
     }
 }
