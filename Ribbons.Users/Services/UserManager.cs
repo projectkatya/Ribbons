@@ -329,10 +329,12 @@ namespace Ribbons.Users.Services
             return new CreateUserResponse();
         }
 
-        public async Task<SessionCredentials> CreateUserSessionAsync(long userId)
+        public async Task<CreateUserSessionResponse> CreateUserSessionAsync(CreateUserSessionRequest request)
         {
             try
             {
+                UserDb db = await UserDbManager.GetDatabaseAsync();
+
                 
             }
             catch (Exception ex)
