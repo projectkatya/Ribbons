@@ -5,6 +5,7 @@ using Ribbons.Users.Data;
 using Ribbons.Users.Services.Models;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace Ribbons.Users.Services
@@ -335,7 +336,29 @@ namespace Ribbons.Users.Services
             {
                 UserDb db = await UserDbManager.GetDatabaseAsync();
 
-                
+                User user = await db.Users.FindAsync(request.UserId);
+
+                if (user == null)
+                {
+                    return new()
+                    {
+                        Status = CreateUserSessionResponseCode.UserNotFound,
+                        Message = $"Failed to create session for user {request.UserId}. User not found"
+                    };
+                }
+
+                byte[] sessionId = $"session:{user.UserId}:{DateTime.Now.Ticks}:{Guid.NewGuid}".SHA512Hash();
+                string rawSessionSecret = Randomizer.GetString(64);
+                Pbkdf2Credentials sessionSecret = rawSessionSecret.Pbkdf2Hash();
+
+                UserSession userSession = new UserSession
+                {
+                    UserSessionId = sessionId,
+                    UserId = user.UserId,
+                    SessionSecretSalt = sessionSecret.Salt,
+                    SessionSecretHash = sessionSecret.Hash,
+                    CreatedDate = DateTime.Now
+                };
             }
             catch (Exception ex)
             {

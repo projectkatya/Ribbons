@@ -2,5 +2,7 @@
 {
     public enum CreateUserSessionResponseCode
     {
+        Ok,
+        UserNotFound
     }
 }
