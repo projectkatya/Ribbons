@@ -1,23 +1,23 @@
-﻿using System.Threading;
+﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace Ribbons.Messaging.Email
 {
     public sealed class EmailMessageSender : MessageSender<EmailMessage>
     {
-        public override Task SendAsync(EmailMessage message)
+        private SmtpClient SmtpClient { get; set; }
+
+        public EmailMessageSender(ILogger<EmailMessageSender> logger) : base(logger) { }
+
+        public override async Task InitializeAsync()
         {
-            throw new System.NotImplementedException();
+            SmtpClient = new SmtpClient();
         }
 
-        public override Task StartAsync(CancellationToken cancellationToken)
+        public override async Task SendAsync(EmailMessage message)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public override Task StopAsync(CancellationToken cancellationToken)
-        {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

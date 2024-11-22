@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Hosting;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Ribbons.Messaging
 {
-    public interface IMessageSender<TMessage> : IHostedService
+    public interface IMessageSender<TMessage>
     {
         Task SendAsync(TMessage message);
+        Task InitializeAsync();
     }
 }
