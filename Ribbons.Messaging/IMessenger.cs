@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Ribbons.Messaging
 {
-    public interface IMessagingClient<TMessage> : IHostedService
+    public interface IMessenger<TMessage> : IHostedService
     {
         Task SendAsync(TMessage message);
     }

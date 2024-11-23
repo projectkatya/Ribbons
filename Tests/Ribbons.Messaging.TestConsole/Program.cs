@@ -8,9 +8,7 @@ namespace Ribbons.Messaging.TestConsole
     {
         static void Main(string[] args)
         {
-            ILoggerFactory loggerFactory = NullLoggerFactory.Instance;
-            EmailMessageSender sender = new(loggerFactory.CreateLogger<EmailMessageSender>());
-            EmailMessagingClient client = new(loggerFactory.CreateLogger<EmailMessagingClient>(), sender);
+            
         }
     }
 }
