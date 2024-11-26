@@ -3,6 +3,8 @@
     public static class TableNames
     {
         public const string User = "t_user";
+        public const string UserAttribute = "t_user_attribute";
+        public const string UserAttributeType = "t_user_attribute_type";
         public const string UserEmail = "t_user_email";
         public const string UserGroup = "t_user_group";
         public const string UserGroupUser = "t_user_group_user";

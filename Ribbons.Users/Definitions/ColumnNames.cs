@@ -29,5 +29,17 @@
         public const string Name = "name";
         public const string Description = "description";
         public const string UserGroupId = "user_group_id";
+        public const string UserAttributeId = "user_attribute_id";
+        public const string UserAttributeTypeId = "user_attribute_type_id";
+        public const string StringValue = "string_value";
+        public const string Int16Value = "int16_value";
+        public const string Int32Value = "int32_value";
+        public const string Int64Value = "int64_value";
+        public const string FloatValue = "float_value";
+        public const string DecimalValue = "decimal_value";
+        public const string DoubleValue = "double_value";
+        public const string DateTimeValue = "datetime_value";
+        public const string BooleanValue = "boolean_value";
+        public const string ValueType = "value_type";
     }
 }
