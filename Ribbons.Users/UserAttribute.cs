@@ -50,5 +50,8 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.BooleanValue)]
         public bool? BooleanValue { get; set; }
+
+        public virtual User User { get; set; }
+        public virtual UserAttributeType UserAttributeType { get; set; }
     }
 }

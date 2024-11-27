@@ -42,9 +42,10 @@ namespace Ribbons.Users
         [Required]
         public long UserStatusId { get; set; }
 
+        public virtual ICollection<UserAttribute> UserAttributes { get; set; }
         public virtual UserEmail UserEmail { get; set; }
         public virtual ICollection<UserGroupUser> UserGroupUsers { get; set; }
-        public virtual UserPassword UserPassword { get; set; }
+        public virtual ICollection<UserCredential> UserCredentials { get; set; }
         public virtual UserPhone UserPhone { get; set; }
         public virtual ICollection<UserSession> UserSessions { get; set; }
         public virtual UserStatus UserStatus { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ribbons.Users.Definitions;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -38,5 +39,8 @@ namespace Ribbons.Users
         [Column(ColumnNames.ValueType)]
         [Required]
         public ValueType ValueType { get; set; }
+
+        public virtual ICollection<UserAttribute> UserAttributes { get; set; }
+        public virtual UserType UserType { get; set; }
     }
 }

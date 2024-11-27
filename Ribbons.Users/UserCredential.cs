@@ -6,17 +6,28 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ribbons.Users
 {
-    [Table(TableNames.UserPassword)]
+    [Table(TableNames.UserCredential)]
+    [Index(nameof(UserId))]
+    [Index(nameof(UserCredentialTypeId))]
+    [Index(nameof(UserId), nameof(UserCredentialTypeId), IsUnique = true)]
     [Index(nameof(CreatedDate))]
     [Index(nameof(ModifiedDate))]
     [Index(nameof(IsExpired))]
     [Index(nameof(ExpiryDate))]
-    public class UserPassword
+    public class UserCredential
     {
-        [Column(ColumnNames.UserId)]
+        [Column(ColumnNames.UserCredentialId)]
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long UserCredentialId { get; set; }
+
+        [Column(ColumnNames.UserId)]
+        [Required]
         public long UserId { get; set; }
+
+        [Column(ColumnNames.UserCredentialTypeId)]
+        [Required]
+        public long UserCredentialTypeId { get; set; }
 
         [Column(ColumnNames.PasswordSalt)]
         [Required]
@@ -44,5 +55,6 @@ namespace Ribbons.Users
         public DateTime? ExpiryDate { get; set; }
 
         public virtual User User { get; set; }
+        public virtual UserCredentialType UserCredentialType { get; set; }
     }
 }
