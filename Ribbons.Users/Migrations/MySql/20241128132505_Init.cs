@@ -34,6 +34,54 @@ namespace Ribbons.Users.Migrations.MySql
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "t_user_attribute_type",
+                columns: table => new
+                {
+                    user_attribute_type_id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    code = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
+                    value_type = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_user_attribute_type", x => x.user_attribute_type_id);
+                    table.ForeignKey(
+                        name: "FK_t_user_attribute_type_t_user_type_user_type_id",
+                        column: x => x.user_type_id,
+                        principalTable: "t_user_type",
+                        principalColumn: "user_type_id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "t_user_credential_type",
+                columns: table => new
+                {
+                    user_credential_type_id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    code = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_user_credential_type", x => x.user_credential_type_id);
+                    table.ForeignKey(
+                        name: "FK_t_user_credential_type_t_user_type_user_type_id",
+                        column: x => x.user_type_id,
+                        principalTable: "t_user_type",
+                        principalColumn: "user_type_id");
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "t_user_group",
                 columns: table => new
                 {
@@ -101,8 +149,7 @@ namespace Ribbons.Users.Migrations.MySql
                         name: "FK_t_user_token_type_t_user_type_user_type_id",
                         column: x => x.user_type_id,
                         principalTable: "t_user_type",
-                        principalColumn: "user_type_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "user_type_id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -131,6 +178,71 @@ namespace Ribbons.Users.Migrations.MySql
                         column: x => x.user_type_id,
                         principalTable: "t_user_type",
                         principalColumn: "user_type_id");
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "t_user_attribute",
+                columns: table => new
+                {
+                    user_attribute_id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_attribute_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    string_value = table.Column<string>(type: "longtext", nullable: true),
+                    int16_value = table.Column<short>(type: "smallint", nullable: true),
+                    int32_value = table.Column<int>(type: "int", nullable: true),
+                    int64_value = table.Column<long>(type: "bigint", nullable: true),
+                    float_value = table.Column<float>(type: "float", nullable: true),
+                    decimal_value = table.Column<decimal>(type: "decimal(20,2)", precision: 20, scale: 2, nullable: true),
+                    double_value = table.Column<double>(type: "double", nullable: true),
+                    datetime_value = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    boolean_value = table.Column<bool>(type: "tinyint(1)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_user_attribute", x => x.user_attribute_id);
+                    table.ForeignKey(
+                        name: "FK_t_user_attribute_t_user_attribute_type_user_attribute_type_id",
+                        column: x => x.user_attribute_type_id,
+                        principalTable: "t_user_attribute_type",
+                        principalColumn: "user_attribute_type_id");
+                    table.ForeignKey(
+                        name: "FK_t_user_attribute_t_user_user_id",
+                        column: x => x.user_id,
+                        principalTable: "t_user",
+                        principalColumn: "user_id");
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "t_user_credential",
+                columns: table => new
+                {
+                    user_credential_id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_credential_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    password_salt = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
+                    password_hash = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
+                    created_date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    is_expired = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    expiry_date = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_user_credential", x => x.user_credential_id);
+                    table.ForeignKey(
+                        name: "FK_t_user_credential_t_user_credential_type_user_credential_typ~",
+                        column: x => x.user_credential_type_id,
+                        principalTable: "t_user_credential_type",
+                        principalColumn: "user_credential_type_id");
+                    table.ForeignKey(
+                        name: "FK_t_user_credential_t_user_user_id",
+                        column: x => x.user_id,
+                        principalTable: "t_user",
+                        principalColumn: "user_id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -177,30 +289,6 @@ namespace Ribbons.Users.Migrations.MySql
                         column: x => x.user_id,
                         principalTable: "t_user",
                         principalColumn: "user_id");
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "t_user_password",
-                columns: table => new
-                {
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    password_salt = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
-                    password_hash = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
-                    created_date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    is_expired = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "datetime(6)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_t_user_password", x => x.user_id);
-                    table.ForeignKey(
-                        name: "FK_t_user_password_t_user_user_id",
-                        column: x => x.user_id,
-                        principalTable: "t_user",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -313,6 +401,99 @@ namespace Ribbons.Users.Migrations.MySql
                 column: "username");
 
             migrationBuilder.CreateIndex(
+                name: "IX_t_user_attribute_user_attribute_type_id",
+                table: "t_user_attribute",
+                column: "user_attribute_type_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_attribute_user_id",
+                table: "t_user_attribute",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_attribute_type_code",
+                table: "t_user_attribute_type",
+                column: "code");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_attribute_type_user_type_id",
+                table: "t_user_attribute_type",
+                column: "user_type_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_attribute_type_user_type_id_code",
+                table: "t_user_attribute_type",
+                columns: new[] { "user_type_id", "code" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_attribute_type_value_type",
+                table: "t_user_attribute_type",
+                column: "value_type");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_credential_created_date",
+                table: "t_user_credential",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_credential_expiry_date",
+                table: "t_user_credential",
+                column: "expiry_date");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_credential_is_expired",
+                table: "t_user_credential",
+                column: "is_expired");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_credential_modified_date",
+                table: "t_user_credential",
+                column: "modified_date");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_credential_user_credential_type_id",
+                table: "t_user_credential",
+                column: "user_credential_type_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_credential_user_id",
+                table: "t_user_credential",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_credential_user_id_user_credential_type_id",
+                table: "t_user_credential",
+                columns: new[] { "user_id", "user_credential_type_id" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_credential_type_code",
+                table: "t_user_credential_type",
+                column: "code");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_credential_type_created_date",
+                table: "t_user_credential_type",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_credential_type_modified_date",
+                table: "t_user_credential_type",
+                column: "modified_date");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_credential_type_user_type_id",
+                table: "t_user_credential_type",
+                column: "user_type_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_credential_type_user_type_id_code",
+                table: "t_user_credential_type",
+                columns: new[] { "user_type_id", "code" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_t_user_email_created_date",
                 table: "t_user_email",
                 column: "created_date");
@@ -378,26 +559,6 @@ namespace Ribbons.Users.Migrations.MySql
                 name: "IX_t_user_group_user_user_id",
                 table: "t_user_group_user",
                 column: "user_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_t_user_password_created_date",
-                table: "t_user_password",
-                column: "created_date");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_t_user_password_expiry_date",
-                table: "t_user_password",
-                column: "expiry_date");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_t_user_password_is_expired",
-                table: "t_user_password",
-                column: "is_expired");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_t_user_password_modified_date",
-                table: "t_user_password",
-                column: "modified_date");
 
             migrationBuilder.CreateIndex(
                 name: "IX_t_user_session_created_date",
@@ -527,13 +688,16 @@ namespace Ribbons.Users.Migrations.MySql
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "t_user_attribute");
+
+            migrationBuilder.DropTable(
+                name: "t_user_credential");
+
+            migrationBuilder.DropTable(
                 name: "t_user_email");
 
             migrationBuilder.DropTable(
                 name: "t_user_group_user");
-
-            migrationBuilder.DropTable(
-                name: "t_user_password");
 
             migrationBuilder.DropTable(
                 name: "t_user_phone");
@@ -543,6 +707,12 @@ namespace Ribbons.Users.Migrations.MySql
 
             migrationBuilder.DropTable(
                 name: "t_user_token");
+
+            migrationBuilder.DropTable(
+                name: "t_user_attribute_type");
+
+            migrationBuilder.DropTable(
+                name: "t_user_credential_type");
 
             migrationBuilder.DropTable(
                 name: "t_user_group");

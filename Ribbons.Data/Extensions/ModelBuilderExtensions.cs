@@ -44,12 +44,5 @@ namespace Ribbons.Data.Extensions
 
             return modelBuilder;
         }
-
-        public static ModelBuilder HasConversion<TEntity>(
-            this ModelBuilder modelBuilder) where TEntity : class
-        {
-
-            return modelBuilder;
-        }
     }
 }

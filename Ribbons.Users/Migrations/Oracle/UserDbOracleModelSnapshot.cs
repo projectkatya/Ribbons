@@ -74,6 +74,236 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.ToTable("t_user");
                 });
 
+            modelBuilder.Entity("Ribbons.Users.UserAttribute", b =>
+                {
+                    b.Property<long>("UserAttributeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_attribute_id");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserAttributeId"));
+
+                    b.Property<bool?>("BooleanValue")
+                        .HasColumnType("BOOLEAN")
+                        .HasColumnName("boolean_value");
+
+                    b.Property<DateTime?>("DateTimeValue")
+                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnName("datetime_value");
+
+                    b.Property<decimal?>("DecimalValue")
+                        .HasPrecision(20, 2)
+                        .HasColumnType("DECIMAL(20,2)")
+                        .HasColumnName("decimal_value");
+
+                    b.Property<double?>("DoubleValue")
+                        .HasColumnType("BINARY_DOUBLE")
+                        .HasColumnName("double_value");
+
+                    b.Property<float?>("FloatValue")
+                        .HasColumnType("BINARY_FLOAT")
+                        .HasColumnName("float_value");
+
+                    b.Property<short?>("Int16Value")
+                        .HasColumnType("NUMBER(5)")
+                        .HasColumnName("int16_value");
+
+                    b.Property<int?>("Int32Value")
+                        .HasColumnType("NUMBER(10)")
+                        .HasColumnName("int32_value");
+
+                    b.Property<long?>("Int64Value")
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("int64_value");
+
+                    b.Property<string>("StringValue")
+                        .HasColumnType("NVARCHAR2(2000)")
+                        .HasColumnName("string_value");
+
+                    b.Property<long>("UserAttributeTypeId")
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_attribute_type_id");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("UserAttributeId");
+
+                    b.HasIndex("UserAttributeTypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("t_user_attribute");
+                });
+
+            modelBuilder.Entity("Ribbons.Users.UserAttributeType", b =>
+                {
+                    b.Property<long>("UserAttributeTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_attribute_type_id");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserAttributeTypeId"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("NVARCHAR2(128)")
+                        .HasColumnName("code");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("NVARCHAR2(500)")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("NVARCHAR2(255)")
+                        .HasColumnName("name");
+
+                    b.Property<long>("UserTypeId")
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_type_id");
+
+                    b.Property<int>("ValueType")
+                        .HasColumnType("int")
+                        .HasColumnName("value_type");
+
+                    b.HasKey("UserAttributeTypeId");
+
+                    b.HasIndex("Code");
+
+                    b.HasIndex("UserTypeId");
+
+                    b.HasIndex("ValueType");
+
+                    b.HasIndex("UserTypeId", "Code")
+                        .IsUnique();
+
+                    b.ToTable("t_user_attribute_type");
+                });
+
+            modelBuilder.Entity("Ribbons.Users.UserCredential", b =>
+                {
+                    b.Property<long>("UserCredentialId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_credential_id");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserCredentialId"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnName("created_date");
+
+                    b.Property<DateTime?>("ExpiryDate")
+                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnName("expiry_date");
+
+                    b.Property<bool>("IsExpired")
+                        .HasColumnType("BOOLEAN")
+                        .HasColumnName("is_expired");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnName("modified_date");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("RAW(512)")
+                        .HasColumnName("password_hash");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("RAW(512)")
+                        .HasColumnName("password_salt");
+
+                    b.Property<long>("UserCredentialTypeId")
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_credential_type_id");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("UserCredentialId");
+
+                    b.HasIndex("CreatedDate");
+
+                    b.HasIndex("ExpiryDate");
+
+                    b.HasIndex("IsExpired");
+
+                    b.HasIndex("ModifiedDate");
+
+                    b.HasIndex("UserCredentialTypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserId", "UserCredentialTypeId")
+                        .IsUnique();
+
+                    b.ToTable("t_user_credential");
+                });
+
+            modelBuilder.Entity("Ribbons.Users.UserCredentialType", b =>
+                {
+                    b.Property<long>("UserCredentialTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_credential_type_id");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserCredentialTypeId"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("NVARCHAR2(128)")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnName("created_date");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("NVARCHAR2(500)")
+                        .HasColumnName("description");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnName("modified_date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("NVARCHAR2(255)")
+                        .HasColumnName("name");
+
+                    b.Property<long>("UserTypeId")
+                        .HasColumnType("NUMBER(19)")
+                        .HasColumnName("user_type_id");
+
+                    b.HasKey("UserCredentialTypeId");
+
+                    b.HasIndex("Code");
+
+                    b.HasIndex("CreatedDate");
+
+                    b.HasIndex("ModifiedDate");
+
+                    b.HasIndex("UserTypeId");
+
+                    b.HasIndex("UserTypeId", "Code")
+                        .IsUnique();
+
+                    b.ToTable("t_user_credential_type");
+                });
+
             modelBuilder.Entity("Ribbons.Users.UserEmail", b =>
                 {
                     b.Property<long>("UserId")
@@ -196,53 +426,6 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.HasIndex("UserId");
 
                     b.ToTable("t_user_group_user");
-                });
-
-            modelBuilder.Entity("Ribbons.Users.UserPassword", b =>
-                {
-                    b.Property<long>("UserId")
-                        .HasColumnType("NUMBER(19)")
-                        .HasColumnName("user_id");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TIMESTAMP(7)")
-                        .HasColumnName("created_date");
-
-                    b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("TIMESTAMP(7)")
-                        .HasColumnName("expiry_date");
-
-                    b.Property<bool>("IsExpired")
-                        .HasColumnType("BOOLEAN")
-                        .HasColumnName("is_expired");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TIMESTAMP(7)")
-                        .HasColumnName("modified_date");
-
-                    b.Property<byte[]>("PasswordHash")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("RAW(512)")
-                        .HasColumnName("password_hash");
-
-                    b.Property<byte[]>("PasswordSalt")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("RAW(512)")
-                        .HasColumnName("password_salt");
-
-                    b.HasKey("UserId");
-
-                    b.HasIndex("CreatedDate");
-
-                    b.HasIndex("ExpiryDate");
-
-                    b.HasIndex("IsExpired");
-
-                    b.HasIndex("ModifiedDate");
-
-                    b.ToTable("t_user_password");
                 });
 
             modelBuilder.Entity("Ribbons.Users.UserPhone", b =>
@@ -567,6 +750,66 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.Navigation("UserType");
                 });
 
+            modelBuilder.Entity("Ribbons.Users.UserAttribute", b =>
+                {
+                    b.HasOne("Ribbons.Users.UserAttributeType", "UserAttributeType")
+                        .WithMany("UserAttributes")
+                        .HasForeignKey("UserAttributeTypeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Ribbons.Users.User", "User")
+                        .WithMany("UserAttributes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("UserAttributeType");
+                });
+
+            modelBuilder.Entity("Ribbons.Users.UserAttributeType", b =>
+                {
+                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                        .WithMany()
+                        .HasForeignKey("UserTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserType");
+                });
+
+            modelBuilder.Entity("Ribbons.Users.UserCredential", b =>
+                {
+                    b.HasOne("Ribbons.Users.UserCredentialType", "UserCredentialType")
+                        .WithMany("UserCredentials")
+                        .HasForeignKey("UserCredentialTypeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Ribbons.Users.User", "User")
+                        .WithMany("UserCredentials")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("UserCredentialType");
+                });
+
+            modelBuilder.Entity("Ribbons.Users.UserCredentialType", b =>
+                {
+                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                        .WithMany("UserCredentialTypes")
+                        .HasForeignKey("UserTypeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("UserType");
+                });
+
             modelBuilder.Entity("Ribbons.Users.UserEmail", b =>
                 {
                     b.HasOne("Ribbons.Users.User", "User")
@@ -606,17 +849,6 @@ namespace Ribbons.Users.Migrations.Oracle
                     b.Navigation("User");
 
                     b.Navigation("UserGroup");
-                });
-
-            modelBuilder.Entity("Ribbons.Users.UserPassword", b =>
-                {
-                    b.HasOne("Ribbons.Users.User", "User")
-                        .WithOne("UserPassword")
-                        .HasForeignKey("Ribbons.Users.UserPassword", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Ribbons.Users.UserPhone", b =>
@@ -674,9 +906,9 @@ namespace Ribbons.Users.Migrations.Oracle
             modelBuilder.Entity("Ribbons.Users.UserTokenType", b =>
                 {
                     b.HasOne("Ribbons.Users.UserType", "UserType")
-                        .WithMany()
+                        .WithMany("UserTokenTypes")
                         .HasForeignKey("UserTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("UserType");
@@ -684,17 +916,29 @@ namespace Ribbons.Users.Migrations.Oracle
 
             modelBuilder.Entity("Ribbons.Users.User", b =>
                 {
+                    b.Navigation("UserAttributes");
+
+                    b.Navigation("UserCredentials");
+
                     b.Navigation("UserEmail");
 
                     b.Navigation("UserGroupUsers");
-
-                    b.Navigation("UserPassword");
 
                     b.Navigation("UserPhone");
 
                     b.Navigation("UserSessions");
 
                     b.Navigation("UserTokens");
+                });
+
+            modelBuilder.Entity("Ribbons.Users.UserAttributeType", b =>
+                {
+                    b.Navigation("UserAttributes");
+                });
+
+            modelBuilder.Entity("Ribbons.Users.UserCredentialType", b =>
+                {
+                    b.Navigation("UserCredentials");
                 });
 
             modelBuilder.Entity("Ribbons.Users.UserGroup", b =>
@@ -714,9 +958,13 @@ namespace Ribbons.Users.Migrations.Oracle
 
             modelBuilder.Entity("Ribbons.Users.UserType", b =>
                 {
+                    b.Navigation("UserCredentialTypes");
+
                     b.Navigation("UserGroups");
 
                     b.Navigation("UserStatuses");
+
+                    b.Navigation("UserTokenTypes");
 
                     b.Navigation("Users");
                 });

@@ -40,6 +40,7 @@ namespace Ribbons.Users
         public float? FloatValue { get; set; }
 
         [Column(ColumnNames.DecimalValue)]
+        [Precision(20, 2)]
         public decimal? DecimalValue { get; set; }
 
         [Column(ColumnNames.DoubleValue)]

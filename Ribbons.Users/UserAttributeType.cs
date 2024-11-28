@@ -36,7 +36,7 @@ namespace Ribbons.Users
         [StringLength(DataConstraints.DescriptionLength)]
         public string Description { get; set; }
 
-        [Column(ColumnNames.ValueType)]
+        [Column(ColumnNames.ValueType, TypeName = "int")]
         [Required]
         public ValueType ValueType { get; set; }
 
