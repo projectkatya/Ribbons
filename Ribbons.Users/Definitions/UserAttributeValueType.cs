@@ -1,6 +1,6 @@
 ﻿namespace Ribbons.Users.Definitions
 {
-    public enum ValueType
+    public enum UserAttributeValueType
     {
         Undefined = 0,
         String = 1,

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ribbons.Users.Definitions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,6 +12,8 @@ namespace Ribbons.Users
     [Index(nameof(Code))]
     [Index(nameof(UserTypeId), nameof(Code), IsUnique = true)]
     [Index(nameof(ValueType))]
+    [Index(nameof(CreatedDate))]
+    [Index(nameof(ModifiedDate))]
     public class UserAttributeType
     {
         [Column(ColumnNames.UserAttributeTypeId)]
@@ -38,7 +41,15 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.ValueType, TypeName = "int")]
         [Required]
-        public ValueType ValueType { get; set; }
+        public UserAttributeValueType ValueType { get; set; }
+
+        [Column(ColumnNames.CreatedDate)]
+        [Required]
+        public DateTime CreatedDate { get; set; }
+
+        [Column(ColumnNames.ModifiedDate)]
+        [Required]
+        public DateTime ModifiedDate { get; set; }
 
         public virtual ICollection<UserAttribute> UserAttributes { get; set; }
         public virtual UserType UserType { get; set; }
