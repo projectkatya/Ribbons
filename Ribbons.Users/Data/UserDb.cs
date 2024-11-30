@@ -9,6 +9,8 @@ namespace Ribbons.Users.Data
         public DbSet<User> Users { get; set; }
         public DbSet<UserAttribute> UserAttributes { get; set; }
         public DbSet<UserAttributeType> UserAttributeTypes { get; set; }
+        public DbSet<UserCredential> UserCredentials { get; set; }
+        public DbSet<UserCredentialType> UserCredentialTypes { get; set; }
         public DbSet<UserEmail> UserEmails { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<UserGroupUser> UserGroupUsers { get; set; }

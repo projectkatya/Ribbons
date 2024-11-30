@@ -3,6 +3,7 @@
     public enum UserManagerOperation
     {
         CreateUserType,
-        CreateUserAttributeType
+        CreateUserAttributeType,
+        CreateUserCredentialType
     }
 }

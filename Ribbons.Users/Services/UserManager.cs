@@ -71,7 +71,7 @@ namespace Ribbons.Users.Services
                 };
             }
 
-            if (await db.UserAttributeTypes.AnyAsync(x=>x.Code == code))
+            if (await db.UserAttributeTypes.AnyAsync(x => x.UserTypeId == userType.UserTypeId && x.Code == code))
             {
                 throw new UserManagerException($"Code {code} is in use")
                 {
@@ -80,7 +80,7 @@ namespace Ribbons.Users.Services
                 };
             }
 
-            if (await db.UserAttributeTypes.AnyAsync(x=>x.Name == name))
+            if (await db.UserAttributeTypes.AnyAsync(x => x.UserTypeId == userType.UserTypeId && x.Name == name))
             {
                 throw new UserManagerException($"Name {name} is in use")
                 {
@@ -106,14 +106,61 @@ namespace Ribbons.Users.Services
             return userAttributeType;
         }
 
-        public Task<UserCredentialType> CreateUserCredentialTypeAsync(string userType, string code, string name, string description = null)
+        public async Task<UserCredentialType> CreateUserCredentialTypeAsync(string userTypeCode, string code, string name, string description = null)
         {
-            throw new NotImplementedException();
+            UserDb db = await DbManager.GetDatabaseAsync();
+
+            UserType userType = await db.UserTypes.FirstOrDefaultAsync(x => x.Code == userTypeCode);
+
+            if (userType == null)
+            {
+                throw new UserManagerException($"Invalid user type {userTypeCode}")
+                {
+                    Operation = UserManagerOperation.CreateUserCredentialType,
+                    ErrorCode = UserManagerErrorCode.InvalidUserType
+                };
+            }
+
+            if (await db.UserCredentialTypes.AnyAsync(x => x.UserTypeId == userType.UserTypeId && x.Code == code))
+            {
+                throw new UserManagerException($"Code {code} in use for user type {userTypeCode}")
+                {
+                    Operation = UserManagerOperation.CreateUserCredentialType,
+                    ErrorCode = UserManagerErrorCode.CodeInUse
+                };
+            }
+
+            if (await db.UserCredentialTypes.AnyAsync(x => x.UserTypeId == userType.UserTypeId && x.Name == name))
+            {
+                throw new UserManagerException($"Name {name} in use for user type {userTypeCode}")
+                {
+                    Operation = UserManagerOperation.CreateUserCredentialType,
+                    ErrorCode = UserManagerErrorCode.NameInUse
+                };
+            }
+
+            UserCredentialType userCredentialType = new()
+            {
+                UserTypeId = userType.UserTypeId,
+                Code = code,
+                Name = name,
+                Description = description,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now
+            };
+
+            return userCredentialType;
         }
 
-        public Task<UserTokenType> CreateUserTokenTypeAsync(string userType, string code, string name, string description = null)
+        public async Task<UserTokenType> CreateUserTokenTypeAsync(string userTypeCode, string code, string name, string description = null)
         {
-            throw new NotImplementedException();
+            UserDb db = await DbManager.GetDatabaseAsync();
+
+            UserType userType = await db.UserTypes.FirstOrDefaultAsync(x => x.Code == userTypeCode);
+
+            UserTokenType tokenType = new();
+
+            return tokenType;
         }
 
         public Task<UserStatus> CreateUserStatusAsync(string userType, string code, string name, string description = null)
