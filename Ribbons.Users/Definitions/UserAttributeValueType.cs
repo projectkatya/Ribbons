@@ -11,6 +11,7 @@
         Decimal = 6,
         Double = 7,
         DateTime = 8,
-        Boolean = 9
+        Boolean = 9,
+        ByteArray = 10
     }
 }

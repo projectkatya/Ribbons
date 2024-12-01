@@ -40,6 +40,7 @@
         public const string DoubleValue = "double_value";
         public const string DateTimeValue = "datetime_value";
         public const string BooleanValue = "boolean_value";
+        public const string ByteArrayValue = "byte_array_value";
         public const string ValueType = "value_type";
         public const string UserCredentialId = "user_credential_id";
         public const string UserCredentialTypeId = "user_credential_type_id";
