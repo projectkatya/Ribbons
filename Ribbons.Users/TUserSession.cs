@@ -11,7 +11,7 @@ namespace Ribbons.Users
     [Index(nameof(CreatedDate))]
     [Index(nameof(IsExpired))]
     [Index(nameof(ExpiryDate))]
-    public class UserSession
+    public class TUserSession
     {
         [Column(ColumnNames.UserSessionId)]
         [Key]
@@ -44,6 +44,6 @@ namespace Ribbons.Users
         [Column(ColumnNames.ExpiryDate)]
         public DateTime? ExpiryDate { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual TUser User { get; set; }
     }
 }

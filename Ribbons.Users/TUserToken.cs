@@ -14,7 +14,7 @@ namespace Ribbons.Users
     [Index(nameof(ExpiryDate))]
     [Index(nameof(IsConsumed))]
     [Index(nameof(ConsumedDate))]
-    public class UserToken
+    public class TUserToken
     {
         [Column(ColumnNames.UserTokenId)]
         [Key]
@@ -58,7 +58,7 @@ namespace Ribbons.Users
         [Column(ColumnNames.ConsumedDate)]
         public DateTime? ConsumedDate { get; set; }
 
-        public virtual User User { get; set; }
-        public virtual UserTokenType UserTokenType { get; set; }
+        public virtual TUser User { get; set; }
+        public virtual TUserTokenType UserTokenType { get; set; }
     }
 }

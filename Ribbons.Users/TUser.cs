@@ -14,7 +14,7 @@ namespace Ribbons.Users
     [Index(nameof(CreatedDate))]
     [Index(nameof(ModifiedDate))]
     [Index(nameof(UserStatusId))]
-    public class User
+    public class TUser
     {
         [Column(ColumnNames.UserId)]
         [Key]
@@ -42,14 +42,14 @@ namespace Ribbons.Users
         [Required]
         public long UserStatusId { get; set; }
 
-        public virtual ICollection<UserAttribute> UserAttributes { get; set; }
-        public virtual UserEmail UserEmail { get; set; }
-        public virtual ICollection<UserGroupUser> UserGroupUsers { get; set; }
-        public virtual ICollection<UserCredential> UserCredentials { get; set; }
-        public virtual UserPhone UserPhone { get; set; }
-        public virtual ICollection<UserSession> UserSessions { get; set; }
-        public virtual UserStatus UserStatus { get; set; }
-        public virtual ICollection<UserToken> UserTokens { get; set; }
-        public virtual UserType UserType { get; set; }
+        public virtual ICollection<TUserAttribute> UserAttributes { get; set; }
+        public virtual TUserEmail UserEmail { get; set; }
+        public virtual ICollection<TUserGroupUser> UserGroupUsers { get; set; }
+        public virtual ICollection<TUserCredential> UserCredentials { get; set; }
+        public virtual TUserPhone UserPhone { get; set; }
+        public virtual ICollection<TUserSession> UserSessions { get; set; }
+        public virtual TUserStatus UserStatus { get; set; }
+        public virtual ICollection<TUserToken> UserTokens { get; set; }
+        public virtual TUserType UserType { get; set; }
     }
 }

@@ -7,31 +7,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ribbons.Users
 {
-    [Table(TableNames.UserCredentialType)]
-    [Index(nameof(UserTypeId))]
-    [Index(nameof(Code))]
-    [Index(nameof(UserTypeId), nameof(Code), IsUnique = true)]
+    [Table(TableNames.UserType)]
+    [Index(nameof(Code), IsUnique = true)]
     [Index(nameof(CreatedDate))]
     [Index(nameof(ModifiedDate))]
-    public class UserCredentialType
+    public class TUserType
     {
-        [Column(ColumnNames.UserCredentialTypeId)]
+        [Column(ColumnNames.UserTypeId)]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long UserCredentialTypeId { get; set; }
-
-        [Column(ColumnNames.UserTypeId)]
-        [Required]
         public long UserTypeId { get; set; }
 
         [Column(ColumnNames.Code)]
-        [StringLength(DataConstraints.CodeLength)]
         [Required]
+        [StringLength(DataConstraints.CodeLength)]
         public string Code { get; set; }
 
         [Column(ColumnNames.Name)]
-        [StringLength(DataConstraints.NameLength)]
         [Required]
+        [StringLength(DataConstraints.NameLength)]
         public string Name { get; set; }
 
         [Column(ColumnNames.Description)]
@@ -46,7 +40,10 @@ namespace Ribbons.Users
         [Required]
         public DateTime ModifiedDate { get; set; }
 
-        public virtual ICollection<UserCredential> UserCredentials { get; set; }
-        public virtual UserType UserType { get; set; }
+        public virtual ICollection<TUser> Users { get; set; }
+        public virtual ICollection<TUserCredentialType> UserCredentialTypes { get; set; }
+        public virtual ICollection<TUserGroup> UserGroups { get; set; }
+        public virtual ICollection<TUserStatus> UserStatuses { get; set; }
+        public virtual ICollection<TUserTokenType> UserTokenTypes { get; set; }
     }
 }

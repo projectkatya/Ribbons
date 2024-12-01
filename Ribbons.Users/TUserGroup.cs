@@ -7,18 +7,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ribbons.Users
 {
-    [Table(TableNames.UserTokenType)]
+    [Table(TableNames.UserGroup)]
     [Index(nameof(UserTypeId))]
     [Index(nameof(Code))]
     [Index(nameof(UserTypeId), nameof(Code), IsUnique = true)]
     [Index(nameof(CreatedDate))]
     [Index(nameof(ModifiedDate))]
-    public class UserTokenType
+    public class TUserGroup
     {
-        [Column(ColumnNames.UserTokenTypeId)]
+        [Column(ColumnNames.UserGroupId)]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long UserTokenTypeId { get; set; }
+        public long UserGroupId { get; set; }
 
         [Column(ColumnNames.UserTypeId)]
         [Required]
@@ -46,7 +46,7 @@ namespace Ribbons.Users
         [Required]
         public DateTime ModifiedDate { get; set; }
 
-        public virtual ICollection<UserToken> UserTokens { get; set; }
-        public virtual UserType UserType { get; set; }
+        public virtual TUserType UserType { get; set; }
+        public virtual ICollection<TUserGroupUser> UserGroupUsers { get; set; }
     }
 }

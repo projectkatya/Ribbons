@@ -7,7 +7,7 @@ namespace Ribbons.Users
     [Table(TableNames.UserGroupUser)]
     [PrimaryKey(nameof(UserGroupId), nameof(UserId))]
     [Index(nameof(UserId))]
-    public class UserGroupUser
+    public class TUserGroupUser
     {
         [Column(ColumnNames.UserGroupId)]
         public long UserGroupId { get; set; }
@@ -15,7 +15,7 @@ namespace Ribbons.Users
         [Column(ColumnNames.UserId)]
         public long UserId { get; set; }
 
-        public virtual UserGroup UserGroup { get; set; }
-        public virtual User User { get; set; }
+        public virtual TUserGroup UserGroup { get; set; }
+        public virtual TUser User { get; set; }
     }
 }

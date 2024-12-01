@@ -38,7 +38,9 @@ namespace Ribbons.Users.Migrations.Oracle
                     code = table.Column<string>(type: "NVARCHAR2(128)", maxLength: 128, nullable: false),
                     name = table.Column<string>(type: "NVARCHAR2(255)", maxLength: 255, nullable: false),
                     description = table.Column<string>(type: "NVARCHAR2(500)", maxLength: 500, nullable: true),
-                    value_type = table.Column<int>(type: "int", nullable: false)
+                    value_type = table.Column<int>(type: "int", nullable: false),
+                    created_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -396,6 +398,16 @@ namespace Ribbons.Users.Migrations.Oracle
                 name: "IX_t_user_attribute_type_code",
                 table: "t_user_attribute_type",
                 column: "code");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_attribute_type_created_date",
+                table: "t_user_attribute_type",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_attribute_type_modified_date",
+                table: "t_user_attribute_type",
+                column: "modified_date");
 
             migrationBuilder.CreateIndex(
                 name: "IX_t_user_attribute_type_user_type_id",

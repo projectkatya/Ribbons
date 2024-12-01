@@ -1,34 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Ribbons.Users.Definitions;
+﻿using Ribbons.Users.Definitions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ribbons.Users
 {
-    [Table(TableNames.UserEmail)]
-    [Index(nameof(UserTypeId))]
-    [Index(nameof(EmailAddress))]
-    [Index(nameof(UserTypeId), nameof(EmailAddress), IsUnique = true)]
-    [Index(nameof(CreatedDate))]
-    [Index(nameof(ModifiedDate))]
-    [Index(nameof(IsVerified))]
-    [Index(nameof(VerifiedDate))]
-    public class UserEmail
+    [Table(TableNames.UserPhone)]
+    public class TUserPhone
     {
         [Column(ColumnNames.UserId)]
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long UserId { get; set; }
 
         [Column(ColumnNames.UserTypeId)]
         [Required]
         public long UserTypeId { get; set; }
 
-        [Column(ColumnNames.EmailAddress)]
+        [Column(ColumnNames.PhoneNumber)]
         [Required]
-        [StringLength(DataConstraints.EmailAddressLength)]
-        public string EmailAddress { get; set; }
+        [StringLength(DataConstraints.PhoneNumberLength)]
+        public string PhoneNumber { get; set; }
 
         [Column(ColumnNames.CreatedDate)]
         [Required]
@@ -43,8 +35,9 @@ namespace Ribbons.Users
         public bool IsVerified { get; set; }
 
         [Column(ColumnNames.VerifiedDate)]
+        [Required]
         public DateTime? VerifiedDate { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual TUser User { get; set; }
     }
 }

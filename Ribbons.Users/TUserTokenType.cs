@@ -7,18 +7,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ribbons.Users
 {
-    [Table(TableNames.UserStatus)]
+    [Table(TableNames.UserTokenType)]
     [Index(nameof(UserTypeId))]
     [Index(nameof(Code))]
     [Index(nameof(UserTypeId), nameof(Code), IsUnique = true)]
     [Index(nameof(CreatedDate))]
     [Index(nameof(ModifiedDate))]
-    public class UserStatus
+    public class TUserTokenType
     {
-        [Column(ColumnNames.UserStatusId)]
+        [Column(ColumnNames.UserTokenTypeId)]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long UserStatusId { get; set; }
+        public long UserTokenTypeId { get; set; }
 
         [Column(ColumnNames.UserTypeId)]
         [Required]
@@ -26,13 +26,16 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.Code)]
         [Required]
+        [StringLength(DataConstraints.CodeLength)]
         public string Code { get; set; }
 
         [Column(ColumnNames.Name)]
         [Required]
+        [StringLength(DataConstraints.NameLength)]
         public string Name { get; set; }
 
         [Column(ColumnNames.Description)]
+        [StringLength(DataConstraints.DescriptionLength)]
         public string Description { get; set; }
 
         [Column(ColumnNames.CreatedDate)]
@@ -43,7 +46,7 @@ namespace Ribbons.Users
         [Required]
         public DateTime ModifiedDate { get; set; }
 
-        public virtual UserType UserType { get; set; }
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<TUserToken> UserTokens { get; set; }
+        public virtual TUserType UserType { get; set; }
     }
 }

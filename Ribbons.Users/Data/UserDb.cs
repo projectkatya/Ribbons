@@ -6,43 +6,43 @@ namespace Ribbons.Users.Data
 {
     public abstract class UserDb : RelationalDb
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserAttribute> UserAttributes { get; set; }
-        public DbSet<UserAttributeType> UserAttributeTypes { get; set; }
-        public DbSet<UserCredential> UserCredentials { get; set; }
-        public DbSet<UserCredentialType> UserCredentialTypes { get; set; }
-        public DbSet<UserEmail> UserEmails { get; set; }
-        public DbSet<UserGroup> UserGroups { get; set; }
-        public DbSet<UserGroupUser> UserGroupUsers { get; set; }
-        public DbSet<UserPhone> UserPhones { get; set; }
-        public DbSet<UserSession> UserSessions { get; set; }
-        public DbSet<UserStatus> UserStatuses { get; set; }
-        public DbSet<UserToken> UserTokens { get; set; }
-        public DbSet<UserTokenType> UserTokenTypes { get; set; }
-        public DbSet<UserType> UserTypes { get; set; }
+        public DbSet<TUser> Users { get; set; }
+        public DbSet<TUserAttribute> UserAttributes { get; set; }
+        public DbSet<TUserAttributeType> UserAttributeTypes { get; set; }
+        public DbSet<TUserCredential> UserCredentials { get; set; }
+        public DbSet<TUserCredentialType> UserCredentialTypes { get; set; }
+        public DbSet<TUserEmail> UserEmails { get; set; }
+        public DbSet<TUserGroup> UserGroups { get; set; }
+        public DbSet<TUserGroupUser> UserGroupUsers { get; set; }
+        public DbSet<TUserPhone> UserPhones { get; set; }
+        public DbSet<TUserSession> UserSessions { get; set; }
+        public DbSet<TUserStatus> UserStatuses { get; set; }
+        public DbSet<TUserToken> UserTokens { get; set; }
+        public DbSet<TUserTokenType> UserTokenTypes { get; set; }
+        public DbSet<TUserType> UserTypes { get; set; }
 
         protected UserDb(RelationalDbProvider provider) : base(provider) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasOneToOne<User, UserEmail>(x => x.UserEmail, x => x.User, x => x.UserId)
-                .HasOneToMany<User, UserAttribute>(x => x.UserAttributes, x => x.User, x => x.UserId)
-                .HasOneToMany<User, UserCredential>(x => x.UserCredentials, x => x.User, x => x.UserId)
-                .HasOneToOne<User, UserPhone>(x => x.UserPhone, x => x.User, x => x.UserId)
-                .HasOneToMany<User, UserSession>(x => x.UserSessions, x => x.User, x => x.UserId)
-                .HasOneToMany<User, UserToken>(x => x.UserTokens, x => x.User, x => x.UserId)
-                .HasOneToMany<User, UserGroupUser>(x => x.UserGroupUsers, x => x.User, x => x.UserId)
-                .HasOneToMany<UserTokenType, UserToken>(x => x.UserTokens, x => x.UserTokenType, x => x.UserTokenTypeId)
-                .HasOneToMany<UserType, User>(x => x.Users, x => x.UserType, x => x.UserTypeId)
-                .HasOneToMany<UserType, UserCredentialType>(x => x.UserCredentialTypes, x => x.UserType, x => x.UserTypeId)
-                .HasOneToMany<UserType, UserGroup>(x => x.UserGroups, x => x.UserType, x => x.UserTypeId)
-                .HasOneToMany<UserType, UserStatus>(x => x.UserStatuses, x => x.UserType, x => x.UserTypeId)
-                .HasOneToMany<UserType, UserTokenType>(x => x.UserTokenTypes, x => x.UserType, x => x.UserTypeId)
-                .HasOneToMany<UserGroup, UserGroupUser>(x => x.UserGroupUsers, x => x.UserGroup, x => x.UserGroupId)
-                .HasOneToMany<UserStatus, User>(x => x.Users, x => x.UserStatus, x => x.UserStatusId)
-                .HasOneToMany<UserAttributeType, UserAttribute>(x => x.UserAttributes, x => x.UserAttributeType, x => x.UserAttributeTypeId)
-                .HasOneToMany<UserCredentialType, UserCredential>(x => x.UserCredentials, x => x.UserCredentialType, x => x.UserCredentialTypeId);
+                .HasOneToOne<TUser, TUserEmail>(x => x.UserEmail, x => x.User, x => x.UserId)
+                .HasOneToMany<TUser, TUserAttribute>(x => x.UserAttributes, x => x.User, x => x.UserId)
+                .HasOneToMany<TUser, TUserCredential>(x => x.UserCredentials, x => x.User, x => x.UserId)
+                .HasOneToOne<TUser, TUserPhone>(x => x.UserPhone, x => x.User, x => x.UserId)
+                .HasOneToMany<TUser, TUserSession>(x => x.UserSessions, x => x.User, x => x.UserId)
+                .HasOneToMany<TUser, TUserToken>(x => x.UserTokens, x => x.User, x => x.UserId)
+                .HasOneToMany<TUser, TUserGroupUser>(x => x.UserGroupUsers, x => x.User, x => x.UserId)
+                .HasOneToMany<TUserTokenType, TUserToken>(x => x.UserTokens, x => x.UserTokenType, x => x.UserTokenTypeId)
+                .HasOneToMany<TUserType, TUser>(x => x.Users, x => x.UserType, x => x.UserTypeId)
+                .HasOneToMany<TUserType, TUserCredentialType>(x => x.UserCredentialTypes, x => x.UserType, x => x.UserTypeId)
+                .HasOneToMany<TUserType, TUserGroup>(x => x.UserGroups, x => x.UserType, x => x.UserTypeId)
+                .HasOneToMany<TUserType, TUserStatus>(x => x.UserStatuses, x => x.UserType, x => x.UserTypeId)
+                .HasOneToMany<TUserType, TUserTokenType>(x => x.UserTokenTypes, x => x.UserType, x => x.UserTypeId)
+                .HasOneToMany<TUserGroup, TUserGroupUser>(x => x.UserGroupUsers, x => x.UserGroup, x => x.UserGroupId)
+                .HasOneToMany<TUserStatus, TUser>(x => x.Users, x => x.UserStatus, x => x.UserStatusId)
+                .HasOneToMany<TUserAttributeType, TUserAttribute>(x => x.UserAttributes, x => x.UserAttributeType, x => x.UserAttributeTypeId)
+                .HasOneToMany<TUserCredentialType, TUserCredential>(x => x.UserCredentials, x => x.UserCredentialType, x => x.UserCredentialTypeId);
         }
     }
 }

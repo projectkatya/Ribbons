@@ -4,14 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Ribbons.Users.Data;
 
 #nullable disable
 
-namespace Ribbons.Users.Migrations.MySql
+namespace Ribbons.Users.Migrations.Npgsql
 {
-    [DbContext(typeof(UserDbMySql))]
-    [Migration("20241128132505_Init")]
+    [DbContext(typeof(UserDbNpgsql))]
+    [Migration("20241201134436_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -23,27 +24,31 @@ namespace Ribbons.Users.Migrations.MySql
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("Ribbons.Users.User", b =>
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Ribbons.Users.TUser", b =>
                 {
                     b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UserId"));
+
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(320)
-                        .HasColumnType("varchar(320)")
+                        .HasColumnType("character varying(320)")
                         .HasColumnName("username");
 
                     b.Property<long>("UserStatusId")
@@ -72,32 +77,34 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserAttribute", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserAttribute", b =>
                 {
                     b.Property<long>("UserAttributeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("user_attribute_id");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UserAttributeId"));
+
                     b.Property<bool?>("BooleanValue")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("boolean_value");
 
                     b.Property<DateTime?>("DateTimeValue")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("datetime_value");
 
                     b.Property<decimal?>("DecimalValue")
                         .HasPrecision(20, 2)
-                        .HasColumnType("decimal(20,2)")
+                        .HasColumnType("numeric(20,2)")
                         .HasColumnName("decimal_value");
 
                     b.Property<double?>("DoubleValue")
-                        .HasColumnType("double")
+                        .HasColumnType("double precision")
                         .HasColumnName("double_value");
 
                     b.Property<float?>("FloatValue")
-                        .HasColumnType("float")
+                        .HasColumnType("real")
                         .HasColumnName("float_value");
 
                     b.Property<short?>("Int16Value")
@@ -105,7 +112,7 @@ namespace Ribbons.Users.Migrations.MySql
                         .HasColumnName("int16_value");
 
                     b.Property<int?>("Int32Value")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("int32_value");
 
                     b.Property<long?>("Int64Value")
@@ -113,7 +120,7 @@ namespace Ribbons.Users.Migrations.MySql
                         .HasColumnName("int64_value");
 
                     b.Property<string>("StringValue")
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("string_value");
 
                     b.Property<long>("UserAttributeTypeId")
@@ -133,28 +140,38 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_attribute");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserAttributeType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserAttributeType", b =>
                 {
                     b.Property<long>("UserAttributeTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("user_attribute_type_id");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UserAttributeTypeId"));
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("character varying(128)")
                         .HasColumnName("code");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("character varying(500)")
                         .HasColumnName("description");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
@@ -169,6 +186,10 @@ namespace Ribbons.Users.Migrations.MySql
 
                     b.HasIndex("Code");
 
+                    b.HasIndex("CreatedDate");
+
+                    b.HasIndex("ModifiedDate");
+
                     b.HasIndex("UserTypeId");
 
                     b.HasIndex("ValueType");
@@ -179,39 +200,41 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_attribute_type");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserCredential", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserCredential", b =>
                 {
                     b.Property<long>("UserCredentialId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("user_credential_id");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UserCredentialId"));
+
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("is_expired");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("password_hash");
 
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("password_salt");
 
                     b.Property<long>("UserCredentialTypeId")
@@ -242,36 +265,38 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_credential");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserCredentialType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserCredentialType", b =>
                 {
                     b.Property<long>("UserCredentialTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("user_credential_type_id");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UserCredentialTypeId"));
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("character varying(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("character varying(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
@@ -294,7 +319,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_credential_type");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserEmail", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserEmail", b =>
                 {
                     b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
@@ -302,21 +327,21 @@ namespace Ribbons.Users.Migrations.MySql
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasMaxLength(320)
-                        .HasColumnType("varchar(320)")
+                        .HasColumnType("character varying(320)")
                         .HasColumnName("email_address");
 
                     b.Property<bool>("IsVerified")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("is_verified");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<long>("UserTypeId")
@@ -324,7 +349,7 @@ namespace Ribbons.Users.Migrations.MySql
                         .HasColumnName("user_type_id");
 
                     b.Property<DateTime?>("VerifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("verified_date");
 
                     b.HasKey("UserId");
@@ -347,36 +372,38 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_email");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserGroup", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserGroup", b =>
                 {
                     b.Property<long>("UserGroupId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("user_group_id");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UserGroupId"));
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("character varying(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("character varying(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
@@ -399,7 +426,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_group");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserGroupUser", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserGroupUser", b =>
                 {
                     b.Property<long>("UserGroupId")
                         .HasColumnType("bigint")
@@ -416,28 +443,28 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_group_user");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserPhone", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserPhone", b =>
                 {
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<bool>("IsVerified")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("is_verified");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("phone_number");
 
                     b.Property<long>("UserTypeId")
@@ -446,7 +473,7 @@ namespace Ribbons.Users.Migrations.MySql
 
                     b.Property<DateTime?>("VerifiedDate")
                         .IsRequired()
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("verified_date");
 
                     b.HasKey("UserId");
@@ -454,35 +481,35 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_phone");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserSession", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserSession", b =>
                 {
                     b.Property<byte[]>("UserSessionId")
                         .HasMaxLength(64)
-                        .HasColumnType("varbinary(64)")
+                        .HasColumnType("bytea")
                         .HasColumnName("user_session_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("is_expired");
 
                     b.Property<byte[]>("SessionSecretHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("session_secret_hash");
 
                     b.Property<byte[]>("SessionSecretSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("session_secret_salt");
 
                     b.Property<long>("UserId")
@@ -502,33 +529,35 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_session");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserStatus", b =>
                 {
                     b.Property<long>("UserStatusId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("user_status_id");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UserStatusId"));
+
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("text")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasColumnType("text")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
@@ -551,43 +580,43 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_status");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserToken", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserToken", b =>
                 {
                     b.Property<byte[]>("UserTokenId")
                         .HasMaxLength(64)
-                        .HasColumnType("varbinary(64)")
+                        .HasColumnType("bytea")
                         .HasColumnName("user_token_id");
 
                     b.Property<DateTime?>("ConsumedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("consumed_date");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsConsumed")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("is_consumed");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("is_expired");
 
                     b.Property<byte[]>("TokenSecretHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("token_secret_hash");
 
                     b.Property<byte[]>("TokenSecretSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("token_secret_salt");
 
                     b.Property<long>("UserId")
@@ -617,36 +646,38 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_token");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserTokenType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserTokenType", b =>
                 {
                     b.Property<long>("UserTokenTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("user_token_type_id");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UserTokenTypeId"));
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("character varying(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("character varying(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
@@ -669,36 +700,38 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_token_type");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserType", b =>
                 {
                     b.Property<long>("UserTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UserTypeId"));
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("character varying(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("character varying(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("name");
 
                     b.HasKey("UserTypeId");
@@ -713,15 +746,15 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_type");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.User", b =>
+            modelBuilder.Entity("Ribbons.Users.TUser", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserStatus", "UserStatus")
+                    b.HasOne("Ribbons.Users.TUserStatus", "UserStatus")
                         .WithMany("Users")
                         .HasForeignKey("UserStatusId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                    b.HasOne("Ribbons.Users.TUserType", "UserType")
                         .WithMany("Users")
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -732,15 +765,15 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserAttribute", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserAttribute", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserAttributeType", "UserAttributeType")
+                    b.HasOne("Ribbons.Users.TUserAttributeType", "UserAttributeType")
                         .WithMany("UserAttributes")
                         .HasForeignKey("UserAttributeTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Ribbons.Users.User", "User")
+                    b.HasOne("Ribbons.Users.TUser", "User")
                         .WithMany("UserAttributes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -751,9 +784,9 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserAttributeType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserAttributeType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserAttributeType", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                    b.HasOne("Ribbons.Users.TUserType", "UserType")
                         .WithMany()
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -762,15 +795,15 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserCredential", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserCredential", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserCredentialType", "UserCredentialType")
+                    b.HasOne("Ribbons.Users.TUserCredentialType", "UserCredentialType")
                         .WithMany("UserCredentials")
                         .HasForeignKey("UserCredentialTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Ribbons.Users.User", "User")
+                    b.HasOne("Ribbons.Users.TUser", "User")
                         .WithMany("UserCredentials")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -781,9 +814,9 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserCredentialType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserCredentialType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserCredentialType", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                    b.HasOne("Ribbons.Users.TUserType", "UserType")
                         .WithMany("UserCredentialTypes")
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -792,20 +825,20 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserEmail", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserEmail", b =>
                 {
-                    b.HasOne("Ribbons.Users.User", "User")
+                    b.HasOne("Ribbons.Users.TUser", "User")
                         .WithOne("UserEmail")
-                        .HasForeignKey("Ribbons.Users.UserEmail", "UserId")
+                        .HasForeignKey("Ribbons.Users.TUserEmail", "UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserGroup", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserGroup", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                    b.HasOne("Ribbons.Users.TUserType", "UserType")
                         .WithMany("UserGroups")
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -814,15 +847,15 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserGroupUser", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserGroupUser", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserGroup", "UserGroup")
+                    b.HasOne("Ribbons.Users.TUserGroup", "UserGroup")
                         .WithMany("UserGroupUsers")
                         .HasForeignKey("UserGroupId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Ribbons.Users.User", "User")
+                    b.HasOne("Ribbons.Users.TUser", "User")
                         .WithMany("UserGroupUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -833,20 +866,20 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserGroup");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserPhone", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserPhone", b =>
                 {
-                    b.HasOne("Ribbons.Users.User", "User")
+                    b.HasOne("Ribbons.Users.TUser", "User")
                         .WithOne("UserPhone")
-                        .HasForeignKey("Ribbons.Users.UserPhone", "UserId")
+                        .HasForeignKey("Ribbons.Users.TUserPhone", "UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserSession", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserSession", b =>
                 {
-                    b.HasOne("Ribbons.Users.User", "User")
+                    b.HasOne("Ribbons.Users.TUser", "User")
                         .WithMany("UserSessions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -855,9 +888,9 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserStatus", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                    b.HasOne("Ribbons.Users.TUserType", "UserType")
                         .WithMany("UserStatuses")
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -866,15 +899,15 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserToken", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserToken", b =>
                 {
-                    b.HasOne("Ribbons.Users.User", "User")
+                    b.HasOne("Ribbons.Users.TUser", "User")
                         .WithMany("UserTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Ribbons.Users.UserTokenType", "UserTokenType")
+                    b.HasOne("Ribbons.Users.TUserTokenType", "UserTokenType")
                         .WithMany("UserTokens")
                         .HasForeignKey("UserTokenTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -885,9 +918,9 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserTokenType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserTokenType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserTokenType", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                    b.HasOne("Ribbons.Users.TUserType", "UserType")
                         .WithMany("UserTokenTypes")
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -896,7 +929,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.User", b =>
+            modelBuilder.Entity("Ribbons.Users.TUser", b =>
                 {
                     b.Navigation("UserAttributes");
 
@@ -913,32 +946,32 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserTokens");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserAttributeType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserAttributeType", b =>
                 {
                     b.Navigation("UserAttributes");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserCredentialType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserCredentialType", b =>
                 {
                     b.Navigation("UserCredentials");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserGroup", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserGroup", b =>
                 {
                     b.Navigation("UserGroupUsers");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserStatus", b =>
                 {
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserTokenType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserTokenType", b =>
                 {
                     b.Navigation("UserTokens");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserType", b =>
                 {
                     b.Navigation("UserCredentialTypes");
 

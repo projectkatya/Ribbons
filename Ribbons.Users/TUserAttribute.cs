@@ -9,7 +9,7 @@ namespace Ribbons.Users
     [Table(TableNames.UserAttribute)]
     [Index(nameof(UserId))]
     [Index(nameof(UserAttributeTypeId))]
-    public class UserAttribute
+    public class TUserAttribute
     {
         [Column(ColumnNames.UserAttributeId)]
         [Key]
@@ -52,7 +52,7 @@ namespace Ribbons.Users
         [Column(ColumnNames.BooleanValue)]
         public bool? BooleanValue { get; set; }
 
-        public virtual User User { get; set; }
-        public virtual UserAttributeType UserAttributeType { get; set; }
+        public virtual TUser User { get; set; }
+        public virtual TUserAttributeType UserAttributeType { get; set; }
     }
 }

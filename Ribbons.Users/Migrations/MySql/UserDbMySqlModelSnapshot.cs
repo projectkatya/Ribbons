@@ -22,7 +22,7 @@ namespace Ribbons.Users.Migrations.MySql
                 .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Ribbons.Users.User", b =>
+            modelBuilder.Entity("Ribbons.Users.TUser", b =>
                 {
                     b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
@@ -69,7 +69,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserAttribute", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserAttribute", b =>
                 {
                     b.Property<long>("UserAttributeId")
                         .ValueGeneratedOnAdd()
@@ -130,7 +130,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_attribute");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserAttributeType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserAttributeType", b =>
                 {
                     b.Property<long>("UserAttributeTypeId")
                         .ValueGeneratedOnAdd()
@@ -143,10 +143,18 @@ namespace Ribbons.Users.Migrations.MySql
                         .HasColumnType("varchar(128)")
                         .HasColumnName("code");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_date");
+
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)")
                         .HasColumnName("description");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -166,6 +174,10 @@ namespace Ribbons.Users.Migrations.MySql
 
                     b.HasIndex("Code");
 
+                    b.HasIndex("CreatedDate");
+
+                    b.HasIndex("ModifiedDate");
+
                     b.HasIndex("UserTypeId");
 
                     b.HasIndex("ValueType");
@@ -176,7 +188,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_attribute_type");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserCredential", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserCredential", b =>
                 {
                     b.Property<long>("UserCredentialId")
                         .ValueGeneratedOnAdd()
@@ -239,7 +251,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_credential");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserCredentialType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserCredentialType", b =>
                 {
                     b.Property<long>("UserCredentialTypeId")
                         .ValueGeneratedOnAdd()
@@ -291,7 +303,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_credential_type");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserEmail", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserEmail", b =>
                 {
                     b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
@@ -344,7 +356,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_email");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserGroup", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserGroup", b =>
                 {
                     b.Property<long>("UserGroupId")
                         .ValueGeneratedOnAdd()
@@ -396,7 +408,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_group");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserGroupUser", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserGroupUser", b =>
                 {
                     b.Property<long>("UserGroupId")
                         .HasColumnType("bigint")
@@ -413,7 +425,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_group_user");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserPhone", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserPhone", b =>
                 {
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
@@ -451,7 +463,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_phone");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserSession", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserSession", b =>
                 {
                     b.Property<byte[]>("UserSessionId")
                         .HasMaxLength(64)
@@ -499,7 +511,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_session");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserStatus", b =>
                 {
                     b.Property<long>("UserStatusId")
                         .ValueGeneratedOnAdd()
@@ -548,7 +560,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_status");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserToken", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserToken", b =>
                 {
                     b.Property<byte[]>("UserTokenId")
                         .HasMaxLength(64)
@@ -614,7 +626,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_token");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserTokenType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserTokenType", b =>
                 {
                     b.Property<long>("UserTokenTypeId")
                         .ValueGeneratedOnAdd()
@@ -666,7 +678,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_token_type");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserType", b =>
                 {
                     b.Property<long>("UserTypeId")
                         .ValueGeneratedOnAdd()
@@ -710,15 +722,15 @@ namespace Ribbons.Users.Migrations.MySql
                     b.ToTable("t_user_type");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.User", b =>
+            modelBuilder.Entity("Ribbons.Users.TUser", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserStatus", "UserStatus")
+                    b.HasOne("Ribbons.Users.TUserStatus", "UserStatus")
                         .WithMany("Users")
                         .HasForeignKey("UserStatusId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                    b.HasOne("Ribbons.Users.TUserType", "UserType")
                         .WithMany("Users")
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -729,15 +741,15 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserAttribute", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserAttribute", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserAttributeType", "UserAttributeType")
+                    b.HasOne("Ribbons.Users.TUserAttributeType", "UserAttributeType")
                         .WithMany("UserAttributes")
                         .HasForeignKey("UserAttributeTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Ribbons.Users.User", "User")
+                    b.HasOne("Ribbons.Users.TUser", "User")
                         .WithMany("UserAttributes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -748,9 +760,9 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserAttributeType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserAttributeType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserAttributeType", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                    b.HasOne("Ribbons.Users.TUserType", "UserType")
                         .WithMany()
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -759,15 +771,15 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserCredential", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserCredential", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserCredentialType", "UserCredentialType")
+                    b.HasOne("Ribbons.Users.TUserCredentialType", "UserCredentialType")
                         .WithMany("UserCredentials")
                         .HasForeignKey("UserCredentialTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Ribbons.Users.User", "User")
+                    b.HasOne("Ribbons.Users.TUser", "User")
                         .WithMany("UserCredentials")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -778,9 +790,9 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserCredentialType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserCredentialType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserCredentialType", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                    b.HasOne("Ribbons.Users.TUserType", "UserType")
                         .WithMany("UserCredentialTypes")
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -789,20 +801,20 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserEmail", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserEmail", b =>
                 {
-                    b.HasOne("Ribbons.Users.User", "User")
+                    b.HasOne("Ribbons.Users.TUser", "User")
                         .WithOne("UserEmail")
-                        .HasForeignKey("Ribbons.Users.UserEmail", "UserId")
+                        .HasForeignKey("Ribbons.Users.TUserEmail", "UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserGroup", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserGroup", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                    b.HasOne("Ribbons.Users.TUserType", "UserType")
                         .WithMany("UserGroups")
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -811,15 +823,15 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserGroupUser", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserGroupUser", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserGroup", "UserGroup")
+                    b.HasOne("Ribbons.Users.TUserGroup", "UserGroup")
                         .WithMany("UserGroupUsers")
                         .HasForeignKey("UserGroupId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Ribbons.Users.User", "User")
+                    b.HasOne("Ribbons.Users.TUser", "User")
                         .WithMany("UserGroupUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -830,20 +842,20 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserGroup");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserPhone", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserPhone", b =>
                 {
-                    b.HasOne("Ribbons.Users.User", "User")
+                    b.HasOne("Ribbons.Users.TUser", "User")
                         .WithOne("UserPhone")
-                        .HasForeignKey("Ribbons.Users.UserPhone", "UserId")
+                        .HasForeignKey("Ribbons.Users.TUserPhone", "UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserSession", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserSession", b =>
                 {
-                    b.HasOne("Ribbons.Users.User", "User")
+                    b.HasOne("Ribbons.Users.TUser", "User")
                         .WithMany("UserSessions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -852,9 +864,9 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserStatus", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                    b.HasOne("Ribbons.Users.TUserType", "UserType")
                         .WithMany("UserStatuses")
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -863,15 +875,15 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserToken", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserToken", b =>
                 {
-                    b.HasOne("Ribbons.Users.User", "User")
+                    b.HasOne("Ribbons.Users.TUser", "User")
                         .WithMany("UserTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Ribbons.Users.UserTokenType", "UserTokenType")
+                    b.HasOne("Ribbons.Users.TUserTokenType", "UserTokenType")
                         .WithMany("UserTokens")
                         .HasForeignKey("UserTokenTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -882,9 +894,9 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserTokenType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserTokenType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserTokenType", b =>
                 {
-                    b.HasOne("Ribbons.Users.UserType", "UserType")
+                    b.HasOne("Ribbons.Users.TUserType", "UserType")
                         .WithMany("UserTokenTypes")
                         .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -893,7 +905,7 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.User", b =>
+            modelBuilder.Entity("Ribbons.Users.TUser", b =>
                 {
                     b.Navigation("UserAttributes");
 
@@ -910,32 +922,32 @@ namespace Ribbons.Users.Migrations.MySql
                     b.Navigation("UserTokens");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserAttributeType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserAttributeType", b =>
                 {
                     b.Navigation("UserAttributes");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserCredentialType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserCredentialType", b =>
                 {
                     b.Navigation("UserCredentials");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserGroup", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserGroup", b =>
                 {
                     b.Navigation("UserGroupUsers");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserStatus", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserStatus", b =>
                 {
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserTokenType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserTokenType", b =>
                 {
                     b.Navigation("UserTokens");
                 });
 
-            modelBuilder.Entity("Ribbons.Users.UserType", b =>
+            modelBuilder.Entity("Ribbons.Users.TUserType", b =>
                 {
                     b.Navigation("UserCredentialTypes");
 

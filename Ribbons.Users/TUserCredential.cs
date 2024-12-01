@@ -14,7 +14,7 @@ namespace Ribbons.Users
     [Index(nameof(ModifiedDate))]
     [Index(nameof(IsExpired))]
     [Index(nameof(ExpiryDate))]
-    public class UserCredential
+    public class TUserCredential
     {
         [Column(ColumnNames.UserCredentialId)]
         [Key]
@@ -54,7 +54,7 @@ namespace Ribbons.Users
         [Column(ColumnNames.ExpiryDate)]
         public DateTime? ExpiryDate { get; set; }
 
-        public virtual User User { get; set; }
-        public virtual UserCredentialType UserCredentialType { get; set; }
+        public virtual TUser User { get; set; }
+        public virtual TUserCredentialType UserCredentialType { get; set; }
     }
 }

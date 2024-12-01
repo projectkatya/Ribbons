@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Ribbons.Users.Migrations.MsSql
+namespace Ribbons.Users.Migrations.Sqlite
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -15,13 +15,13 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "t_user_type",
                 columns: table => new
                 {
-                    user_type_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    code = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    code = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,13 +32,15 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "t_user_attribute_type",
                 columns: table => new
                 {
-                    user_attribute_type_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    code = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    value_type = table.Column<int>(type: "int", nullable: false)
+                    user_attribute_type_id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    code = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
+                    value_type = table.Column<int>(type: "int", nullable: false),
+                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,14 +57,14 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "t_user_credential_type",
                 columns: table => new
                 {
-                    user_credential_type_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    code = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    user_credential_type_id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    code = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,14 +80,14 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "t_user_group",
                 columns: table => new
                 {
-                    user_group_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    code = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    user_group_id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    code = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -101,14 +103,14 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "t_user_status",
                 columns: table => new
                 {
-                    user_status_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    user_status_id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    code = table.Column<string>(type: "TEXT", nullable: false),
+                    name = table.Column<string>(type: "TEXT", nullable: false),
+                    description = table.Column<string>(type: "TEXT", nullable: true),
+                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -124,14 +126,14 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "t_user_token_type",
                 columns: table => new
                 {
-                    user_token_type_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    code = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    user_token_type_id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    code = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -147,13 +149,13 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "t_user",
                 columns: table => new
                 {
-                    user_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    username = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false),
-                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    user_status_id = table.Column<long>(type: "bigint", nullable: false)
+                    user_id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    username = table.Column<string>(type: "TEXT", maxLength: 320, nullable: false),
+                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    user_status_id = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -174,19 +176,19 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "t_user_attribute",
                 columns: table => new
                 {
-                    user_attribute_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    user_attribute_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    string_value = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    int16_value = table.Column<short>(type: "smallint", nullable: true),
-                    int32_value = table.Column<int>(type: "int", nullable: true),
-                    int64_value = table.Column<long>(type: "bigint", nullable: true),
-                    float_value = table.Column<float>(type: "real", nullable: true),
-                    decimal_value = table.Column<decimal>(type: "decimal(20,2)", precision: 20, scale: 2, nullable: true),
-                    double_value = table.Column<double>(type: "float", nullable: true),
-                    datetime_value = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    boolean_value = table.Column<bool>(type: "bit", nullable: true)
+                    user_attribute_id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    user_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    user_attribute_type_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    string_value = table.Column<string>(type: "TEXT", nullable: true),
+                    int16_value = table.Column<short>(type: "INTEGER", nullable: true),
+                    int32_value = table.Column<int>(type: "INTEGER", nullable: true),
+                    int64_value = table.Column<long>(type: "INTEGER", nullable: true),
+                    float_value = table.Column<float>(type: "REAL", nullable: true),
+                    decimal_value = table.Column<decimal>(type: "TEXT", precision: 20, scale: 2, nullable: true),
+                    double_value = table.Column<double>(type: "REAL", nullable: true),
+                    datetime_value = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    boolean_value = table.Column<bool>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -207,16 +209,16 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "t_user_credential",
                 columns: table => new
                 {
-                    user_credential_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    user_credential_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    password_salt = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
-                    password_hash = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
-                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    is_expired = table.Column<bool>(type: "bit", nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    user_credential_id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    user_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    user_credential_type_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    password_salt = table.Column<byte[]>(type: "BLOB", maxLength: 512, nullable: false),
+                    password_hash = table.Column<byte[]>(type: "BLOB", maxLength: 512, nullable: false),
+                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    is_expired = table.Column<bool>(type: "INTEGER", nullable: false),
+                    expiry_date = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -237,13 +239,14 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "t_user_email",
                 columns: table => new
                 {
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    email_address = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false),
-                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    is_verified = table.Column<bool>(type: "bit", nullable: false),
-                    verified_date = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    user_id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    email_address = table.Column<string>(type: "TEXT", maxLength: 320, nullable: false),
+                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    is_verified = table.Column<bool>(type: "INTEGER", nullable: false),
+                    verified_date = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -259,8 +262,8 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "t_user_group_user",
                 columns: table => new
                 {
-                    user_group_id = table.Column<long>(type: "bigint", nullable: false),
-                    user_id = table.Column<long>(type: "bigint", nullable: false)
+                    user_group_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    user_id = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -281,13 +284,13 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "t_user_phone",
                 columns: table => new
                 {
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    phone_number = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    is_verified = table.Column<bool>(type: "bit", nullable: false),
-                    verified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    user_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    user_type_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    phone_number = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    is_verified = table.Column<bool>(type: "INTEGER", nullable: false),
+                    verified_date = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -303,13 +306,13 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "t_user_session",
                 columns: table => new
                 {
-                    user_session_id = table.Column<byte[]>(type: "varbinary(64)", maxLength: 64, nullable: false),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    session_secret_salt = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
-                    session_secret_hash = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
-                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    is_expired = table.Column<bool>(type: "bit", nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    user_session_id = table.Column<byte[]>(type: "BLOB", maxLength: 64, nullable: false),
+                    user_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    session_secret_salt = table.Column<byte[]>(type: "BLOB", maxLength: 512, nullable: false),
+                    session_secret_hash = table.Column<byte[]>(type: "BLOB", maxLength: 512, nullable: false),
+                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    is_expired = table.Column<bool>(type: "INTEGER", nullable: false),
+                    expiry_date = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -325,16 +328,16 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "t_user_token",
                 columns: table => new
                 {
-                    user_token_id = table.Column<byte[]>(type: "varbinary(64)", maxLength: 64, nullable: false),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    user_token_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    token_secret_salt = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
-                    token_secret_hash = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
-                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    is_expired = table.Column<bool>(type: "bit", nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    is_consumed = table.Column<bool>(type: "bit", nullable: false),
-                    consumed_date = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    user_token_id = table.Column<byte[]>(type: "BLOB", maxLength: 64, nullable: false),
+                    user_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    user_token_type_id = table.Column<long>(type: "INTEGER", nullable: false),
+                    token_secret_salt = table.Column<byte[]>(type: "BLOB", maxLength: 512, nullable: false),
+                    token_secret_hash = table.Column<byte[]>(type: "BLOB", maxLength: 512, nullable: false),
+                    created_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    is_expired = table.Column<bool>(type: "INTEGER", nullable: false),
+                    expiry_date = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    is_consumed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    consumed_date = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -396,6 +399,16 @@ namespace Ribbons.Users.Migrations.MsSql
                 name: "IX_t_user_attribute_type_code",
                 table: "t_user_attribute_type",
                 column: "code");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_attribute_type_created_date",
+                table: "t_user_attribute_type",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_attribute_type_modified_date",
+                table: "t_user_attribute_type",
+                column: "modified_date");
 
             migrationBuilder.CreateIndex(
                 name: "IX_t_user_attribute_type_user_type_id",

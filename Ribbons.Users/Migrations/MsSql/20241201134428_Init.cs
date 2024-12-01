@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Ribbons.Users.Migrations.Npgsql
+namespace Ribbons.Users.Migrations.MsSql
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -17,12 +16,12 @@ namespace Ribbons.Users.Migrations.Npgsql
                 columns: table => new
                 {
                     user_type_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    code = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    code = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -34,12 +33,14 @@ namespace Ribbons.Users.Migrations.Npgsql
                 columns: table => new
                 {
                     user_attribute_type_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    code = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    value_type = table.Column<int>(type: "int", nullable: false)
+                    code = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    value_type = table.Column<int>(type: "int", nullable: false),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,13 +58,13 @@ namespace Ribbons.Users.Migrations.Npgsql
                 columns: table => new
                 {
                     user_credential_type_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    code = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    code = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,13 +81,13 @@ namespace Ribbons.Users.Migrations.Npgsql
                 columns: table => new
                 {
                     user_group_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    code = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    code = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -103,13 +104,13 @@ namespace Ribbons.Users.Migrations.Npgsql
                 columns: table => new
                 {
                     user_status_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    code = table.Column<string>(type: "text", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    description = table.Column<string>(type: "text", nullable: true),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    code = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -126,13 +127,13 @@ namespace Ribbons.Users.Migrations.Npgsql
                 columns: table => new
                 {
                     user_token_type_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    code = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    code = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -149,11 +150,11 @@ namespace Ribbons.Users.Migrations.Npgsql
                 columns: table => new
                 {
                     user_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    username = table.Column<string>(type: "character varying(320)", maxLength: 320, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    username = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     user_status_id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -176,24 +177,24 @@ namespace Ribbons.Users.Migrations.Npgsql
                 columns: table => new
                 {
                     user_attribute_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     user_attribute_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    string_value = table.Column<string>(type: "text", nullable: true),
+                    string_value = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     int16_value = table.Column<short>(type: "smallint", nullable: true),
-                    int32_value = table.Column<int>(type: "integer", nullable: true),
+                    int32_value = table.Column<int>(type: "int", nullable: true),
                     int64_value = table.Column<long>(type: "bigint", nullable: true),
                     float_value = table.Column<float>(type: "real", nullable: true),
-                    decimal_value = table.Column<decimal>(type: "numeric(20,2)", precision: 20, scale: 2, nullable: true),
-                    double_value = table.Column<double>(type: "double precision", nullable: true),
-                    datetime_value = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    boolean_value = table.Column<bool>(type: "boolean", nullable: true)
+                    decimal_value = table.Column<decimal>(type: "decimal(20,2)", precision: 20, scale: 2, nullable: true),
+                    double_value = table.Column<double>(type: "float", nullable: true),
+                    datetime_value = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    boolean_value = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_t_user_attribute", x => x.user_attribute_id);
                     table.ForeignKey(
-                        name: "FK_t_user_attribute_t_user_attribute_type_user_attribute_type_~",
+                        name: "FK_t_user_attribute_t_user_attribute_type_user_attribute_type_id",
                         column: x => x.user_attribute_type_id,
                         principalTable: "t_user_attribute_type",
                         principalColumn: "user_attribute_type_id");
@@ -209,21 +210,21 @@ namespace Ribbons.Users.Migrations.Npgsql
                 columns: table => new
                 {
                     user_credential_id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     user_credential_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    password_salt = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
-                    password_hash = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    is_expired = table.Column<bool>(type: "boolean", nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    password_salt = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
+                    password_hash = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    is_expired = table.Column<bool>(type: "bit", nullable: false),
+                    expiry_date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_t_user_credential", x => x.user_credential_id);
                     table.ForeignKey(
-                        name: "FK_t_user_credential_t_user_credential_type_user_credential_ty~",
+                        name: "FK_t_user_credential_t_user_credential_type_user_credential_type_id",
                         column: x => x.user_credential_type_id,
                         principalTable: "t_user_credential_type",
                         principalColumn: "user_credential_type_id");
@@ -240,11 +241,11 @@ namespace Ribbons.Users.Migrations.Npgsql
                 {
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    email_address = table.Column<string>(type: "character varying(320)", maxLength: 320, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    is_verified = table.Column<bool>(type: "boolean", nullable: false),
-                    verified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    email_address = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    is_verified = table.Column<bool>(type: "bit", nullable: false),
+                    verified_date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -284,11 +285,11 @@ namespace Ribbons.Users.Migrations.Npgsql
                 {
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     user_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    phone_number = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    is_verified = table.Column<bool>(type: "boolean", nullable: false),
-                    verified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    phone_number = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    modified_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    is_verified = table.Column<bool>(type: "bit", nullable: false),
+                    verified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -304,13 +305,13 @@ namespace Ribbons.Users.Migrations.Npgsql
                 name: "t_user_session",
                 columns: table => new
                 {
-                    user_session_id = table.Column<byte[]>(type: "bytea", maxLength: 64, nullable: false),
+                    user_session_id = table.Column<byte[]>(type: "varbinary(64)", maxLength: 64, nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
-                    session_secret_salt = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
-                    session_secret_hash = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    is_expired = table.Column<bool>(type: "boolean", nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    session_secret_salt = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
+                    session_secret_hash = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    is_expired = table.Column<bool>(type: "bit", nullable: false),
+                    expiry_date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -326,16 +327,16 @@ namespace Ribbons.Users.Migrations.Npgsql
                 name: "t_user_token",
                 columns: table => new
                 {
-                    user_token_id = table.Column<byte[]>(type: "bytea", maxLength: 64, nullable: false),
+                    user_token_id = table.Column<byte[]>(type: "varbinary(64)", maxLength: 64, nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     user_token_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    token_secret_salt = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
-                    token_secret_hash = table.Column<byte[]>(type: "bytea", maxLength: 512, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    is_expired = table.Column<bool>(type: "boolean", nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    is_consumed = table.Column<bool>(type: "boolean", nullable: false),
-                    consumed_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    token_secret_salt = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
+                    token_secret_hash = table.Column<byte[]>(type: "varbinary(512)", maxLength: 512, nullable: false),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    is_expired = table.Column<bool>(type: "bit", nullable: false),
+                    expiry_date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    is_consumed = table.Column<bool>(type: "bit", nullable: false),
+                    consumed_date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -397,6 +398,16 @@ namespace Ribbons.Users.Migrations.Npgsql
                 name: "IX_t_user_attribute_type_code",
                 table: "t_user_attribute_type",
                 column: "code");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_attribute_type_created_date",
+                table: "t_user_attribute_type",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_user_attribute_type_modified_date",
+                table: "t_user_attribute_type",
+                column: "modified_date");
 
             migrationBuilder.CreateIndex(
                 name: "IX_t_user_attribute_type_user_type_id",
