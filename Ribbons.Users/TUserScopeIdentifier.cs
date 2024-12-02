@@ -1,24 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Ribbons.Users.Definitions;
+﻿using Ribbons.Users.Definitions;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ribbons.Users
 {
-    [Table(TableNames.UserType)]
-    [Index(nameof(UserScopeId))]
-    [Index(nameof(Code))]
-    [Index(nameof(UserScopeId), nameof(Code), IsUnique = true)]
-    [Index(nameof(CreatedDate))]
-    [Index(nameof(ModifiedDate))]
-    public class TUserType
+    [Table(TableNames.UserScopeIdentifier)]
+    public class TUserScopeIdentifier
     {
-        [Column(ColumnNames.UserTypeId)]
+        [Column(ColumnNames.UserScopeIdentifierId)]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long UserTypeId { get; set; }
+        public long UserScopeIdentifierId { get; set; }
 
         [Column(ColumnNames.UserScopeId)]
         [Required]
@@ -46,11 +39,6 @@ namespace Ribbons.Users
         [Required]
         public DateTime ModifiedDate { get; set; }
 
-        public virtual ICollection<TUser> Users { get; set; }
-        public virtual ICollection<TUserCredentialType> UserCredentialTypes { get; set; }
-        public virtual ICollection<TUserGroup> UserGroups { get; set; }
         public virtual TUserScope UserScope { get; set; }
-        public virtual ICollection<TUserStatus> UserStatuses { get; set; }
-        public virtual ICollection<TUserTokenType> UserTokenTypes { get; set; }
     }
 }

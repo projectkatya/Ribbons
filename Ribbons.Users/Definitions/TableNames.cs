@@ -11,6 +11,8 @@
         public const string UserCredential = "t_user_credential";
         public const string UserCredentialType = "t_user_credential_type";
         public const string UserPhone = "t_user_phone";
+        public const string UserScope = "t_user_scope";
+        public const string UserScopeIdentifier = "t_user_scope_identifier";
         public const string UserSession = "t_user_session";
         public const string UserStatus = "t_user_status";
         public const string UserToken = "t_user_token";

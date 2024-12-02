@@ -7,21 +7,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ribbons.Users
 {
-    [Table(TableNames.UserType)]
-    [Index(nameof(UserScopeId))]
-    [Index(nameof(Code))]
-    [Index(nameof(UserScopeId), nameof(Code), IsUnique = true)]
+    [Table(TableNames.UserScope)]
+    [Index(nameof(Code), IsUnique = true)]
     [Index(nameof(CreatedDate))]
     [Index(nameof(ModifiedDate))]
-    public class TUserType
+    public class TUserScope
     {
-        [Column(ColumnNames.UserTypeId)]
+        [Column(ColumnNames.UserScopeId)]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long UserTypeId { get; set; }
-
-        [Column(ColumnNames.UserScopeId)]
-        [Required]
         public long UserScopeId { get; set; }
 
         [Column(ColumnNames.Code)]
@@ -43,14 +37,9 @@ namespace Ribbons.Users
         public DateTime CreatedDate { get; set; }
 
         [Column(ColumnNames.ModifiedDate)]
-        [Required]
         public DateTime ModifiedDate { get; set; }
 
-        public virtual ICollection<TUser> Users { get; set; }
-        public virtual ICollection<TUserCredentialType> UserCredentialTypes { get; set; }
-        public virtual ICollection<TUserGroup> UserGroups { get; set; }
-        public virtual TUserScope UserScope { get; set; }
-        public virtual ICollection<TUserStatus> UserStatuses { get; set; }
-        public virtual ICollection<TUserTokenType> UserTokenTypes { get; set; }
+        public virtual ICollection<TUserType> UserTypes { get; set; }
+        public virtual ICollection<TUserScopeIdentifier> UserScopeIdentifiers { get; set; }
     }
 }
