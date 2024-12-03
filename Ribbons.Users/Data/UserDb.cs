@@ -37,7 +37,17 @@ namespace Ribbons.Users.Data
                 .HasOneToMany<TUserType, TUserTokenType>(x => x.UserTokenTypes, x => x.UserType, x => x.UserTypeId)
                 .HasOneToMany<TUserAttributeType, TUserAttribute>(x => x.UserAttributes, x => x.UserAttributeType, x => x.UserAttributeTypeId)
                 .HasOneToMany<TUserCredentialType, TUserCredential>(x => x.UserCredentials, x => x.UserCredentialType, x => x.UserCredentialTypeId)
-                .HasOneToMany<TUserTokenType, TUserToken>(x => x.UserTokens, x => x.UserTokenType, x => x.UserTokenTypeId);
+                .HasOneToMany<TUserTokenType, TUserToken>(x => x.UserTokens, x => x.UserTokenType, x => x.UserTokenTypeId)
+                .HasOneToMany<TUserStatus, TUser>(x => x.Users, x => x.UserStatus, x => x.UserStatusId)
+                .HasOneToMany<TUserGroup, TUserGroupUser>(x => x.UserGroupUsers, x => x.UserGroup, x => x.UserGroupId)
+                .HasOneToMany<TUser, TUserAttribute>(x => x.UserAttributes, x => x.User, x => x.UserId)
+                .HasOneToMany<TUser, TUserCredential>(x => x.UserCredentials, x => x.User, x => x.UserId)
+                .HasOneToMany<TUser, TUserGroupUser>(x => x.UserGroupUsers, x => x.User, x => x.UserId)
+                .HasOneToMany<TUser, TUserToken>(x => x.UserTokens, x => x.User, x => x.UserId)
+                .HasOneToMany<TUser, TUserSession>(x => x.UserSessions, x => x.User, x => x.UserId)
+                .HasOneToOne<TUser, TUserEmail>(x => x.UserEmail, x => x.User, x => x.UserId)
+                .HasOneToOne<TUser, TUserPhone>(x => x.UserPhone, x => x.User, x => x.UserId);
+                
         }
     }
 }
