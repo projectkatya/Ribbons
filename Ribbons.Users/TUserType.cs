@@ -47,8 +47,11 @@ namespace Ribbons.Users
         public DateTime ModifiedDate { get; set; }
 
         public virtual ICollection<TUser> Users { get; set; }
+        public virtual ICollection<TUserAttributeType> UserAttributeTypes { get; set; }
         public virtual ICollection<TUserCredentialType> UserCredentialTypes { get; set; }
+        public virtual ICollection<TUserEmail> UserEmails { get; set; }
         public virtual ICollection<TUserGroup> UserGroups { get; set; }
+        public virtual ICollection<TUserPhone> UserPhones { get; set; }
         public virtual TUserScope UserScope { get; set; }
         public virtual ICollection<TUserStatus> UserStatuses { get; set; }
         public virtual ICollection<TUserTokenType> UserTokenTypes { get; set; }

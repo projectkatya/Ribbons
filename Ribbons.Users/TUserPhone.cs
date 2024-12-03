@@ -39,5 +39,6 @@ namespace Ribbons.Users
         public DateTime? VerifiedDate { get; set; }
 
         public virtual TUser User { get; set; }
+        public virtual TUserType UserType { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Ribbons.Users.Definitions;
+﻿using Microsoft.EntityFrameworkCore;
+using Ribbons.Users.Definitions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,6 +7,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Ribbons.Users
 {
     [Table(TableNames.UserScopeIdentifier)]
+    [Index(nameof(UserScopeId))]
+    [Index(nameof(Code), IsUnique = true)]
+    [Index(nameof(CreatedDate))]
+    [Index(nameof(ModifiedDate))]
     public class TUserScopeIdentifier
     {
         [Column(ColumnNames.UserScopeIdentifierId)]

@@ -13,7 +13,7 @@ namespace Ribbons.Users
     [Index(nameof(UserTypeId), nameof(Code), IsUnique = true)]
     [Index(nameof(ValueType))]
     [Index(nameof(CreatedDate))]
-    [Index(nameof(ModifiedDate))]
+    [Index(nameof(ModifiedDate  ))]
     public class TUserAttributeType
     {
         [Column(ColumnNames.UserAttributeTypeId)]
