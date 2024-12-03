@@ -40,6 +40,6 @@ namespace Ribbons.Users
         public DateTime ModifiedDate { get; set; }
 
         public virtual ICollection<TUserType> UserTypes { get; set; }
-        public virtual ICollection<TUserScopeIdentifier> UserScopeIdentifiers { get; set; }
+        public virtual ICollection<TUserScopeAlias> UserScopeAliases { get; set; }
     }
 }

@@ -15,6 +15,8 @@ namespace Ribbons.Users.Data
         public DbSet<TUserGroup> UserGroups { get; set; }
         public DbSet<TUserGroupUser> UserGroupUsers { get; set; }
         public DbSet<TUserPhone> UserPhones { get; set; }
+        public DbSet<TUserScope> UserScopes { get; set; }
+        public DbSet<TUserScopeAlias> UserScopeAliases { get; set; }
         public DbSet<TUserSession> UserSessions { get; set; }
         public DbSet<TUserStatus> UserStatuses { get; set; }
         public DbSet<TUserToken> UserTokens { get; set; }
@@ -26,7 +28,7 @@ namespace Ribbons.Users.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasOneToMany<TUserScope, TUserScopeIdentifier>(x => x.UserScopeIdentifiers, x => x.UserScope, x => x.UserScopeId)
+                .HasOneToMany<TUserScope, TUserScopeAlias>(x => x.UserScopeAliases, x => x.UserScope, x => x.UserScopeId)
                 .HasOneToMany<TUserScope, TUserType>(x => x.UserTypes, x => x.UserScope, x => x.UserScopeId)
                 .HasOneToMany<TUserType, TUserAttributeType>(x => x.UserAttributeTypes, x => x.UserType, x => x.UserTypeId)
                 .HasOneToMany<TUserType, TUserCredentialType>(x => x.UserCredentialTypes, x => x.UserType, x => x.UserTypeId)

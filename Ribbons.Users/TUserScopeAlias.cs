@@ -6,17 +6,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ribbons.Users
 {
-    [Table(TableNames.UserScopeIdentifier)]
+    [Table(TableNames.UserScopeAlias)]
     [Index(nameof(UserScopeId))]
     [Index(nameof(Code), IsUnique = true)]
     [Index(nameof(CreatedDate))]
     [Index(nameof(ModifiedDate))]
-    public class TUserScopeIdentifier
+    public class TUserScopeAlias
     {
-        [Column(ColumnNames.UserScopeIdentifierId)]
+        [Column(ColumnNames.UserScopeAliasId)]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long UserScopeIdentifierId { get; set; }
+        public long UserScopeAliasId { get; set; }
 
         [Column(ColumnNames.UserScopeId)]
         [Required]

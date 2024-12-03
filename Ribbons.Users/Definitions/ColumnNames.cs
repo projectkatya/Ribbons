@@ -46,6 +46,6 @@
         public const string UserCredentialTypeId = "user_credential_type_id";
         public const string UserScopeId = "user_scope_id";
         public const string UserGroupUserId = "user_group_user_id";
-        public const string UserScopeIdentifierId = "user_scope_identifier_id";
+        public const string UserScopeAliasId = "user_scope_alias_id";
     }
 }
