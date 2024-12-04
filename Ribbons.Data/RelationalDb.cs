@@ -26,14 +26,8 @@ namespace Ribbons.Data
                 case RelationalDbProvider.MsSql:
                     options.UseSqlServer();
                     break;
-                case RelationalDbProvider.MySql:
-                    options.UseMySQL();
-                    break;
                 case RelationalDbProvider.Npgsql:
                     options.UseNpgsql();
-                    break;
-                case RelationalDbProvider.Oracle:
-                    options.UseOracle();
                     break;
                 case RelationalDbProvider.Sqlite:
                     options.UseSqlite();
