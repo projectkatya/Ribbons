@@ -1,6 +1,5 @@
-﻿using Ribbons.Data;
-using Ribbons.Users.Data;
-using Ribbons.Users.Services;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Ribbons.TestConsole
@@ -9,17 +8,23 @@ namespace Ribbons.TestConsole
     {
         static async Task Main(string[] args)
         {
-            UserDbConfigProvider userDbConfigProvider = new UserDbConfigProvider(new UserDbConfig
-            {
-                Provider = RelationalDbProvider.MsSql,
-                ConnectionString = "server=localhost;database=ribbons_users;user id=sa;password=ASD123!@#;trustservercertificate=true"
-            });
+            //UserDbConfigProvider userDbConfigProvider = new UserDbConfigProvider(new UserDbConfig
+            //{
+            //    Provider = RelationalDbProvider.MsSql,
+            //    ConnectionString = "server=localhost;database=ribbons_users;user id=sa;password=ASD123!@#;trustservercertificate=true"
+            //});
 
-            IRelationalDbManager<UserDb> userDbManager = new UserDbManager().AddConfigurationProvider(userDbConfigProvider);
-            
-            await userDbManager.MigrateAsync();
+            //IRelationalDbManager<UserDb> userDbManager = new UserDbManager().AddConfigurationProvider(userDbConfigProvider);
 
-            IUserManager userManager = new UserManager(userDbManager);
+            //await userDbManager.MigrateAsync();
+
+            //IUserManager userManager = new UserManager(userDbManager);
+
+            List<string> items = [];
+
+            items.AddRange([]);
+
+            Console.WriteLine(items.Count);
         }
     }
 }

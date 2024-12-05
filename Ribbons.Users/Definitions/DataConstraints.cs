@@ -13,8 +13,10 @@
         public const int UserTokenIdLength = 64;
         public const int TokenSecretSaltLength = 512;
         public const int TokenSecretHashLength = 512;
-        public const int CodeLength = 128;
-        public const int NameLength = 255;
+        public const int CodeMinLength = 3;
+        public const int CodeMaxLength = 128;
+        public const int NameMinLength = 3;
+        public const int NameMaxLength = 255;
         public const int DescriptionLength = 500;
     }
 }

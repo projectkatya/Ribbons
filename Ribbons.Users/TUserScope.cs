@@ -20,12 +20,12 @@ namespace Ribbons.Users
 
         [Column(ColumnNames.Code)]
         [Required]
-        [StringLength(DataConstraints.CodeLength)]
+        [StringLength(DataConstraints.CodeMaxLength)]
         public string Code { get; set; }
 
         [Column(ColumnNames.Name)]
         [Required]
-        [StringLength(DataConstraints.NameLength)]
+        [StringLength(DataConstraints.NameMaxLength)]
         public string Name { get; set; }
 
         [Column(ColumnNames.Description)]

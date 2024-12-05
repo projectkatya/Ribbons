@@ -10,7 +10,7 @@ namespace Ribbons
         {
             List<ValidationResult> validationResults = [];
 
-            bool isValid = Validator.TryValidateObject(obj, new ValidationContext(obj), validationResults);
+            bool isValid = Validator.TryValidateObject(obj, new ValidationContext(obj), validationResults, true);
 
             validationErrors = validationResults.Select(x => x.ErrorMessage).ToList();
 

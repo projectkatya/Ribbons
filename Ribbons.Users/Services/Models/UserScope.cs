@@ -1,12 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using Ribbons.Users.Definitions;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ribbons.Users.Services.Models
 {
     public class UserScope
     {
+        [Required]
+        [StringLength(DataConstraints.CodeMaxLength)]
         public string Code { get; set; }
+
+        [Required]
+        [StringLength(DataConstraints.NameMaxLength)]
         public string Name { get; set; }
+
+        [StringLength(DataConstraints.DescriptionLength)]
         public string Description { get; set; }
-        public List<string> Aliases { get; set; }
+        
+        public List<UserScopeAlias> Aliases { get; set; }
     }
 }

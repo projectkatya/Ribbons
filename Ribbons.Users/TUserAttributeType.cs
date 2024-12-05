@@ -26,12 +26,12 @@ namespace Ribbons.Users
         public long UserTypeId { get; set; }
 
         [Column(ColumnNames.Code)]
-        [StringLength(DataConstraints.CodeLength)]
+        [StringLength(DataConstraints.CodeMaxLength)]
         [Required]
         public string Code { get; set; }
 
         [Column(ColumnNames.Name)]
-        [StringLength(DataConstraints.NameLength)]
+        [StringLength(DataConstraints.NameMaxLength)]
         [Required]
         public string Name { get; set; }
 

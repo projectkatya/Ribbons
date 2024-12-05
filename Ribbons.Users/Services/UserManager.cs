@@ -3,6 +3,8 @@ using Ribbons.Data;
 using Ribbons.Users.Data;
 using Ribbons.Users.Services.Models;
 using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ribbons.Users.Services
@@ -16,67 +18,68 @@ namespace Ribbons.Users.Services
             DbManager = dbManager;
         }
 
-        public async Task CreateUserTypeAsync(UserType userType)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
-            UserDb db = await DbManager.GetDatabaseAsync();
-
-            if (await db.UserTypes.AnyAsync(x => x.Code == userType.Code))
-            {
-                return;
-            }
-
-            if (await db.UserTypes.AnyAsync(x => x.Name == userType.Name))
-            {
-                return;
-            }
-
-            DateTime now = DateTime.Now;
-
-            TUserType tUserType = new()
-            {
-                Code = userType.Code,
-                Name = userType.Name,
-                Description = userType.Description,
-                CreatedDate = now,
-                ModifiedDate = now
-            };
-
-            await db.UserTypes.AddAsync(tUserType);
-            await db.SaveChangesAsync();
+            await Task.CompletedTask;
         }
 
-        public async Task CreateUserAttributeTypeAsync(UserAttributeType userAttributeType)
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
-            UserDb db = await DbManager.GetDatabaseAsync();
+            await Task.CompletedTask;
+        }
 
-            TUserType tUserType = await db.UserTypes.FirstOrDefaultAsync(x => x.Code == userAttributeType.UserType);
-
-            if (tUserType == null)
+        public async Task<CreateUserScopeResponse> CreateUserScopeAsync(UserScope userScope)
+        {
+            try
             {
-                return;
+                UserDb db = await DbManager.GetDatabaseAsync();
+
+                userScope.TryValidateObject(out List<string> validationErrors);
+
+                foreach (UserScopeAlias alias in userScope.Aliases)
+                {
+                    alias.TryValidateObject(out List<string> aliasValidationErrors);
+                    validationErrors.AddRange(aliasValidationErrors);
+                }
+
+                if (validationErrors.Count > 0)
+                {
+                    return new CreateUserScopeResponse
+                    {
+                        Status = UserManagerStatus.Invalid,
+                        Message = $"Request invalid"
+                    };
+                }
+
+                if (await db.UserScopes.AnyAsync(x => x.Code == userScope.Code))
+                {
+                    return new CreateUserScopeResponse()
+                    {
+                        Status = UserManagerStatus.CodeInUse,
+                        Message = $"Code {userScope.Code} is in use"
+                    };
+                }
+
+                if (await db.UserScopes.AnyAsync(x => x.Name == userScope.Name))
+                {
+                    return new CreateUserScopeResponse
+                    {
+                        Status = UserManagerStatus.NameInUse,
+                        Message = $"Name {userScope.Name} is in use"
+                    };
+                }
+
+                return new CreateUserScopeResponse();
             }
-
-            if (await db.UserAttributeTypes.AnyAsync(x => x.UserTypeId == tUserType.UserTypeId && x.Code == userAttributeType.Code))
+            catch (Exception ex)
             {
-                return;
+                return new CreateUserScopeResponse();
             }
+        }
 
-            if (await db.UserAttributeTypes.AnyAsync(x => x.UserTypeId == tUserType.UserTypeId && x.Name == userAttributeType.Name))
-            {
-                return;
-            }
-
-            TUserAttributeType tUserAttributeType = new()
-            {
-                UserTypeId = tUserType.UserTypeId,
-                Code = userAttributeType.Code,
-                Name = userAttributeType.Name,
-                Description = userAttributeType.Description,
-                ValueType = userAttributeType.ValueType
-            };
-
-            await db.UserAttributeTypes.AddAsync(tUserAttributeType);
-            await db.SaveChangesAsync();
+        public Task<EditUserScopeResponse> EditUserScopeAsync(UserScope userScope)
+        {
+            throw new NotImplementedException();
         }
     }
 }

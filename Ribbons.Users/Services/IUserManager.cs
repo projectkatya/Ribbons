@@ -1,11 +1,12 @@
-﻿using Ribbons.Users.Services.Models;
+﻿using Microsoft.Extensions.Hosting;
+using Ribbons.Users.Services.Models;
 using System.Threading.Tasks;
 
 namespace Ribbons.Users.Services
 {
-    public interface IUserManager
+    public interface IUserManager : IHostedService
     {
-        Task CreateUserTypeAsync(UserType userType);
-        Task CreateUserAttributeTypeAsync(UserAttributeType userAttributeType);
+        Task<CreateUserScopeResponse> CreateUserScopeAsync(UserScope userScope);
+        Task<EditUserScopeResponse> EditUserScopeAsync(UserScope userScope);
     }
 }
