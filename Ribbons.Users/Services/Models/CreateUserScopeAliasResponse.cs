@@ -3,8 +3,6 @@
 	public sealed class CreateUserScopeAliasResponse : UserManagerResponse
 	{
 		public long? UserScopeAliasId { get; set; }
-		public CreateUserScopeAliasResponse(UserManagerAction action) : base(action)
-		{
-		}
+		public CreateUserScopeAliasResponse() : base(UserManagerAction.CreateUserScopeAlias) { }
 	}
 }

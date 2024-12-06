@@ -15,6 +15,8 @@ namespace Ribbons.Serialization
                     ProcessDictionaryKeys = true
                 }
             },
+            DefaultValueHandling = DefaultValueHandling.Ignore,
+            NullValueHandling = NullValueHandling.Ignore,
             Converters = [ new StringEnumConverter() ]
         };
 

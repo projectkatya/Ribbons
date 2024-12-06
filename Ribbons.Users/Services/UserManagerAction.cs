@@ -2,8 +2,9 @@
 {
     public enum UserManagerAction
     {
-        CreateUserScope,
-        EditUserScope,
-        CreateUserScopeAlias
+        Undefined = 0,
+        CreateUserScope = 1,
+        EditUserScope = 2,
+        CreateUserScopeAlias = 3
     }
 }

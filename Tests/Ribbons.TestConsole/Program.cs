@@ -1,5 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Ribbons.Data;
+using Ribbons.Serialization;
+using Ribbons.Users.Data;
+using Ribbons.Users.Services;
+using Ribbons.Users.Services.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace Ribbons.TestConsole
@@ -8,23 +12,40 @@ namespace Ribbons.TestConsole
     {
         static async Task Main(string[] args)
         {
-            //UserDbConfigProvider userDbConfigProvider = new UserDbConfigProvider(new UserDbConfig
-            //{
-            //    Provider = RelationalDbProvider.MsSql,
-            //    ConnectionString = "server=localhost;database=ribbons_users;user id=sa;password=ASD123!@#;trustservercertificate=true"
-            //});
+            UserDbConfigProvider userDbConfigProvider = new UserDbConfigProvider(new UserDbConfig
+            {
+                Provider = RelationalDbProvider.MsSql,
+                ConnectionString = "server=localhost;database=ribbons_users;user id=sa;password=ASD123!@#;trustservercertificate=true"
+            });
 
-            //IRelationalDbManager<UserDb> userDbManager = new UserDbManager().AddConfigurationProvider(userDbConfigProvider);
+            IRelationalDbManager<UserDb> userDbManager = new UserDbManager().AddConfigurationProvider(userDbConfigProvider);
 
-            //await userDbManager.MigrateAsync();
+            await userDbManager.MigrateAsync();
 
-            //IUserManager userManager = new UserManager(userDbManager);
+            IUserManager userManager = new UserManager(userDbManager);
 
-            List<string> items = [];
+            for (int i = 50; i < 60; i++)
+            {
+                string scopeCode = $"scope{i.ToString().PadLeft(10, '0')}";
+                
+                CreateUserScopeResponse response = await userManager.CreateUserScopeAsync(new UserScope
+                {
+                    Code = scopeCode,
+                    Name = scopeCode,
+                    Description = scopeCode,
+                    Aliases = 
+                    [
+                        new() 
+                        {
+                            Code = $"{scopeCode}alias",
+                            Name = $"{scopeCode}alias",
+                            Description = $"{scopeCode}alias"
+                        }
+                    ]
+                });
 
-            items.AddRange([]);
-
-            Console.WriteLine(items.Count);
+                Console.WriteLine(response.ToJson(true));
+            }
         }
     }
 }

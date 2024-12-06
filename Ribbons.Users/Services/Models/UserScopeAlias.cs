@@ -5,12 +5,16 @@ namespace Ribbons.Users.Services.Models
 {
     public class UserScopeAlias
     {
-        [Required(ErrorMessage = "Code is required for user scope alias")]
-        [StringLength(DataConstraints.CodeMaxLength, ErrorMessage = $"Code length invalid for user scope alias", MinimumLength = DataConstraints.CodeMinLength)]
+        [Required]
+        [StringLength(DataConstraints.CodeMaxLength)]
+        public string Scope { get; set; }
+
+        [Required]
+        [StringLength(DataConstraints.CodeMaxLength)]
         public string Code { get; set; }
 
-        [Required(ErrorMessage = "Name is required for user scope alias")]
-        [StringLength(DataConstraints.NameMaxLength, ErrorMessage = $"Name length invalid for user scope alias", MinimumLength = DataConstraints.NameMinLength)]
+        [Required()]
+        [StringLength(DataConstraints.NameMaxLength)]
         public string Name { get; set; }
 
         [StringLength(DataConstraints.DescriptionLength)]
