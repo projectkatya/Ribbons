@@ -81,5 +81,10 @@ namespace Ribbons.Users.Services
         {
             throw new NotImplementedException();
         }
-    }
+
+		public Task<CreateUserScopeAliasResponse> CreateUserScopeAliasAsync(UserScopeAlias userScopeAlias)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

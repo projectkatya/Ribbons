@@ -3,6 +3,7 @@
     public enum UserManagerAction
     {
         CreateUserScope,
-        EditUserScope
+        EditUserScope,
+        CreateUserScopeAlias
     }
 }
