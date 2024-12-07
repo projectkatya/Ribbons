@@ -9,5 +9,6 @@ namespace Ribbons.Users.Services
         Task<CreateUserScopeResponse> CreateUserScopeAsync(UserScope userScope);
         Task<EditUserScopeResponse> EditUserScopeAsync(UserScope userScope);
         Task<CreateUserScopeAliasResponse> CreateUserScopeAliasAsync(UserScopeAlias userScopeAlias);
+        Task<EditUserScopeAliasResponse> EditUserScopeAliasAsync(UserScopeAlias userScopeAlias);
     }
 }

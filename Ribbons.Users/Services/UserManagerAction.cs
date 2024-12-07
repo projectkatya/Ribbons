@@ -5,6 +5,7 @@
         Undefined = 0,
         CreateUserScope = 1,
         EditUserScope = 2,
-        CreateUserScopeAlias = 3
+        CreateUserScopeAlias = 3,
+        EditUserScopeAlias = 4
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Ribbons.Users.Definitions;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ribbons.Users.Services.Models
@@ -16,7 +15,5 @@ namespace Ribbons.Users.Services.Models
 
         [StringLength(DataConstraints.DescriptionLength)]
         public string Description { get; set; }
-        
-        public List<UserScopeAlias> Aliases { get; set; }
     }
 }

@@ -33,15 +33,6 @@ namespace Ribbons.TestConsole
                     Code = scopeCode,
                     Name = scopeCode,
                     Description = scopeCode,
-                    Aliases = 
-                    [
-                        new() 
-                        {
-                            Code = $"{scopeCode}alias",
-                            Name = $"{scopeCode}alias",
-                            Description = $"{scopeCode}alias"
-                        }
-                    ]
                 });
 
                 Console.WriteLine(response.ToJson(true));
