@@ -256,5 +256,10 @@ namespace Ribbons.Users.Services
                 };
             }
         }
+
+        public Task CreateUserTypeAsync(UserType userType)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
