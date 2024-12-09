@@ -1,42 +1,41 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Ribbons.Data
+namespace Ribbons.Data;
+
+public abstract class RelationalDb : DbContext
 {
-    public abstract class RelationalDb : DbContext
+    internal RelationalDbProvider Provider { get; }
+
+    protected RelationalDb(RelationalDbProvider provider)
     {
-        internal RelationalDbProvider Provider { get; }
+        Provider = provider;
+    }
 
-        protected RelationalDb(RelationalDbProvider provider)
+    public void SetConnectionString(string connectionString)
+    {
+        Database.SetConnectionString(connectionString);
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    {
+        options.UseLazyLoadingProxies();
+
+        switch (Provider)
         {
-            Provider = provider;
+            case RelationalDbProvider.MsSql:
+                options.UseSqlServer();
+                break;
+            case RelationalDbProvider.Npgsql:
+                options.UseNpgsql();
+                break;
+            case RelationalDbProvider.Sqlite:
+                options.UseSqlite();
+                break;
+            default:
+                throw new NotSupportedException($"Provider {Provider} is not supported");
         }
 
-        public void SetConnectionString(string connectionString)
-        {
-            Database.SetConnectionString(connectionString);
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            options.UseLazyLoadingProxies();
-
-            switch (Provider)
-            {
-                case RelationalDbProvider.MsSql:
-                    options.UseSqlServer();
-                    break;
-                case RelationalDbProvider.Npgsql:
-                    options.UseNpgsql();
-                    break;
-                case RelationalDbProvider.Sqlite:
-                    options.UseSqlite();
-                    break;
-                default:
-                    throw new NotSupportedException($"Provider {Provider} is not supported");
-            }
-
-            base.OnConfiguring(options);
-        }
+        base.OnConfiguring(options);
     }
 }

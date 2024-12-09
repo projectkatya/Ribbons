@@ -1,10 +1,7 @@
-﻿using Microsoft.Extensions.Options;
+﻿namespace Ribbons.Data;
 
-namespace Ribbons.Data
+public class RelationalDbConfig
 {
-    public class RelationalDbConfig
-    {
-        public RelationalDbProvider Provider { get; set; }
-        public string ConnectionString { get; set; }
-    }
+    public RelationalDbProvider Provider { get; set; }
+    public string ConnectionString { get; set; }
 }

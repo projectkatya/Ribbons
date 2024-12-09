@@ -3,42 +3,41 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Ribbons.Users
+namespace Ribbons.Users;
+
+[Table(TableNames.UserPhone)]
+public class TUserPhone
 {
-    [Table(TableNames.UserPhone)]
-    public class TUserPhone
-    {
-        [Column(ColumnNames.UserId)]
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long UserId { get; set; }
+    [Column(ColumnNames.UserId)]
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public long UserId { get; set; }
 
-        [Column(ColumnNames.UserTypeId)]
-        [Required]
-        public long UserTypeId { get; set; }
+    [Column(ColumnNames.UserTypeId)]
+    [Required]
+    public long UserTypeId { get; set; }
 
-        [Column(ColumnNames.PhoneNumber)]
-        [Required]
-        [StringLength(DataConstraints.PhoneNumberLength)]
-        public string PhoneNumber { get; set; }
+    [Column(ColumnNames.PhoneNumber)]
+    [Required]
+    [StringLength(DataConstraints.PhoneNumberLength)]
+    public string PhoneNumber { get; set; }
 
-        [Column(ColumnNames.CreatedDate)]
-        [Required]
-        public DateTime CreatedDate { get; set; }
+    [Column(ColumnNames.CreatedDate)]
+    [Required]
+    public DateTime CreatedDate { get; set; }
 
-        [Column(ColumnNames.ModifiedDate)]
-        [Required]
-        public DateTime ModifiedDate { get; set; }
+    [Column(ColumnNames.ModifiedDate)]
+    [Required]
+    public DateTime ModifiedDate { get; set; }
 
-        [Column(ColumnNames.IsVerified)]
-        [Required]
-        public bool IsVerified { get; set; }
+    [Column(ColumnNames.IsVerified)]
+    [Required]
+    public bool IsVerified { get; set; }
 
-        [Column(ColumnNames.VerifiedDate)]
-        [Required]
-        public DateTime? VerifiedDate { get; set; }
+    [Column(ColumnNames.VerifiedDate)]
+    [Required]
+    public DateTime? VerifiedDate { get; set; }
 
-        public virtual TUser User { get; set; }
-        public virtual TUserType UserType { get; set; }
-    }
+    public virtual TUser User { get; set; }
+    public virtual TUserType UserType { get; set; }
 }

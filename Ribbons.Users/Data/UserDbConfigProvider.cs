@@ -2,25 +2,24 @@
 using Ribbons.Data;
 using System.Threading.Tasks;
 
-namespace Ribbons.Users.Data
+namespace Ribbons.Users.Data;
+
+public sealed class UserDbConfigProvider : IRelationalDbConfigProvider
 {
-    public sealed class UserDbConfigProvider : IRelationalDbConfigProvider
+    private UserDbConfig Configuration { get; }
+
+    public UserDbConfigProvider(IOptions<UserDbConfig> options)
     {
-        private UserDbConfig Configuration { get; }
+        Configuration = options.Value;
+    }
 
-        public UserDbConfigProvider(IOptions<UserDbConfig> options)
-        {
-            Configuration = options.Value;
-        }
+    public RelationalDbConfig GetConfiguration(string configurationName)
+    {
+        return Configuration;
+    }
 
-        public RelationalDbConfig GetConfiguration(string configurationName)
-        {
-            return Configuration;
-        }
-
-        public async Task<RelationalDbConfig> GetConfigurationAsync(string configurationName)
-        {
-            return await Task.FromResult(Configuration);
-        }
+    public async Task<RelationalDbConfig> GetConfigurationAsync(string configurationName)
+    {
+        return await Task.FromResult(Configuration);
     }
 }

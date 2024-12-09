@@ -1,9 +1,8 @@
-﻿namespace Ribbons.Users.Services.Models
+﻿namespace Ribbons.Users.Services.Models;
+
+public class UserGroupUser
 {
-    public class UserGroupUser
-    {
-        public string UserType { get; set; }
-        public string UserName { get; set; }
-        public string UserGroupCode { get; set; }
-    }
+    public string UserType { get; set; }
+    public string UserName { get; set; }
+    public string UserGroupCode { get; set; }
 }

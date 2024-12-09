@@ -5,41 +5,40 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Ribbons.Users
+namespace Ribbons.Users;
+
+[Table(TableNames.UserScope)]
+[Index(nameof(Code), IsUnique = true)]
+[Index(nameof(CreatedDate))]
+[Index(nameof(ModifiedDate))]
+public class TUserScope
 {
-    [Table(TableNames.UserScope)]
-    [Index(nameof(Code), IsUnique = true)]
-    [Index(nameof(CreatedDate))]
-    [Index(nameof(ModifiedDate))]
-    public class TUserScope
-    {
-        [Column(ColumnNames.UserScopeId)]
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long UserScopeId { get; set; }
+    [Column(ColumnNames.UserScopeId)]
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public long UserScopeId { get; set; }
 
-        [Column(ColumnNames.Code)]
-        [Required]
-        [StringLength(DataConstraints.CodeMaxLength)]
-        public string Code { get; set; }
+    [Column(ColumnNames.Code)]
+    [Required]
+    [StringLength(DataConstraints.CodeMaxLength)]
+    public string Code { get; set; }
 
-        [Column(ColumnNames.Name)]
-        [Required]
-        [StringLength(DataConstraints.NameMaxLength)]
-        public string Name { get; set; }
+    [Column(ColumnNames.Name)]
+    [Required]
+    [StringLength(DataConstraints.NameMaxLength)]
+    public string Name { get; set; }
 
-        [Column(ColumnNames.Description)]
-        [StringLength(DataConstraints.DescriptionLength)]
-        public string Description { get; set; }
+    [Column(ColumnNames.Description)]
+    [StringLength(DataConstraints.DescriptionLength)]
+    public string Description { get; set; }
 
-        [Column(ColumnNames.CreatedDate)]
-        [Required]
-        public DateTime CreatedDate { get; set; }
+    [Column(ColumnNames.CreatedDate)]
+    [Required]
+    public DateTime CreatedDate { get; set; }
 
-        [Column(ColumnNames.ModifiedDate)]
-        public DateTime ModifiedDate { get; set; }
+    [Column(ColumnNames.ModifiedDate)]
+    public DateTime ModifiedDate { get; set; }
 
-        public virtual ICollection<TUserType> UserTypes { get; set; }
-        public virtual ICollection<TUserScopeAlias> UserScopeAliases { get; set; }
-    }
+    public virtual ICollection<TUserType> UserTypes { get; set; }
+    public virtual ICollection<TUserScopeAlias> UserScopeAliases { get; set; }
 }

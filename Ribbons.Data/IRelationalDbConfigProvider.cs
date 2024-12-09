@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
 
-namespace Ribbons.Data
+namespace Ribbons.Data;
+
+public interface IRelationalDbConfigProvider
 {
-    public interface IRelationalDbConfigProvider
-    {
-        RelationalDbConfig GetConfiguration(string configurationName);
-        Task<RelationalDbConfig> GetConfigurationAsync(string configurationName);
-    }
+    RelationalDbConfig GetConfiguration(string configurationName);
+    Task<RelationalDbConfig> GetConfigurationAsync(string configurationName);
 }
