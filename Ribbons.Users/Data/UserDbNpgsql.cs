@@ -1,9 +1,8 @@
 ﻿using Ribbons.Data;
 
-namespace Ribbons.Users.Data
+namespace Ribbons.Users.Data;
+
+public class UserDbNpgsql : UserDb
 {
-    public class UserDbNpgsql : UserDb
-    {
-        public UserDbNpgsql() : base(RelationalDbProvider.Npgsql) { }
-    }
+    public UserDbNpgsql() : base(RelationalDbProvider.Npgsql) { }
 }

@@ -2,21 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Oracle.EntityFrameworkCore.Metadata;
 using Ribbons.Users.Data;
 
 #nullable disable
 
-namespace Ribbons.Users.Migrations.MsSql
+namespace Ribbons.Users.Migrations.Oracle
 {
-    [DbContext(typeof(UserDbMsSql))]
-    [Migration("20241206165803_Init")]
-    partial class Init
+    [DbContext(typeof(UserDbOracle))]
+    partial class UserDbOracleModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,37 +23,37 @@ namespace Ribbons.Users.Migrations.MsSql
                 .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            OracleModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Ribbons.Users.TUser", b =>
                 {
                     b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserId"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserId"));
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(320)
-                        .HasColumnType("nvarchar(320)")
+                        .HasColumnType("NVARCHAR2(320)")
                         .HasColumnName("username");
 
                     b.Property<long>("UserStatusId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_status_id");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserId");
@@ -81,54 +78,54 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<long>("UserAttributeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_attribute_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserAttributeId"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserAttributeId"));
 
                     b.Property<bool?>("BooleanValue")
-                        .HasColumnType("bit")
+                        .HasColumnType("BOOLEAN")
                         .HasColumnName("boolean_value");
 
                     b.Property<DateTime?>("DateTimeValue")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("datetime_value");
 
                     b.Property<decimal?>("DecimalValue")
                         .HasPrecision(20, 2)
-                        .HasColumnType("decimal(20,2)")
+                        .HasColumnType("DECIMAL(20,2)")
                         .HasColumnName("decimal_value");
 
                     b.Property<double?>("DoubleValue")
-                        .HasColumnType("float")
+                        .HasColumnType("BINARY_DOUBLE")
                         .HasColumnName("double_value");
 
                     b.Property<float?>("FloatValue")
-                        .HasColumnType("real")
+                        .HasColumnType("BINARY_FLOAT")
                         .HasColumnName("float_value");
 
                     b.Property<short?>("Int16Value")
-                        .HasColumnType("smallint")
+                        .HasColumnType("NUMBER(5)")
                         .HasColumnName("int16_value");
 
                     b.Property<int?>("Int32Value")
-                        .HasColumnType("int")
+                        .HasColumnType("NUMBER(10)")
                         .HasColumnName("int32_value");
 
                     b.Property<long?>("Int64Value")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("int64_value");
 
                     b.Property<string>("StringValue")
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("NVARCHAR2(2000)")
                         .HasColumnName("string_value");
 
                     b.Property<long>("UserAttributeTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_attribute_type_id");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_id");
 
                     b.HasKey("UserAttributeId");
@@ -144,38 +141,38 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<long>("UserAttributeTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_attribute_type_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserAttributeTypeId"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserAttributeTypeId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
+                        .HasColumnType("NVARCHAR2(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
+                        .HasColumnType("NVARCHAR2(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("NVARCHAR2(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_type_id");
 
                     b.Property<int>("ValueType")
@@ -204,45 +201,45 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<long>("UserCredentialId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_credential_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserCredentialId"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserCredentialId"));
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("bit")
+                        .HasColumnType("BOOLEAN")
                         .HasColumnName("is_expired");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("modified_date");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("RAW(512)")
                         .HasColumnName("password_hash");
 
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("RAW(512)")
                         .HasColumnName("password_salt");
 
                     b.Property<long>("UserCredentialTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_credential_type_id");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_id");
 
                     b.HasKey("UserCredentialId");
@@ -269,38 +266,38 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<long>("UserCredentialTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_credential_type_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserCredentialTypeId"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserCredentialTypeId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
+                        .HasColumnType("NVARCHAR2(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
+                        .HasColumnType("NVARCHAR2(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("NVARCHAR2(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserCredentialTypeId");
@@ -323,33 +320,33 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasMaxLength(320)
-                        .HasColumnType("nvarchar(320)")
+                        .HasColumnType("NVARCHAR2(320)")
                         .HasColumnName("email_address");
 
                     b.Property<bool>("IsVerified")
-                        .HasColumnType("bit")
+                        .HasColumnType("BOOLEAN")
                         .HasColumnName("is_verified");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("modified_date");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_type_id");
 
                     b.Property<DateTime?>("VerifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("verified_date");
 
                     b.HasKey("UserId");
@@ -376,38 +373,38 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<long>("UserGroupId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_group_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserGroupId"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserGroupId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
+                        .HasColumnType("NVARCHAR2(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
+                        .HasColumnType("NVARCHAR2(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("NVARCHAR2(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserGroupId");
@@ -430,21 +427,21 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<long>("UserGroupUserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_group_user_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserGroupUserId"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserGroupUserId"));
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<long>("UserGroupId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_group_id");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_id");
 
                     b.HasKey("UserGroupUserId");
@@ -462,33 +459,33 @@ namespace Ribbons.Users.Migrations.MsSql
             modelBuilder.Entity("Ribbons.Users.TUserPhone", b =>
                 {
                     b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<bool>("IsVerified")
-                        .HasColumnType("bit")
+                        .HasColumnType("BOOLEAN")
                         .HasColumnName("is_verified");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("NVARCHAR2(50)")
                         .HasColumnName("phone_number");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_type_id");
 
                     b.Property<DateTime>("VerifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("verified_date");
 
                     b.HasKey("UserId");
@@ -502,34 +499,34 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<long>("UserScopeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_scope_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserScopeId"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserScopeId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
+                        .HasColumnType("NVARCHAR2(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
+                        .HasColumnType("NVARCHAR2(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("NVARCHAR2(255)")
                         .HasColumnName("name");
 
                     b.HasKey("UserScopeId");
@@ -548,38 +545,38 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<long>("UserScopeAliasId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_scope_alias_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserScopeAliasId"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserScopeAliasId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
+                        .HasColumnType("NVARCHAR2(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
+                        .HasColumnType("NVARCHAR2(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("NVARCHAR2(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserScopeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_scope_id");
 
                     b.HasKey("UserScopeAliasId");
@@ -600,35 +597,35 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<byte[]>("UserSessionId")
                         .HasMaxLength(64)
-                        .HasColumnType("varbinary(64)")
+                        .HasColumnType("RAW(64)")
                         .HasColumnName("user_session_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("bit")
+                        .HasColumnType("BOOLEAN")
                         .HasColumnName("is_expired");
 
                     b.Property<byte[]>("SessionSecretHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("RAW(512)")
                         .HasColumnName("session_secret_hash");
 
                     b.Property<byte[]>("SessionSecretSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("RAW(512)")
                         .HasColumnName("session_secret_salt");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_id");
 
                     b.HasKey("UserSessionId");
@@ -648,35 +645,35 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<long>("UserStatusId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_status_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserStatusId"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserStatusId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                        .HasColumnType("NVARCHAR2(450)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("NVARCHAR2(2000)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("NVARCHAR2(2000)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserStatusId");
@@ -699,47 +696,47 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<byte[]>("UserTokenId")
                         .HasMaxLength(64)
-                        .HasColumnType("varbinary(64)")
+                        .HasColumnType("RAW(64)")
                         .HasColumnName("user_token_id");
 
                     b.Property<DateTime?>("ConsumedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("consumed_date");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsConsumed")
-                        .HasColumnType("bit")
+                        .HasColumnType("BOOLEAN")
                         .HasColumnName("is_consumed");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("bit")
+                        .HasColumnType("BOOLEAN")
                         .HasColumnName("is_expired");
 
                     b.Property<byte[]>("TokenSecretHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("RAW(512)")
                         .HasColumnName("token_secret_hash");
 
                     b.Property<byte[]>("TokenSecretSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varbinary(512)")
+                        .HasColumnType("RAW(512)")
                         .HasColumnName("token_secret_salt");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_id");
 
                     b.Property<long>("UserTokenTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_token_type_id");
 
                     b.HasKey("UserTokenId");
@@ -765,38 +762,38 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<long>("UserTokenTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_token_type_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserTokenTypeId"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserTokenTypeId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
+                        .HasColumnType("NVARCHAR2(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
+                        .HasColumnType("NVARCHAR2(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("NVARCHAR2(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserTokenTypeId");
@@ -819,38 +816,38 @@ namespace Ribbons.Users.Migrations.MsSql
                 {
                     b.Property<long>("UserTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_type_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserTypeId"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserTypeId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
+                        .HasColumnType("NVARCHAR2(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
+                        .HasColumnType("NVARCHAR2(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TIMESTAMP(7)")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("NVARCHAR2(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserScopeId")
-                        .HasColumnType("bigint")
+                        .HasColumnType("NUMBER(19)")
                         .HasColumnName("user_scope_id");
 
                     b.HasKey("UserTypeId");

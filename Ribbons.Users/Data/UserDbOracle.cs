@@ -1,9 +1,8 @@
 ﻿using Ribbons.Data;
 
-namespace Ribbons.Users.Data
+namespace Ribbons.Users.Data;
+
+public class UserDbOracle : UserDb
 {
-    public class UserDbOracle : UserDb
-    {
-        public UserDbOracle() : base(RelationalDbProvider.Oracle) { }
-    }
+    public UserDbOracle() : base(RelationalDbProvider.Oracle) { }
 }

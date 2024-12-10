@@ -29,6 +29,9 @@ public abstract class RelationalDb : DbContext
             case RelationalDbProvider.Npgsql:
                 options.UseNpgsql();
                 break;
+            case RelationalDbProvider.Oracle:
+                options.UseOracle();
+                break;
             case RelationalDbProvider.Sqlite:
                 options.UseSqlite();
                 break;

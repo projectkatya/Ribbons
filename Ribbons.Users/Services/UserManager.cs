@@ -198,17 +198,7 @@ public sealed class UserManager : IUserManager
     {
         try
         {
-            TUserScope tUserScope = await Db.UserScopes.FirstOrDefaultAsync(x => x.Code == userScopeAlias.Code);
-
-            if (tUserScope == null)
-            {
-                return new()
-                {
-                    Status = UserManagerStatus.NotFound
-                };
-            }
-
-            TUserScopeAlias tUserScopeAlias = await Db.UserScopeAliases.FirstOrDefaultAsync(x => x.Code == userScopeAlias.Code);
+            TUserScopeAlias tUserScopeAlias = await Db.UserScopeAliases.FirstOrDefaultAsync(x => x.UserScope.Code == userScopeAlias.Scope && x.Code == userScopeAlias.Code);
 
             if (userScopeAlias == null)
             {
@@ -261,7 +251,7 @@ public sealed class UserManager : IUserManager
                 };
             }
 
-            if (await Db.UserTypes.AnyAsync(x => x.Code == userType.Code))
+            if (await Db.UserTypes.AnyAsync(x => x.UserScopeId == tUserScope.UserScopeId && x.Code == userType.Code))
             {
                 return new()
                 {
@@ -269,7 +259,7 @@ public sealed class UserManager : IUserManager
                 };
             }
 
-            if (await Db.UserTypes.AnyAsync(x => x.Name == userType.Name))
+            if (await Db.UserTypes.AnyAsync(x => x.UserScopeId == tUserScope.UserScopeId && x.Name == userType.Name))
             {
                 return new()
                 {
@@ -316,9 +306,9 @@ public sealed class UserManager : IUserManager
                 };
             }
 
-            TUserScope tUserScope = await Db.UserScopes.FirstOrDefaultAsync(x => x.Code == userType.Scope);
+            TUserType tUserType = await Db.UserTypes.FirstOrDefaultAsync(x => x.UserScope.Code == userType.Scope && x.Code == userType.Code);
 
-            if (tUserScope == null)
+            if (tUserType == null)
             {
                 return new()
                 {
@@ -326,11 +316,23 @@ public sealed class UserManager : IUserManager
                 };
             }
 
-            return new();
+            tUserType.Name = userType.Name;
+            tUserType.Description = userType.Description;
+            tUserType.ModifiedDate = DateTime.Now;
+
+            await Db.SaveChangesAsync();
+
+            return new()
+            {
+                Status = UserManagerStatus.Ok
+            };
         }
         catch (Exception ex)
         {
-            return new();
+            return new()
+            {
+                Status = UserManagerStatus.Error
+            };
         }
     }
 }

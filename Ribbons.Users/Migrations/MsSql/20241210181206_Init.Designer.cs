@@ -2,16 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ribbons.Users.Data;
 
 #nullable disable
 
-namespace Ribbons.Users.Migrations.Sqlite
+namespace Ribbons.Users.Migrations.MsSql
 {
-    [DbContext(typeof(UserDbSqlite))]
-    [Migration("20241206165817_Init")]
+    [DbContext(typeof(UserDbMsSql))]
+    [Migration("20241210181206_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -22,35 +23,40 @@ namespace Ribbons.Users.Migrations.Sqlite
                 .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true);
+                .HasAnnotation("Proxies:LazyLoading", true)
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Ribbons.Users.TUser", b =>
                 {
                     b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserId"));
+
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(320)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(320)")
                         .HasColumnName("username");
 
                     b.Property<long>("UserStatusId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_status_id");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserId");
@@ -75,52 +81,54 @@ namespace Ribbons.Users.Migrations.Sqlite
                 {
                     b.Property<long>("UserAttributeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_attribute_id");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserAttributeId"));
+
                     b.Property<bool?>("BooleanValue")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bit")
                         .HasColumnName("boolean_value");
 
                     b.Property<DateTime?>("DateTimeValue")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("datetime_value");
 
                     b.Property<decimal?>("DecimalValue")
                         .HasPrecision(20, 2)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("decimal(20,2)")
                         .HasColumnName("decimal_value");
 
                     b.Property<double?>("DoubleValue")
-                        .HasColumnType("REAL")
+                        .HasColumnType("float")
                         .HasColumnName("double_value");
 
                     b.Property<float?>("FloatValue")
-                        .HasColumnType("REAL")
+                        .HasColumnType("real")
                         .HasColumnName("float_value");
 
                     b.Property<short?>("Int16Value")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("smallint")
                         .HasColumnName("int16_value");
 
                     b.Property<int?>("Int32Value")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("int")
                         .HasColumnName("int32_value");
 
                     b.Property<long?>("Int64Value")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("int64_value");
 
                     b.Property<string>("StringValue")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("string_value");
 
                     b.Property<long>("UserAttributeTypeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_attribute_type_id");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.HasKey("UserAttributeId");
@@ -136,36 +144,38 @@ namespace Ribbons.Users.Migrations.Sqlite
                 {
                     b.Property<long>("UserAttributeTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_attribute_type_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserAttributeTypeId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
                     b.Property<int>("ValueType")
@@ -194,43 +204,45 @@ namespace Ribbons.Users.Migrations.Sqlite
                 {
                     b.Property<long>("UserCredentialId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_credential_id");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserCredentialId"));
+
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bit")
                         .HasColumnName("is_expired");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("BLOB")
+                        .HasColumnType("varbinary(512)")
                         .HasColumnName("password_hash");
 
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("BLOB")
+                        .HasColumnType("varbinary(512)")
                         .HasColumnName("password_salt");
 
                     b.Property<long>("UserCredentialTypeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_credential_type_id");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.HasKey("UserCredentialId");
@@ -257,36 +269,38 @@ namespace Ribbons.Users.Migrations.Sqlite
                 {
                     b.Property<long>("UserCredentialTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_credential_type_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserCredentialTypeId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserCredentialTypeId");
@@ -309,33 +323,33 @@ namespace Ribbons.Users.Migrations.Sqlite
                 {
                     b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasMaxLength(320)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(320)")
                         .HasColumnName("email_address");
 
                     b.Property<bool>("IsVerified")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bit")
                         .HasColumnName("is_verified");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
                     b.Property<DateTime?>("VerifiedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("verified_date");
 
                     b.HasKey("UserId");
@@ -362,36 +376,38 @@ namespace Ribbons.Users.Migrations.Sqlite
                 {
                     b.Property<long>("UserGroupId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_group_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserGroupId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserGroupId");
@@ -414,19 +430,21 @@ namespace Ribbons.Users.Migrations.Sqlite
                 {
                     b.Property<long>("UserGroupUserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_group_user_id");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserGroupUserId"));
+
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<long>("UserGroupId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_group_id");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.HasKey("UserGroupUserId");
@@ -444,33 +462,33 @@ namespace Ribbons.Users.Migrations.Sqlite
             modelBuilder.Entity("Ribbons.Users.TUserPhone", b =>
                 {
                     b.Property<long>("UserId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<bool>("IsVerified")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bit")
                         .HasColumnName("is_verified");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("phone_number");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
                     b.Property<DateTime>("VerifiedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("verified_date");
 
                     b.HasKey("UserId");
@@ -484,32 +502,34 @@ namespace Ribbons.Users.Migrations.Sqlite
                 {
                     b.Property<long>("UserScopeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_scope_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserScopeId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
                     b.HasKey("UserScopeId");
@@ -528,36 +548,38 @@ namespace Ribbons.Users.Migrations.Sqlite
                 {
                     b.Property<long>("UserScopeAliasId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_scope_alias_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserScopeAliasId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserScopeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_scope_id");
 
                     b.HasKey("UserScopeAliasId");
@@ -578,35 +600,35 @@ namespace Ribbons.Users.Migrations.Sqlite
                 {
                     b.Property<byte[]>("UserSessionId")
                         .HasMaxLength(64)
-                        .HasColumnType("BLOB")
+                        .HasColumnType("varbinary(64)")
                         .HasColumnName("user_session_id");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bit")
                         .HasColumnName("is_expired");
 
                     b.Property<byte[]>("SessionSecretHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("BLOB")
+                        .HasColumnType("varbinary(512)")
                         .HasColumnName("session_secret_hash");
 
                     b.Property<byte[]>("SessionSecretSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("BLOB")
+                        .HasColumnType("varbinary(512)")
                         .HasColumnName("session_secret_salt");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.HasKey("UserSessionId");
@@ -626,33 +648,35 @@ namespace Ribbons.Users.Migrations.Sqlite
                 {
                     b.Property<long>("UserStatusId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_status_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserStatusId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserStatusId");
@@ -675,47 +699,47 @@ namespace Ribbons.Users.Migrations.Sqlite
                 {
                     b.Property<byte[]>("UserTokenId")
                         .HasMaxLength(64)
-                        .HasColumnType("BLOB")
+                        .HasColumnType("varbinary(64)")
                         .HasColumnName("user_token_id");
 
                     b.Property<DateTime?>("ConsumedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("consumed_date");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("expiry_date");
 
                     b.Property<bool>("IsConsumed")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bit")
                         .HasColumnName("is_consumed");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bit")
                         .HasColumnName("is_expired");
 
                     b.Property<byte[]>("TokenSecretHash")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("BLOB")
+                        .HasColumnType("varbinary(512)")
                         .HasColumnName("token_secret_hash");
 
                     b.Property<byte[]>("TokenSecretSalt")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("BLOB")
+                        .HasColumnType("varbinary(512)")
                         .HasColumnName("token_secret_salt");
 
                     b.Property<long>("UserId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.Property<long>("UserTokenTypeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_token_type_id");
 
                     b.HasKey("UserTokenId");
@@ -741,36 +765,38 @@ namespace Ribbons.Users.Migrations.Sqlite
                 {
                     b.Property<long>("UserTokenTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_token_type_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserTokenTypeId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserTypeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
 
                     b.HasKey("UserTokenTypeId");
@@ -793,36 +819,38 @@ namespace Ribbons.Users.Migrations.Sqlite
                 {
                     b.Property<long>("UserTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_type_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserTypeId"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(128)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("description");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
                     b.Property<long>("UserScopeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bigint")
                         .HasColumnName("user_scope_id");
 
                     b.HasKey("UserTypeId");
