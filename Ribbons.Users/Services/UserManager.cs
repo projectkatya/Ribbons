@@ -304,8 +304,33 @@ public sealed class UserManager : IUserManager
         }
     }
 
-    public Task<EditUserTypeResponse> EditUserTypeAsync(UserType userType)
+    public async Task<EditUserTypeResponse> EditUserTypeAsync(UserType userType)
     {
-        throw new NotImplementedException();
+        try
+        {
+            if (!userType.TryValidateObject(out List<string> validationErrors))
+            {
+                return new()
+                {
+                    Status = UserManagerStatus.Invalid
+                };
+            }
+
+            TUserScope tUserScope = await Db.UserScopes.FirstOrDefaultAsync(x => x.Code == userType.Scope);
+
+            if (tUserScope == null)
+            {
+                return new()
+                {
+                    Status = UserManagerStatus.NotFound
+                };
+            }
+
+            return new();
+        }
+        catch (Exception ex)
+        {
+            return new();
+        }
     }
 }
