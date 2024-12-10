@@ -4,7 +4,7 @@ namespace Ribbons.Users.Data;
 
 public class UserDbManager : RelationalDbManager<UserDb>
 {
-    public UserDbManager()
+    public UserDbManager(IUserDbConfigProvider configProvider) : base(configProvider)
     {
         AddProvider<UserDbMsSql>();
         AddProvider<UserDbMySql>();

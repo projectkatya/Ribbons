@@ -8,5 +8,9 @@ public enum UserManagerAction
     CreateUserScopeAlias = 3,
     EditUserScopeAlias = 4,
     CreateUserType = 5,
-    EditUserType = 6
+    EditUserType = 6,
+    CreateUserAttributeType = 7,
+    CreateUserCredentialType = 8,
+    CreateUserStatus = 9,
+    CreateUSerTokenType = 10
 }

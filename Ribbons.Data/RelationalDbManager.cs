@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 
 namespace Ribbons.Data;
 
-public class RelationalDbManager : IRelationalDbManager
+public abstract class RelationalDbManager : IRelationalDbManager
 {
     protected IRelationalDbConfigProvider ConfigurationProvider { get; set; }
     protected Dictionary<RelationalDbProvider, Func<RelationalDb>> Factories { get; }
 
-    public RelationalDbManager()
+    protected RelationalDbManager(IRelationalDbConfigProvider configurationProvider)
     {
+        ConfigurationProvider = configurationProvider;
         Factories = [];
     }
 
@@ -25,7 +26,7 @@ public class RelationalDbManager : IRelationalDbManager
         return CreateInstance(await ConfigurationProvider?.GetConfigurationAsync(configurationName));
     }
 
-    public IRelationalDbManager AddProvider<T>() where T : RelationalDb, new()
+    protected IRelationalDbManager AddProvider<T>() where T : RelationalDb, new()
     {
         T instance = new();
 
@@ -36,12 +37,6 @@ public class RelationalDbManager : IRelationalDbManager
 
         Factories[instance.Provider] = () => new T();
 
-        return this;
-    }
-
-    public IRelationalDbManager AddConfigurationProvider(IRelationalDbConfigProvider configurationProvider)
-    {
-        ConfigurationProvider = configurationProvider;
         return this;
     }
 
@@ -81,7 +76,7 @@ public class RelationalDbManager<TRelationalDb> : RelationalDbManager, IRelation
 {
     new protected Dictionary<RelationalDbProvider, Func<TRelationalDb>> Factories { get; }
 
-    public RelationalDbManager()
+    protected RelationalDbManager(IRelationalDbConfigProvider configurationProvider) : base(configurationProvider)
     {
         Factories = [];
     }
@@ -96,7 +91,7 @@ public class RelationalDbManager<TRelationalDb> : RelationalDbManager, IRelation
         return CreateInstance(await ConfigurationProvider?.GetConfigurationAsync(configurationName));
     }
 
-    new public IRelationalDbManager<TRelationalDb> AddProvider<T>() where T : TRelationalDb, new()
+    new protected IRelationalDbManager<TRelationalDb> AddProvider<T>() where T : TRelationalDb, new()
     {
         T instance = new();
 
@@ -107,12 +102,6 @@ public class RelationalDbManager<TRelationalDb> : RelationalDbManager, IRelation
 
         Factories[instance.Provider] = () => new T();
 
-        return this;
-    }
-
-    new public IRelationalDbManager<TRelationalDb> AddConfigurationProvider(IRelationalDbConfigProvider configurationProvider)
-    {
-        ConfigurationProvider = configurationProvider;
         return this;
     }
 

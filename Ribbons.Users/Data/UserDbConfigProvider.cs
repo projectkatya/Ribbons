@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Ribbons.Users.Data;
 
-public sealed class UserDbConfigProvider : IRelationalDbConfigProvider
+public sealed class UserDbConfigProvider : IUserDbConfigProvider
 {
     private UserDbConfig Configuration { get; }
 
