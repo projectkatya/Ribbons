@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Ribbons.Users.Services.Models;
 
-namespace Ribbons.Users.Services.Models;
-internal class CreateUserAttributeTypeResponse
+public sealed class CreateUserAttributeTypeResponse : UserManagerResponse
 {
+    public CreateUserAttributeTypeResponse() : base(UserManagerAction.CreateUserAttributeType) { }
 }
