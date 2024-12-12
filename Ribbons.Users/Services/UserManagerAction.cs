@@ -12,5 +12,9 @@ public enum UserManagerAction
     CreateUserAttributeType = 7,
     CreateUserCredentialType = 8,
     CreateUserStatus = 9,
-    CreateUserTokenType = 10
+    CreateUserTokenType = 10,
+    EditUserAttributeType = 11,
+    EditUserCredentialType = 12,
+    EditUserStatus = 13,
+    EditUserTokenType = 14
 }
