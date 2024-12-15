@@ -11,4 +11,8 @@ public interface IUserManager
     Task<EditUserScopeAliasResponse> EditUserScopeAliasAsync(UserScopeAlias userScopeAlias);
     Task<CreateUserTypeResponse> CreateUserTypeAsync(UserType userType);
     Task<EditUserTypeResponse> EditUserTypeAsync(UserType userType);
+    Task<CreateUserAttributeTypeResponse> CreateUserAttributeType(UserAttributeType userAttributeType);
+    Task<EditUserAttributeTypeResponse> EditUserAttributeTypeAsync(UserAttributeType userAttributeType);
+    Task<CreateUserCredentialTypeResponse> CreateUserCredentialTypeAsync(UserCredentialType userCredentialType);
+    Task<EditUserCredentialTypeResponse> EditUserCredentialTypeAsync(UserCredentialType userCredentialType);
 }

@@ -335,4 +335,24 @@ public sealed class UserManager : IUserManager
             };
         }
     }
+
+    public Task<CreateUserAttributeTypeResponse> CreateUserAttributeType(UserAttributeType userAttributeType)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<EditUserAttributeTypeResponse> EditUserAttributeTypeAsync(UserAttributeType userAttributeType)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<CreateUserCredentialTypeResponse> CreateUserCredentialTypeAsync(UserCredentialType userCredentialType)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<EditUserCredentialTypeResponse> EditUserCredentialTypeAsync(UserCredentialType userCredentialType)
+    {
+        throw new NotImplementedException();
+    }
 }
