@@ -15,4 +15,6 @@ public interface IUserManager
     Task<EditUserAttributeTypeResponse> EditUserAttributeTypeAsync(UserAttributeType userAttributeType);
     Task<CreateUserCredentialTypeResponse> CreateUserCredentialTypeAsync(UserCredentialType userCredentialType);
     Task<EditUserCredentialTypeResponse> EditUserCredentialTypeAsync(UserCredentialType userCredentialType);
+    Task<CreateUserStatusResponse> CreateUserStatusAsync(UserStatus userStatus);
+    Task<EditUserStatusResponse> EditUserStatusAsync(UserStatus userStatus);
 }

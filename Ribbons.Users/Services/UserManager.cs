@@ -336,9 +336,25 @@ public sealed class UserManager : IUserManager
         }
     }
 
-    public Task<CreateUserAttributeTypeResponse> CreateUserAttributeType(UserAttributeType userAttributeType)
+    public async Task<CreateUserAttributeTypeResponse> CreateUserAttributeType(UserAttributeType userAttributeType)
     {
-        throw new NotImplementedException();
+        try
+        {
+            TUserType userType = await Db.UserTypes.FirstOrDefaultAsync(x => x.UserScope.Code == userAttributeType.Scope && x.Code == userAttributeType.UserType);
+
+            if (userType == null)
+            {
+                return new()
+                {
+                };
+            };
+
+            return new();
+        }
+        catch (Exception ex)
+        {
+            return new();
+        }
     }
 
     public Task<EditUserAttributeTypeResponse> EditUserAttributeTypeAsync(UserAttributeType userAttributeType)
@@ -355,4 +371,14 @@ public sealed class UserManager : IUserManager
     {
         throw new NotImplementedException();
     }
+
+	public Task<CreateUserStatusResponse> CreateUserStatusAsync(UserStatus userStatus)
+	{
+		throw new NotImplementedException();
+	}
+
+	public Task<EditUserStatusResponse> EditUserStatusAsync(UserStatus userStatus)
+	{
+		throw new NotImplementedException();
+	}
 }
