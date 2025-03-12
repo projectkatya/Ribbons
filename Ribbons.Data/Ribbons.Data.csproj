@@ -15,4 +15,8 @@
     <PackageReference Include="Oracle.EntityFrameworkCore" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Ribbons\Ribbons.csproj" />
+  </ItemGroup>
+
 </Project>
