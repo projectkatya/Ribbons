@@ -13,6 +13,8 @@ namespace Ribbons.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseLazyLoadingProxies();
+
             switch (Provider)
             {
                 case DatabaseProvider.MsSql:
